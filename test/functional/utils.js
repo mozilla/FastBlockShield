@@ -21,7 +21,7 @@ const FIREFOX_PREFERENCES = {
 
   // Force variation for testing
   "extensions.button-icon-preference_shield_mozilla_org.test.variationName":
-    "kittens",
+    "TPL0",
 
   // Enable verbose shield study utils logging
   "shieldStudy.logLevel": "All",

@@ -28,7 +28,7 @@ const baseStudySetup = {
   // telemetry
   telemetry: {
     // default false. Actually send pings.
-    send: true,
+    send: false,
     // Marks pings with testing=true.  Set flag to `true` before final release
     removeTestingFlag: false,
   },
@@ -69,29 +69,80 @@ const baseStudySetup = {
     },
   },
 
-  /* Button study branches and sample weights
-     - test kittens vs. puppers if we can only have one.
-       - downweight lizards.  Lizards is a 'poison' branch, meant to
-         help control for novelty effect
-  */
   weightedVariations: [
     {
-      name: "kittens",
-      weight: 1.5,
-    },
-    {
-      name: "puppers",
-      weight: 1.5,
-    },
-    {
-      name: "lizard",
+      name: "TPL0",
       weight: 1,
-    }, // we want more puppers in our sample
+    },
+    {
+      name: "TPL1",
+      weight: 1,
+    },
+    {
+      name: "TPL2",
+      weight: 1,
+    },
+    {
+      name: "TPL3",
+      weight: 1,
+    },
+    {
+      name: "FB2L0",
+      weight: 1,
+    },
+    {
+      name: "FB2L1",
+      weight: 1,
+    },
+    {
+      name: "FB2L2",
+      weight: 1,
+    },
+    {
+      name: "FB2L3",
+      weight: 1,
+    },
+    {
+      name: "FB5L0",
+      weight: 1,
+    },
+    {
+      name: "FB5L1",
+      weight: 1,
+    },
+    {
+      name: "FB5L2",
+      weight: 1,
+    },
+    {
+      name: "FB5L3",
+      weight: 1,
+    },
+    {
+      name: "Control",
+      weight: 1,
+    },
+    {
+      name: "Control",
+      weight: 1,
+    },
+    {
+      name: "Control",
+      weight: 1,
+    },
+    {
+      name: "Control",
+      weight: 1,
+    },
+    {
+      name: "TT",
+      weight: 1,
+    },
   ],
 
   // maximum time that the study should run, from the first run
   expire: {
-    days: 14,
+    days: 21,
   },
 };
 

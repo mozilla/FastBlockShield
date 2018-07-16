@@ -45,7 +45,7 @@
   },
   "browser_action": {
     "browser_style": true,
-    "default_icon": "icons/isolatedcorndog.svg",
+    "default_icon": "icons/shield-icon.svg",
     "default_title": "__MSG_buttonTitle__"
   }
 }

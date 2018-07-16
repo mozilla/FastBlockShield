@@ -61,7 +61,6 @@ class Feature {
           browser.study.endStudy("introduction-leave-study");
         },
       );
-
       browser.introductionNotificationBar.show(variation.name);
     }
   }
@@ -75,16 +74,6 @@ class Feature {
    * Called at end of study, and if the user disables the study or it gets uninstalled by other means.
    */
   async cleanup() {}
-
-  /**
-   * Example of a utility function
-   *
-   * @param variation
-   * @returns {string}
-   */
-  static iconPath(variation) {
-    return `icons/${variation.name}.svg`;
-  }
 }
 
 class BrowserActionButtonChoiceFeature {
@@ -98,11 +87,6 @@ class BrowserActionButtonChoiceFeature {
     );
     this.timesClickedInSession = 0;
 
-    // modify BrowserAction (button) ui for this particular {variation}
-    console.log("path:", `icons/${variation.name}.svg`);
-    // TODO: Running into an error "values is undefined" here
-    browser.browserAction.setIcon({ path: Feature.iconPath(variation) });
-    browser.browserAction.setTitle({ title: variation.name });
     browser.browserAction.onClicked.addListener(() => this.handleButtonClick());
     console.log("initialized");
   }
