@@ -1,35 +1,111 @@
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "(feature)" }]*/
 
-/**  Example Feature module for a Shield Study.
- *
- *  UI:
- *  - during INSTALL only, show a notification bar with 2 buttons:
- *    - "Thanks".  Accepts the study (optional)
- *    - "I don't want this".  Uninstalls the study.
- *
- *  Firefox code:
- *  - Implements the 'introduction' to the 'button choice' study, via notification bar.
- *
- *  Demonstrates `studyUtils` API:
- *
- *  - `telemetry` to instrument "shown", "accept", and "leave-study" events.
- *  - `endStudy` to send a custom study ending.
- *
- **/
 class Feature {
   constructor() {}
-  /** A Demonstration feature.
-   *
-   *  - variation: study info about particular client study variation
-   *  - reason: string of background.js install/startup/shutdown reason
-   *
-   */
+
   configure(studyInfo) {
     const feature = this;
     const { variation, isFirstRun } = studyInfo;
 
     // Initiate our browser action
     new BrowserActionButtonChoiceFeature(variation);
+
+    switch (variation.name) {
+      case "TPL0":
+        browser.prefs.setIntPref("privacy.fastblock.version", 0);
+        browser.prefs.setIntPref("privacy.fastblock.list", 0);
+        browser.prefs.setIntPref("privacy.fastblock.enabled", -1);
+        browser.prefs.setBoolPref("privacy.trackingprotection.enabled", true);
+        browser.prefs.setBoolPref("network.http.tailing.enabled", false);
+        break;
+      case "TPL1":
+        browser.prefs.setIntPref("privacy.fastblock.version", 1);
+        browser.prefs.setIntPref("privacy.fastblock.list", 1);
+        browser.prefs.setIntPref("privacy.fastblock.enabled", -1);
+        browser.prefs.setBoolPref("privacy.trackingprotection.enabled", true);
+        browser.prefs.setBoolPref("network.http.tailing.enabled", false);
+        break;
+      case "TPL2":
+        browser.prefs.setIntPref("privacy.fastblock.version", 2);
+        browser.prefs.setIntPref("privacy.fastblock.list", 2);
+        browser.prefs.setIntPref("privacy.fastblock.enabled", -1);
+        browser.prefs.setBoolPref("privacy.trackingprotection.enabled", true);
+        browser.prefs.setBoolPref("network.http.tailing.enabled", false);
+        break;
+      case "TPL3":
+        browser.prefs.setIntPref("privacy.fastblock.version", 3);
+        browser.prefs.setIntPref("privacy.fastblock.list", 3);
+        browser.prefs.setIntPref("privacy.fastblock.enabled", -1);
+        browser.prefs.setBoolPref("privacy.trackingprotection.enabled", true);
+        browser.prefs.setBoolPref("network.http.tailing.enabled", false);
+        break;
+      case "FB2L0":
+        browser.prefs.setIntPref("privacy.fastblock.version", 4);
+        browser.prefs.setIntPref("privacy.fastblock.list", 0);
+        browser.prefs.setIntPref("privacy.fastblock.enabled", 0);
+        browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
+        browser.prefs.setBoolPref("network.http.tailing.enabled", false);
+        break;
+      case "FB2L1":
+        browser.prefs.setIntPref("privacy.fastblock.version", 5);
+        browser.prefs.setIntPref("privacy.fastblock.list", 1);
+        browser.prefs.setIntPref("privacy.fastblock.enabled", 0);
+        browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
+        browser.prefs.setBoolPref("network.http.tailing.enabled", false);
+        break;
+      case "FB2L2":
+        browser.prefs.setIntPref("privacy.fastblock.version", 6);
+        browser.prefs.setIntPref("privacy.fastblock.list", 2);
+        browser.prefs.setIntPref("privacy.fastblock.enabled", 0);
+        browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
+        browser.prefs.setBoolPref("network.http.tailing.enabled", false);
+        break;
+      case "FB2L3":
+        browser.prefs.setIntPref("privacy.fastblock.version", 7);
+        browser.prefs.setIntPref("privacy.fastblock.list", 3);
+        browser.prefs.setIntPref("privacy.fastblock.enabled", 0);
+        browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
+        browser.prefs.setBoolPref("network.http.tailing.enabled", false);
+        break;
+      case "FB5L0":
+        browser.prefs.setIntPref("privacy.fastblock.version", 8);
+        browser.prefs.setIntPref("privacy.fastblock.list", 0);
+        browser.prefs.setIntPref("privacy.fastblock.enabled", 1);
+        browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
+        browser.prefs.setBoolPref("network.http.tailing.enabled", false);
+        break;
+      case "FB5L1":
+        browser.prefs.setIntPref("privacy.fastblock.version", 9);
+        browser.prefs.setIntPref("privacy.fastblock.list", 1);
+        browser.prefs.setIntPref("privacy.fastblock.enabled", 1);
+        browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
+        browser.prefs.setBoolPref("network.http.tailing.enabled", false);
+        break;
+      case "FB5L2":
+        browser.prefs.setIntPref("privacy.fastblock.version", 10);
+        browser.prefs.setIntPref("privacy.fastblock.list", 2);
+        browser.prefs.setIntPref("privacy.fastblock.enabled", 1);
+        browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
+        browser.prefs.setBoolPref("network.http.tailing.enabled", false);
+        break;
+      case "FB5L3":
+        browser.prefs.setIntPref("privacy.fastblock.version", 11);
+        browser.prefs.setIntPref("privacy.fastblock.list", 3);
+        browser.prefs.setIntPref("privacy.fastblock.enabled", 1);
+        browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
+        browser.prefs.setBoolPref("network.http.tailing.enabled", false);
+        break;
+      case "Control":
+        browser.prefs.setIntPref("privacy.fastblock.version", 1000);
+        break;
+      case "TT":
+        browser.prefs.setIntPref("privacy.fastblock.version", 16);
+        browser.prefs.setIntPref("privacy.fastblock.list", 0);
+        browser.prefs.setIntPref("privacy.fastblock.enabled", -1);
+        browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
+        browser.prefs.setBoolPref("network.http.tailing.enabled", true);
+        break;
+    }
 
     // perform something only during first run
     if (isFirstRun) {

@@ -1,0 +1,64 @@
+[
+  {
+    "namespace": "prefs",
+    "description": "Pref get, set, watch, unwatch(?)",
+    "functions": [
+      {
+        "name": "setIntPref",
+        "type": "function",
+        "description": "Sets the value of an int pref",
+        "async": true,
+        "parameters": [
+          {
+            "name": "prefName",
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "type": "integer"
+          }
+        ]
+      },
+      {
+        "name": "getIntPref",
+        "type": "function",
+        "description": "Returns the value of an int pref",
+        "async": true,
+        "parameters": [
+          {
+            "name": "prefName",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "setBoolPref",
+        "type": "function",
+        "description": "Sets the value of an bool pref",
+        "async": true,
+        "parameters": [
+          {
+            "name": "prefName",
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "type": "boolean"
+          }
+        ]
+      },
+      {
+        "name": "getBoolPref",
+        "type": "function",
+        "description": "Returns the value of a bool pref",
+        "async": true,
+        "parameters": [
+          {
+            "name": "prefName",
+            "type": "string"
+          }
+        ]
+      }
+    ]
+  }
+]
