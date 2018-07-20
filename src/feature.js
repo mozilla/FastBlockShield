@@ -116,8 +116,8 @@ class Feature {
           // Have the content script show the notification instead.
           // keeping this here for furture message passing.
 
-          // NOTE: notification bar does not work due to it showing on every page, not just the broken page
-          // browser.introductionNotificationBar.show(variation.name);
+          console.log("reload event")
+          browser.notificationBar.show();
         }
       });
     }
@@ -177,7 +177,6 @@ class BrowserActionButtonChoiceFeature {
    * - change label
    */
   handleButtonClick() {
-    debugger;
     console.log("handleButtonClick");
     // note: doesn't persist across a session, unless you use localStorage or similar.
     this.timesClickedInSession += 1;

@@ -11,12 +11,12 @@
   },
   "default_locale": "en-US",
   "experiment_apis": {
-    "introductionNotificationBar": {
-      "schema": "./privileged/introductionNotificationBar/schema.json",
+    "notificationBar": {
+      "schema": "./privileged/notificationBar/schema.json",
       "parent": {
         "scopes": ["addon_parent"],
-        "script": "./privileged/introductionNotificationBar/api.js",
-        "paths": [["introductionNotificationBar"]]
+        "script": "./privileged/notificationBar/api.js",
+        "paths": [["notificationBar"]]
       }
     },
     "study": {
@@ -44,10 +44,17 @@
       }
     }
   },
-  "permissions": ["management", "storage", "alarms"],
+  "permissions": ["management", "storage", "alarms", "webNavigation"],
   "background": {
     "scripts": ["studySetup.js", "feature.js", "background.js"]
   },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "match_about_blank": true
+    }
+  ],
   "icons": {
     "48": "icons/shield-icon.svg"
   },

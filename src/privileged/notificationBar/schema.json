@@ -1,6 +1,6 @@
 [
   {
-    "namespace": "introductionNotificationBar",
+    "namespace": "notificationBar",
     "description":
       "A part of the study add-on that needs to be chrome-privileged",
     "functions": [
@@ -9,12 +9,7 @@
         "type": "function",
         "description": "TODO",
         "async": true,
-        "parameters": [
-          {
-            "name": "variationName",
-            "type": "string"
-          }
-        ]
+        "parameters": []
       }
     ],
     "events": [

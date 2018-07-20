@@ -3,7 +3,7 @@ let port = browser.runtime.connect();
 // possible to catch refresh action with this, but navigation has not yet updated, no stats
 // window.onunload = () => {}
 
-port.postMessage({greeting: "hello from content script"});
+port.postMessage({message: "hello from content script"});
 
 port.onMessage.addListener(function(m) {
   if (m.message === "navigation") {
