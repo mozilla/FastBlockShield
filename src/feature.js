@@ -5,7 +5,7 @@ class Feature {
 
   configure(studyInfo) {
     const feature = this;
-    const { variation, isFirstRun } = studyInfo;
+    const { variation } = studyInfo;
 
     // Initiate our browser action
     new BrowserActionButtonChoiceFeature(variation);
@@ -107,38 +107,42 @@ class Feature {
         break;
     }
 
-    // perform something only during first run
-    if (isFirstRun) {
-      browser.introductionNotificationBar.onIntroductionShown.addListener(
-        () => {
-          console.log("onIntroductionShown");
+    let portFromCS;
+    function connected(p) {
+      portFromCS = p;
 
-          feature.sendTelemetry({
-            event: "onIntroductionShown",
-          });
-        },
-      );
+      portFromCS.onMessage.addListener((m) => {
+        if (m.message === "reload") {
+          // Have the content script show the notification instead.
+          // keeping this here for furture message passing.
 
-      browser.introductionNotificationBar.onIntroductionAccept.addListener(
-        () => {
-          console.log("onIntroductionAccept");
-          feature.sendTelemetry({
-            event: "onIntroductionAccept",
-          });
-        },
-      );
-
-      browser.introductionNotificationBar.onIntroductionLeaveStudy.addListener(
-        () => {
-          console.log("onIntroductionLeaveStudy");
-          feature.sendTelemetry({
-            event: "onIntroductionLeaveStudy",
-          });
-          browser.study.endStudy("introduction-leave-study");
-        },
-      );
-      browser.introductionNotificationBar.show(variation.name);
+          // NOTE: notification bar does not work due to it showing on every page, not just the broken page
+          // browser.introductionNotificationBar.show(variation.name);
+        }
+      });
     }
+
+    browser.runtime.onConnect.addListener(connected);
+
+    browser.webNavigation.onCompleted.addListener(() => {
+      portFromCS.postMessage({message: "navigation"});
+
+      // const TIME_TO_DOM_CONTENT_LOADED_START_MS = performance.getEntries()[0].domContentLoadedEventStart;
+      // const TIME_TO_DOM_COMPLETE_MS = performance.getEntries()[0].domComplete;
+      // const TIME_TO_DOM_INTERACTIVE_MS = performance.getEntries()[0].domInteractive;
+      // const TIME_TO_LOAD_EVENT_START_MS = performance.getEntries()[0].loadEventStart;
+      // const TIME_TO_LOAD_EVENT_END_MS = performance.getEntries()[0].loadEventEnd;
+      // happens on refresh and nav, and all requests type=navigate ;-;
+    });
+
+    // TIME_TO_NON_BLANK_PAINT_MS ( integer)
+    // TIME_TO_DOM_LOADING_MS ( integer)
+    // TIME_TO_FIRST_INTERACTION_MS ( integer)
+    // TIME_TO_RESPONSE_START_MS ( integer)
+
+    // var renderTime = perfData.domComplete - perfData.domLoading;
+    // var perfData = window.performance.timing;
+    // var pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
   }
 
   /* good practice to have the literal 'sending' be wrapped up */
@@ -173,6 +177,7 @@ class BrowserActionButtonChoiceFeature {
    * - change label
    */
   handleButtonClick() {
+    debugger;
     console.log("handleButtonClick");
     // note: doesn't persist across a session, unless you use localStorage or similar.
     this.timesClickedInSession += 1;
