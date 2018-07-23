@@ -53,15 +53,15 @@ class NotificationBarEventEmitter extends EventEmitter {
     const recentWindow = getMostRecentBrowserWindow();
     const doc = recentWindow.document;
 
-    let primaryAction =  {
+    const primaryAction =  {
       label: "Yes!",
       accessKey: "f",
       callback: () => {
         console.log("YESSS");
       },
-    }
+    };
 
-    let secondaryActions =  [
+    const secondaryActions =  [
       {
         label: "Nope",
         accessKey: "d",
@@ -69,9 +69,9 @@ class NotificationBarEventEmitter extends EventEmitter {
           console.log("NO");
         },
       },
-    ]
+    ];
 
-    let populatePanel = (event) => {
+    const populatePanel = (event) => {
       // console.log("EVENT HAPPENED", event);
       // Can edit the contents of the panel here if we want variations per branch
       // if (event !== "shown") {
@@ -79,7 +79,7 @@ class NotificationBarEventEmitter extends EventEmitter {
       // }
     };
 
-    doc.defaultView.PopupNotifications.show(recentWindow.gBrowser.selectedBrowser, "fast-block-notification", "Is this page broken?", null, primaryAction, secondaryActions, {eventCallback: populatePanel})
+    doc.defaultView.PopupNotifications.show(recentWindow.gBrowser.selectedBrowser, "fast-block-notification", "Is this page broken?", null, primaryAction, secondaryActions, {eventCallback: populatePanel});
 
     self.emit("introduction-shown");
   }

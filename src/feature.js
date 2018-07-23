@@ -10,98 +10,108 @@ class Feature {
     // Initiate our browser action
     new BrowserActionButtonChoiceFeature(variation);
 
+    // TODO: switch "variation.name" for int representing branch number, so I don't have to store it in a pref
+    // TODO: how will I get the lists, will it be a pref?
     switch (variation.name) {
       case "TPL0":
         browser.prefs.setIntPref("privacy.fastblock.version", 0);
         browser.prefs.setIntPref("privacy.fastblock.list", 0);
-        browser.prefs.setIntPref("privacy.fastblock.enabled", -1);
+        browser.prefs.setBoolPref("browser.fastblock.enabled", false);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", true);
         browser.prefs.setBoolPref("network.http.tailing.enabled", false);
         break;
       case "TPL1":
         browser.prefs.setIntPref("privacy.fastblock.version", 1);
         browser.prefs.setIntPref("privacy.fastblock.list", 1);
-        browser.prefs.setIntPref("privacy.fastblock.enabled", -1);
+        browser.prefs.setBoolPref("browser.fastblock.enabled", false);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", true);
         browser.prefs.setBoolPref("network.http.tailing.enabled", false);
         break;
       case "TPL2":
         browser.prefs.setIntPref("privacy.fastblock.version", 2);
         browser.prefs.setIntPref("privacy.fastblock.list", 2);
-        browser.prefs.setIntPref("privacy.fastblock.enabled", -1);
+        browser.prefs.setBoolPref("browser.fastblock.enabled", false);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", true);
         browser.prefs.setBoolPref("network.http.tailing.enabled", false);
         break;
       case "TPL3":
         browser.prefs.setIntPref("privacy.fastblock.version", 3);
         browser.prefs.setIntPref("privacy.fastblock.list", 3);
-        browser.prefs.setIntPref("privacy.fastblock.enabled", -1);
+        browser.prefs.setBoolPref("browser.fastblock.enabled", false);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", true);
         browser.prefs.setBoolPref("network.http.tailing.enabled", false);
         break;
       case "FB2L0":
         browser.prefs.setIntPref("privacy.fastblock.version", 4);
         browser.prefs.setIntPref("privacy.fastblock.list", 0);
-        browser.prefs.setIntPref("privacy.fastblock.enabled", 0);
+        browser.prefs.setIntPref("browser.fastblock.timeout", 2000);
+        browser.prefs.setBoolPref("browser.fastblock.enabled", true);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
         browser.prefs.setBoolPref("network.http.tailing.enabled", false);
         break;
       case "FB2L1":
         browser.prefs.setIntPref("privacy.fastblock.version", 5);
         browser.prefs.setIntPref("privacy.fastblock.list", 1);
-        browser.prefs.setIntPref("privacy.fastblock.enabled", 0);
+        browser.prefs.setIntPref("browser.fastblock.timeout", 2000);
+        browser.prefs.setBoolPref("browser.fastblock.enabled", true);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
         browser.prefs.setBoolPref("network.http.tailing.enabled", false);
         break;
       case "FB2L2":
         browser.prefs.setIntPref("privacy.fastblock.version", 6);
         browser.prefs.setIntPref("privacy.fastblock.list", 2);
-        browser.prefs.setIntPref("privacy.fastblock.enabled", 0);
+        browser.prefs.setIntPref("browser.fastblock.timeout", 2000);
+        browser.prefs.setBoolPref("browser.fastblock.enabled", true);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
         browser.prefs.setBoolPref("network.http.tailing.enabled", false);
         break;
       case "FB2L3":
         browser.prefs.setIntPref("privacy.fastblock.version", 7);
         browser.prefs.setIntPref("privacy.fastblock.list", 3);
-        browser.prefs.setIntPref("privacy.fastblock.enabled", 0);
+        browser.prefs.setIntPref("browser.fastblock.timeout", 2000);
+        browser.prefs.setBoolPref("browser.fastblock.enabled", true);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
         browser.prefs.setBoolPref("network.http.tailing.enabled", false);
         break;
       case "FB5L0":
         browser.prefs.setIntPref("privacy.fastblock.version", 8);
         browser.prefs.setIntPref("privacy.fastblock.list", 0);
-        browser.prefs.setIntPref("privacy.fastblock.enabled", 1);
+        browser.prefs.setIntPref("browser.fastblock.timeout", 5000);
+        browser.prefs.setBoolPref("browser.fastblock.enabled", true);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
         browser.prefs.setBoolPref("network.http.tailing.enabled", false);
         break;
       case "FB5L1":
         browser.prefs.setIntPref("privacy.fastblock.version", 9);
         browser.prefs.setIntPref("privacy.fastblock.list", 1);
-        browser.prefs.setIntPref("privacy.fastblock.enabled", 1);
+        browser.prefs.setIntPref("browser.fastblock.timeout", 5000);
+        browser.prefs.setBoolPref("browser.fastblock.enabled", true);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
         browser.prefs.setBoolPref("network.http.tailing.enabled", false);
         break;
       case "FB5L2":
         browser.prefs.setIntPref("privacy.fastblock.version", 10);
         browser.prefs.setIntPref("privacy.fastblock.list", 2);
-        browser.prefs.setIntPref("privacy.fastblock.enabled", 1);
+        browser.prefs.setIntPref("browser.fastblock.timeout", 5000);
+        browser.prefs.setBoolPref("browser.fastblock.enabled", true);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
         browser.prefs.setBoolPref("network.http.tailing.enabled", false);
         break;
       case "FB5L3":
         browser.prefs.setIntPref("privacy.fastblock.version", 11);
         browser.prefs.setIntPref("privacy.fastblock.list", 3);
-        browser.prefs.setIntPref("privacy.fastblock.enabled", 1);
+        browser.prefs.setIntPref("browser.fastblock.timeout", 5000);
+        browser.prefs.setBoolPref("browser.fastblock.enabled", true);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
         browser.prefs.setBoolPref("network.http.tailing.enabled", false);
         break;
       case "Control":
-        browser.prefs.setIntPref("privacy.fastblock.version", 1000);
+        browser.prefs.setBoolPref("browser.fastblock.enabled", false);
         break;
       case "TT":
         browser.prefs.setIntPref("privacy.fastblock.version", 16);
         browser.prefs.setIntPref("privacy.fastblock.list", 0);
-        browser.prefs.setIntPref("privacy.fastblock.enabled", -1);
+        browser.prefs.setBoolPref("browser.fastblock.enabled", true);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
         browser.prefs.setBoolPref("network.http.tailing.enabled", true);
         break;
@@ -116,7 +126,7 @@ class Feature {
           // Have the content script show the notification instead.
           // keeping this here for furture message passing.
 
-          console.log("reload event")
+          console.log("reload event");
           browser.notificationBar.show();
         }
       });
@@ -132,7 +142,6 @@ class Feature {
       // const TIME_TO_DOM_INTERACTIVE_MS = performance.getEntries()[0].domInteractive;
       // const TIME_TO_LOAD_EVENT_START_MS = performance.getEntries()[0].loadEventStart;
       // const TIME_TO_LOAD_EVENT_END_MS = performance.getEntries()[0].loadEventEnd;
-      // happens on refresh and nav, and all requests type=navigate ;-;
     });
 
     // TIME_TO_NON_BLANK_PAINT_MS ( integer)
