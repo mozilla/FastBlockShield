@@ -10,106 +10,106 @@ class Feature {
     // Initiate our browser action
     new BrowserActionButtonChoiceFeature(variation);
 
-    // TODO: switch "variation.name" for int representing branch number, so I don't have to store it in a pref
     // TODO: how will I get the lists, will it be a pref?
     switch (variation.name) {
-      case "TPL0":
-        browser.prefs.setIntPref("privacy.fastblock.version", 0);
+      case "0":
+        //"TPL0"
         browser.prefs.setIntPref("privacy.fastblock.list", 0);
         browser.prefs.setBoolPref("browser.fastblock.enabled", false);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", true);
         browser.prefs.setBoolPref("network.http.tailing.enabled", false);
         break;
-      case "TPL1":
-        browser.prefs.setIntPref("privacy.fastblock.version", 1);
+      case "1":
+        //"TPL1"
         browser.prefs.setIntPref("privacy.fastblock.list", 1);
         browser.prefs.setBoolPref("browser.fastblock.enabled", false);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", true);
         browser.prefs.setBoolPref("network.http.tailing.enabled", false);
         break;
-      case "TPL2":
-        browser.prefs.setIntPref("privacy.fastblock.version", 2);
+      case "2":
+        // "TPL2"
         browser.prefs.setIntPref("privacy.fastblock.list", 2);
         browser.prefs.setBoolPref("browser.fastblock.enabled", false);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", true);
         browser.prefs.setBoolPref("network.http.tailing.enabled", false);
         break;
-      case "TPL3":
-        browser.prefs.setIntPref("privacy.fastblock.version", 3);
+      case "3":
+        //"TPL3"
         browser.prefs.setIntPref("privacy.fastblock.list", 3);
         browser.prefs.setBoolPref("browser.fastblock.enabled", false);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", true);
         browser.prefs.setBoolPref("network.http.tailing.enabled", false);
         break;
-      case "FB2L0":
-        browser.prefs.setIntPref("privacy.fastblock.version", 4);
+      case "4":
+        // "FB2L0"
         browser.prefs.setIntPref("privacy.fastblock.list", 0);
         browser.prefs.setIntPref("browser.fastblock.timeout", 2000);
         browser.prefs.setBoolPref("browser.fastblock.enabled", true);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
         browser.prefs.setBoolPref("network.http.tailing.enabled", false);
         break;
-      case "FB2L1":
-        browser.prefs.setIntPref("privacy.fastblock.version", 5);
+      case "5":
+        // "FB2L1"
         browser.prefs.setIntPref("privacy.fastblock.list", 1);
         browser.prefs.setIntPref("browser.fastblock.timeout", 2000);
         browser.prefs.setBoolPref("browser.fastblock.enabled", true);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
         browser.prefs.setBoolPref("network.http.tailing.enabled", false);
         break;
-      case "FB2L2":
-        browser.prefs.setIntPref("privacy.fastblock.version", 6);
+      case "6":
+        // "FB2L2"
         browser.prefs.setIntPref("privacy.fastblock.list", 2);
         browser.prefs.setIntPref("browser.fastblock.timeout", 2000);
         browser.prefs.setBoolPref("browser.fastblock.enabled", true);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
         browser.prefs.setBoolPref("network.http.tailing.enabled", false);
         break;
-      case "FB2L3":
-        browser.prefs.setIntPref("privacy.fastblock.version", 7);
+      case "7":
+        // "FB2L3"
         browser.prefs.setIntPref("privacy.fastblock.list", 3);
         browser.prefs.setIntPref("browser.fastblock.timeout", 2000);
         browser.prefs.setBoolPref("browser.fastblock.enabled", true);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
         browser.prefs.setBoolPref("network.http.tailing.enabled", false);
         break;
-      case "FB5L0":
-        browser.prefs.setIntPref("privacy.fastblock.version", 8);
+      case "8":
+        // "FB5L0"
         browser.prefs.setIntPref("privacy.fastblock.list", 0);
         browser.prefs.setIntPref("browser.fastblock.timeout", 5000);
         browser.prefs.setBoolPref("browser.fastblock.enabled", true);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
         browser.prefs.setBoolPref("network.http.tailing.enabled", false);
         break;
-      case "FB5L1":
-        browser.prefs.setIntPref("privacy.fastblock.version", 9);
+      case "9":
+        // "FB5L1"
         browser.prefs.setIntPref("privacy.fastblock.list", 1);
         browser.prefs.setIntPref("browser.fastblock.timeout", 5000);
         browser.prefs.setBoolPref("browser.fastblock.enabled", true);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
         browser.prefs.setBoolPref("network.http.tailing.enabled", false);
         break;
-      case "FB5L2":
-        browser.prefs.setIntPref("privacy.fastblock.version", 10);
+      case "10":
+        // "FB5L2"
         browser.prefs.setIntPref("privacy.fastblock.list", 2);
         browser.prefs.setIntPref("browser.fastblock.timeout", 5000);
         browser.prefs.setBoolPref("browser.fastblock.enabled", true);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
         browser.prefs.setBoolPref("network.http.tailing.enabled", false);
         break;
-      case "FB5L3":
-        browser.prefs.setIntPref("privacy.fastblock.version", 11);
+      case "11":
+        // "FB5L3"
         browser.prefs.setIntPref("privacy.fastblock.list", 3);
         browser.prefs.setIntPref("browser.fastblock.timeout", 5000);
         browser.prefs.setBoolPref("browser.fastblock.enabled", true);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
         browser.prefs.setBoolPref("network.http.tailing.enabled", false);
         break;
-      case "Control":
+      case "12":
+        // Control
         browser.prefs.setBoolPref("browser.fastblock.enabled", false);
         break;
-      case "TT":
-        browser.prefs.setIntPref("privacy.fastblock.version", 16);
+      case "13":
+        // "TT"
         browser.prefs.setIntPref("privacy.fastblock.list", 0);
         browser.prefs.setBoolPref("browser.fastblock.enabled", true);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
@@ -122,36 +122,43 @@ class Feature {
       portFromCS = p;
 
       portFromCS.onMessage.addListener((m) => {
-        if (m.message === "reload") {
-          // Have the content script show the notification instead.
-          // keeping this here for furture message passing.
+        feature.payload = m.payload;
 
+        if (m.message === "reload") {
+          console.log("message here:", m)
           console.log("reload event");
+          // TODO: copy implementation of page reload research - increment probability of showing survey https://docs.google.com/document/d/1u2AIjPwJdiU7dAz8vmefEObAZUnXMarfwbjnpzVjhXs/edit#heading=h.sdmvtreqzdw0
+
           browser.notificationBar.show();
+          feature.addToPayload({SURVEY_SHOWN: "true"});
+
+          setTimeout(() => {
+            // TODO: send only if trackers on page
+            // Get # of trackers blocked add to payload
+
+            feature.sendTelemetry(feature.payload);
+          }, 20000); // 20 seconds, it's a reload, so we want to wait for the user's response
+        } else if (m.message === "navigate") {
+          setTimeout(() => {
+            // TODO: send only if trackers on page
+            // Get # of trackers blocked add to payload
+
+            feature.sendTelemetry(feature.payload);
+          }, 8000); // 8 seconds
         }
       });
     }
-
     browser.runtime.onConnect.addListener(connected);
 
     browser.webNavigation.onCompleted.addListener(() => {
-      portFromCS.postMessage({message: "navigation"});
-
-      // const TIME_TO_DOM_CONTENT_LOADED_START_MS = performance.getEntries()[0].domContentLoadedEventStart;
-      // const TIME_TO_DOM_COMPLETE_MS = performance.getEntries()[0].domComplete;
-      // const TIME_TO_DOM_INTERACTIVE_MS = performance.getEntries()[0].domInteractive;
-      // const TIME_TO_LOAD_EVENT_START_MS = performance.getEntries()[0].loadEventStart;
-      // const TIME_TO_LOAD_EVENT_END_MS = performance.getEntries()[0].loadEventEnd;
+      if (portFromCS) {
+        portFromCS.postMessage({message: "navigation"});
+      }
     });
+  }
 
-    // TIME_TO_NON_BLANK_PAINT_MS ( integer)
-    // TIME_TO_DOM_LOADING_MS ( integer)
-    // TIME_TO_FIRST_INTERACTION_MS ( integer)
-    // TIME_TO_RESPONSE_START_MS ( integer)
-
-    // var renderTime = perfData.domComplete - perfData.domLoading;
-    // var perfData = window.performance.timing;
-    // var pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
+  addToPayload(data) {
+    feature.payload = {...this.payload, ...data};
   }
 
   /* good practice to have the literal 'sending' be wrapped up */

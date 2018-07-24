@@ -71,75 +71,64 @@ const baseStudySetup = {
 
   weightedVariations: [
     {
-      name: "TPL0",
+      name: "0",
       weight: 1,
     },
     {
-      name: "TPL1",
+      name: "1",
       weight: 1,
     },
     {
-      name: "TPL2",
+      name: "2",
       weight: 1,
     },
     {
-      name: "TPL3",
+      name: "3",
       weight: 1,
     },
     {
-      name: "FB2L0",
+      name: "4",
       weight: 1,
     },
     {
-      name: "FB2L1",
+      name: "5",
       weight: 1,
     },
     {
-      name: "FB2L2",
+      name: "6",
       weight: 1,
     },
     {
-      name: "FB2L3",
+      name: "7",
       weight: 1,
     },
     {
-      name: "FB5L0",
+      name: "8",
       weight: 1,
     },
     {
-      name: "FB5L1",
+      name: "9",
       weight: 1,
     },
     {
-      name: "FB5L2",
+      name: "10",
       weight: 1,
     },
     {
-      name: "FB5L3",
+      name: "11",
       weight: 1,
     },
+    // Control branch has weight of 4, rather than 4 different branches
     {
-      name: "Control",
-      weight: 1,
+      name: "12",
+      weight: 4,
     },
     {
-      name: "Control",
-      weight: 1,
-    },
-    {
-      name: "Control",
-      weight: 1,
-    },
-    {
-      name: "Control",
-      weight: 1,
-    },
-    {
-      name: "TT",
+      name: "13",
       weight: 1,
     },
   ],
-
+  // TODO: does this exclude the recruitment period?
   // maximum time that the study should run, from the first run
   expire: {
     days: 21,

@@ -1,18 +1,43 @@
 let port = browser.runtime.connect();
 
-// possible to catch refresh action with this, but navigation has not yet updated, no stats
-// window.onunload = () => {}
-
-port.postMessage({message: "hello from content script"});
-
 port.onMessage.addListener(function(m) {
   if (m.message === "navigation") {
     let perfEntries = performance.getEntriesByType("navigation");
+    // there *should* be only one entry - I haven't see anything to the alternative yet
     for (const entry of perfEntries) {
+      let payload;
       if (entry.type === "reload") {
-        port.postMessage({message: "reload"});
-        // inject footer or header to query user here
-        // NOTE: do not query on multiple reloads (ex. user might be refreshing stats)
+        // get the data from content, since it is more reliable
+        // send Telemetry only accepts strings...
+        payload = {
+          PAGE_RELOADED: "true",
+          TIME_TO_DOM_CONTENT_LOADED_START_MS: entry.domContentLoadedEventStart.toString(),
+          TIME_TO_DOM_COMPLETE_MS: entry.domComplete.toString(),
+          TIME_TO_DOM_INTERACTIVE_MS: entry.domInteractive.toString(),
+          TIME_TO_LOAD_EVENT_START_MS: entry.loadEventStart.toString(),
+          TIME_TO_LOAD_EVENT_END_MS: entry.loadEventEnd.toString(),
+          TIME_TO_RESPONSE_START_MS: entry.responseStart.toString()
+          // Missing:
+          // TIME_TO_NON_BLANK_PAINT_MS ( integer)
+          // TIME_TO_DOM_LOADING_MS ( integer)
+          // TIME_TO_FIRST_INTERACTION_MS ( integer)
+        }
+        port.postMessage({message: "reload", payload});
+      } else {
+        payload = {
+          PAGE_RELOADED: "false",
+          TIME_TO_DOM_CONTENT_LOADED_START_MS: entry.domContentLoadedEventStart.toString(),
+          TIME_TO_DOM_COMPLETE_MS: entry.domComplete.toString(),
+          TIME_TO_DOM_INTERACTIVE_MS: entry.domInteractive.toString(),
+          TIME_TO_LOAD_EVENT_START_MS: entry.loadEventStart.toString(),
+          TIME_TO_LOAD_EVENT_END_MS: entry.loadEventEnd.toString(),
+          TIME_TO_RESPONSE_START_MS: entry.responseStart.toString()
+          // Missing:
+          // TIME_TO_NON_BLANK_PAINT_MS ( integer)
+          // TIME_TO_DOM_LOADING_MS ( integer)
+          // TIME_TO_FIRST_INTERACTION_MS ( integer)
+        }
+        port.postMessage({message: "navigate", payload});
       }
     }
   }

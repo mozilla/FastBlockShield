@@ -57,7 +57,7 @@ class NotificationBarEventEmitter extends EventEmitter {
       label: "Yes!",
       accessKey: "f",
       callback: () => {
-        console.log("YESSS");
+        self.emit("introduction-accept");
       },
     };
 
@@ -66,7 +66,7 @@ class NotificationBarEventEmitter extends EventEmitter {
         label: "Nope",
         accessKey: "d",
         callback: () => {
-          console.log("NO");
+          self.emit("introduction-leave-study");
         },
       },
     ];
