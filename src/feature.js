@@ -13,14 +13,14 @@ class Feature {
     // TODO: how will I get the lists, will it be a pref?
     switch (variation.name) {
       case "0":
-        //"TPL0"
+        // "TPL0"
         browser.prefs.setIntPref("privacy.fastblock.list", 0);
         browser.prefs.setBoolPref("browser.fastblock.enabled", false);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", true);
         browser.prefs.setBoolPref("network.http.tailing.enabled", false);
         break;
       case "1":
-        //"TPL1"
+        // "TPL1"
         browser.prefs.setIntPref("privacy.fastblock.list", 1);
         browser.prefs.setBoolPref("browser.fastblock.enabled", false);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", true);
@@ -34,7 +34,7 @@ class Feature {
         browser.prefs.setBoolPref("network.http.tailing.enabled", false);
         break;
       case "3":
-        //"TPL3"
+        // "TPL3"
         browser.prefs.setIntPref("privacy.fastblock.list", 3);
         browser.prefs.setBoolPref("browser.fastblock.enabled", false);
         browser.prefs.setBoolPref("privacy.trackingprotection.enabled", true);
@@ -125,12 +125,11 @@ class Feature {
         feature.payload = m.payload;
 
         if (m.message === "reload") {
-          console.log("message here:", m)
+          console.log("message here:", m);
           console.log("reload event");
           // TODO: copy implementation of page reload research - increment probability of showing survey https://docs.google.com/document/d/1u2AIjPwJdiU7dAz8vmefEObAZUnXMarfwbjnpzVjhXs/edit#heading=h.sdmvtreqzdw0
 
           browser.notificationBar.show();
-          feature.addToPayload({SURVEY_SHOWN: "true"});
 
           setTimeout(() => {
             // TODO: send only if trackers on page
@@ -155,9 +154,36 @@ class Feature {
         portFromCS.postMessage({message: "navigation"});
       }
     });
+
+    // TODO: ensure we send this telemetry before changing pages so as not to mix up 
+    // the pings, danger of this because of the timeout.
+    browser.notificationBar.onSurveyShown.addListener(
+        () => {
+          feature.addToPayload({
+            SURVEY_SHOWN: "true",
+          });
+        },
+      );
+
+      browser.notificationBar.onReportPageBroken.addListener(
+        () => {
+          feature.addToPayload({
+            SURVEY_REPORTED_BROKEN: "true",
+          });
+        },
+      );
+
+      browser.notificationBar.onReportPageNotBroken.addListener(
+        () => {
+          feature.addToPayload({
+            SURVEY_REPORTED_BROKEN: "false",
+          });
+        },
+      );
   }
 
   addToPayload(data) {
+    console.log("adding to payload", data);
     feature.payload = {...this.payload, ...data};
   }
 
@@ -169,7 +195,9 @@ class Feature {
   /**
    * Called at end of study, and if the user disables the study or it gets uninstalled by other means.
    */
-  async cleanup() {}
+  async cleanup() {
+    // TODO: put prefs back
+  }
 }
 
 class BrowserActionButtonChoiceFeature {

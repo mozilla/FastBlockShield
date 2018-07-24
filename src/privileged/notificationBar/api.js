@@ -34,11 +34,11 @@ function getMostRecentBrowserWindow() {
  *
  *   Telemetry Probes:
  *
- *   - {event: introduction-shown}
+ *   - {event: survey-shown}
  *
- *   - {event: introduction-accept}
+ *   - {event: page-broken}
  *
- *   - {event: introduction-leave-study}
+ *   - {event: page-not-broken}
  *
  *    Note:  Bar WILL NOT SHOW if the only window open is a private window.
  *
@@ -57,7 +57,7 @@ class NotificationBarEventEmitter extends EventEmitter {
       label: "Yes!",
       accessKey: "f",
       callback: () => {
-        self.emit("introduction-accept");
+        self.emit("page-broken");
       },
     };
 
@@ -66,7 +66,7 @@ class NotificationBarEventEmitter extends EventEmitter {
         label: "Nope",
         accessKey: "d",
         callback: () => {
-          self.emit("introduction-leave-study");
+          self.emit("page-not-broken");
         },
       },
     ];
@@ -81,7 +81,7 @@ class NotificationBarEventEmitter extends EventEmitter {
 
     doc.defaultView.PopupNotifications.show(recentWindow.gBrowser.selectedBrowser, "fast-block-notification", "Is this page broken?", null, primaryAction, secondaryActions, {eventCallback: populatePanel});
 
-    self.emit("introduction-shown");
+    self.emit("survey-shown");
   }
 }
 
@@ -105,58 +105,58 @@ this.notificationBar = class extends ExtensionAPI {
           notificationBarEventEmitter.emitShow();
         },
         // TODO: customize some events for telemetry
-        onIntroductionShown: new EventManager(
+        onSurveyShown: new EventManager(
           context,
-          "notificationBar.onIntroductionShown",
+          "notificationBar.onSurveyShown",
           fire => {
             const listener = value => {
               fire.async(value);
             };
             notificationBarEventEmitter.on(
-              "introduction-shown",
+              "survey-shown",
               listener,
             );
             return () => {
               notificationBarEventEmitter.off(
-                "introduction-shown",
+                "survey-shown",
                 listener,
               );
             };
           },
         ).api(),
-        onIntroductionAccept: new EventManager(
+        onReportPageBroken: new EventManager(
           context,
-          "notificationBar.onIntroductionAccept",
+          "notificationBar.onReportPageBroken",
           fire => {
             const listener = value => {
               fire.async(value);
             };
             notificationBarEventEmitter.on(
-              "introduction-accept",
+              "page-broken",
               listener,
             );
             return () => {
               notificationBarEventEmitter.off(
-                "introduction-accept",
+                "page-broken",
                 listener,
               );
             };
           },
         ).api(),
-        onIntroductionLeaveStudy: new EventManager(
+        onReportPageNotBroken: new EventManager(
           context,
-          "notificationBar.onIntroductionLeaveStudy",
+          "notificationBar.onReportPageNotBroken",
           fire => {
             const listener = value => {
               fire.async(value);
             };
             notificationBarEventEmitter.on(
-              "introduction-leave-study",
+              "page-not-broken",
               listener,
             );
             return () => {
               notificationBarEventEmitter.off(
-                "introduction-leave-study",
+                "page-not-broken",
                 listener,
               );
             };

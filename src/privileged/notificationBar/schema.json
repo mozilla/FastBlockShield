@@ -7,28 +7,28 @@
       {
         "name": "show",
         "type": "function",
-        "description": "TODO",
+        "description": "Show the notification bar to the user.",
         "async": true,
         "parameters": []
       }
     ],
     "events": [
       {
-        "name": "onIntroductionShown",
+        "name": "onSurveyShown",
         "type": "function",
-        "description": "Description of the event",
+        "description": "The survey has been shown to the user.",
         "parameters": []
       },
       {
-        "name": "onIntroductionAccept",
+        "name": "onReportPageBroken",
         "type": "function",
-        "description": "Description of the event",
+        "description": "The user clicked 'yes', this page was broken.",
         "parameters": []
       },
       {
-        "name": "onIntroductionLeaveStudy",
+        "name": "onReportPageNotBroken",
         "type": "function",
-        "description": "Description of the event",
+        "description": "The user clicked 'no', this page was not broken.",
         "parameters": []
       }
     ]

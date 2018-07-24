@@ -16,12 +16,12 @@ port.onMessage.addListener(function(m) {
           TIME_TO_DOM_INTERACTIVE_MS: entry.domInteractive.toString(),
           TIME_TO_LOAD_EVENT_START_MS: entry.loadEventStart.toString(),
           TIME_TO_LOAD_EVENT_END_MS: entry.loadEventEnd.toString(),
-          TIME_TO_RESPONSE_START_MS: entry.responseStart.toString()
+          TIME_TO_RESPONSE_START_MS: entry.responseStart.toString(),
           // Missing:
           // TIME_TO_NON_BLANK_PAINT_MS ( integer)
           // TIME_TO_DOM_LOADING_MS ( integer)
           // TIME_TO_FIRST_INTERACTION_MS ( integer)
-        }
+        };
         port.postMessage({message: "reload", payload});
       } else {
         payload = {
@@ -31,12 +31,12 @@ port.onMessage.addListener(function(m) {
           TIME_TO_DOM_INTERACTIVE_MS: entry.domInteractive.toString(),
           TIME_TO_LOAD_EVENT_START_MS: entry.loadEventStart.toString(),
           TIME_TO_LOAD_EVENT_END_MS: entry.loadEventEnd.toString(),
-          TIME_TO_RESPONSE_START_MS: entry.responseStart.toString()
+          TIME_TO_RESPONSE_START_MS: entry.responseStart.toString(),
           // Missing:
           // TIME_TO_NON_BLANK_PAINT_MS ( integer)
           // TIME_TO_DOM_LOADING_MS ( integer)
           // TIME_TO_FIRST_INTERACTION_MS ( integer)
-        }
+        };
         port.postMessage({message: "navigate", payload});
       }
     }
