@@ -1,0 +1,29 @@
+[
+  {
+    "namespace": "trackers",
+    "description": "checking for trackers",
+    "functions": [
+      {
+        "name": "listenForTrackers",
+        "type": "function",
+        "description": "init listener to listen for changes in trackers",
+        "async": true,
+        "parameters": []
+      }
+    ],
+    "events": [
+      {
+        "name": "onRecordTrackers",
+        "type": "function",
+        "description": "There is at least one tracker on this site.",
+        "parameters": []
+      },
+      {
+        "name": "onLocationChanged",
+        "type": "function",
+        "description": "The location changed",
+        "parameters": []
+      }
+    ]
+  }
+]
