@@ -9,11 +9,15 @@ class Feature {
     this.contentConnected = this.contentConnected.bind(this);
     this.payload = {};
     this.trackersOnPage = false;
+    browser.storage.local.get("fastblockRecords").then((data) => {
+      this.fastblockRecords = data || {};
+    });
 
     // Initiate our browser action
     new BrowserActionButtonChoiceFeature(variation);
 
     // TODO: how will I get the lists, will it be a pref?
+    // TODO reduce this to an array of sorts
     switch (variation.name) {
       case "0":
         // "TPL0"
@@ -170,26 +174,46 @@ class Feature {
     this.portFromCS = p;
     // Let the content know we've navigated.
     this.portFromCS.onMessage.addListener((m) => {
-        // Only send telemetry and show notification if trackers exist on the page.
-        if (!this.trackersOnPage) {
-          console.log("trackers don't exist returning");
-          return;
+      // Only send telemetry and show notification if trackers exist on the page.
+      if (!this.trackersOnPage) {
+        console.log("trackers don't exist returning");
+        return;
+      }
+
+      this.payload = {...m.payload};
+      if (m.message === "reload") {
+        // set default value so we can increment.
+        this.fastblockRecords[m.payload.HOSTNAME] = this.fastblockRecords[m.payload.HOSTNAME] || {count: 0, survey_shown: false};
+        this.fastblockRecords[m.payload.HOSTNAME].count += 1;
+        if (!this.fastblockRecords[m.payload.HOSTNAME].survey_shown) {
+          this.possiblyShowNotification(m.payload.HOSTNAME);
         }
 
-        this.payload = {...m.payload};
-        if (m.message === "reload") {
-          // TODO: copy implementation of page reload research - increment probability of showing survey https://docs.google.com/document/d/1u2AIjPwJdiU7dAz8vmefEObAZUnXMarfwbjnpzVjhXs/edit#heading=h.sdmvtreqzdw0
-
-          browser.notificationBar.show();
-          setTimeout(() => {
-            this.sendTelemetry(this.payload);
-          }, 20000); // 20 seconds, it's a reload, so we want to wait for the user's response
-        } else if (m.message === "navigate") {
-          setTimeout(() => {
-            this.sendTelemetry(this.payload);
-          }, 8000); // 8 seconds
-        }
+        setTimeout(() => {
+          this.sendTelemetry(this.payload);
+        }, 20000); // 20 seconds, it's a reload, so we want to possibly wait for the user's response
+      } else if (m.message === "navigate") {
+        setTimeout(() => {
+          this.sendTelemetry(this.payload);
+        }, 8000); // 8 seconds
+      }
     });
+  }
+
+  // start at 40% chance, increment by 10% until at 6 times, then it is guaranteed
+  // currently, do not show question again per hostname
+  // should this be per session per hostname? or X amount of times per hostname.
+  // The refresh count is retained across sessions - ex if they refresh once
+  // then close the browser and later refresh on the same page, that page's count
+  // will be retained and incremented.
+  possiblyShowNotification(hostname) {
+    let reloadCount = this.fastblockRecords[hostname].count;
+    let num = Math.floor(Math.random() * 10);
+    if (num <= (3 + reloadCount)) {
+      this.fastblockRecords[hostname].survey_shown = true;
+      browser.notificationBar.show();
+    }
+    browser.storage.local.set({fastblockRecords: this.fastblockRecords});
   }
 
   addToPayload(data) {
