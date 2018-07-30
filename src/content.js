@@ -11,6 +11,7 @@ port.onMessage.addListener(function(m) {
         // send Telemetry only accepts strings...
         payload = {
           PAGE_RELOADED: "true",
+          HOSTNAME: location.hostname,
           TIME_TO_DOM_CONTENT_LOADED_START_MS: entry.domContentLoadedEventStart.toString(),
           TIME_TO_DOM_COMPLETE_MS: entry.domComplete.toString(),
           TIME_TO_DOM_INTERACTIVE_MS: entry.domInteractive.toString(),
@@ -26,6 +27,7 @@ port.onMessage.addListener(function(m) {
       } else {
         payload = {
           PAGE_RELOADED: "false",
+          HOSTNAME: location.hostname,
           TIME_TO_DOM_CONTENT_LOADED_START_MS: entry.domContentLoadedEventStart.toString(),
           TIME_TO_DOM_COMPLETE_MS: entry.domComplete.toString(),
           TIME_TO_DOM_INTERACTIVE_MS: entry.domInteractive.toString(),
