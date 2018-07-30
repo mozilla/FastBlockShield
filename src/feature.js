@@ -6,6 +6,9 @@ class Feature {
   configure(studyInfo) {
     const feature = this;
     const { variation } = studyInfo;
+    this.contentConnected = this.contentConnected.bind(this);
+    this.payload = {};
+    this.trackersOnPage = false;
 
     // Initiate our browser action
     new BrowserActionButtonChoiceFeature(variation);
@@ -117,79 +120,89 @@ class Feature {
         break;
     }
 
-    let portFromCS;
-    function connected(p) {
-      portFromCS = p;
-
-      portFromCS.onMessage.addListener((m) => {
-        feature.payload = m.payload;
-
-        if (m.message === "reload") {
-          console.log("message here:", m);
-          console.log("reload event");
-          // TODO: copy implementation of page reload research - increment probability of showing survey https://docs.google.com/document/d/1u2AIjPwJdiU7dAz8vmefEObAZUnXMarfwbjnpzVjhXs/edit#heading=h.sdmvtreqzdw0
-
-          browser.notificationBar.show();
-
-          setTimeout(() => {
-            // TODO: send only if trackers on page
-            // Get # of trackers blocked add to payload
-
-            feature.sendTelemetry(feature.payload);
-          }, 20000); // 20 seconds, it's a reload, so we want to wait for the user's response
-        } else if (m.message === "navigate") {
-          setTimeout(() => {
-            // TODO: send only if trackers on page
-            // Get # of trackers blocked add to payload
-
-            feature.sendTelemetry(feature.payload);
-          }, 8000); // 8 seconds
-        }
-      });
-    }
-    browser.runtime.onConnect.addListener(connected);
-
+    browser.runtime.onConnect.addListener(this.contentConnected);
     browser.webNavigation.onCompleted.addListener(() => {
-      if (portFromCS) {
-        portFromCS.postMessage({message: "navigation"});
+      if (feature.portFromCS) {
+        feature.portFromCS.postMessage({message: "navigation"});
       }
     });
 
-    // TODO: ensure we send this telemetry before changing pages so as not to mix up 
-    // the pings, danger of this because of the timeout.
+    browser.trackers.listenForTrackers();
+    browser.trackers.onLocationChanged.addListener(
+      () => {
+        // reset tracker status when location changes
+        this.trackersOnPage = false;
+      }
+    );
+
+    browser.trackers.onRecordTrackers.addListener(
+      () => {
+        this.trackersOnPage = true;
+      }
+    );
+
     browser.notificationBar.onSurveyShown.addListener(
-        () => {
-          feature.addToPayload({
-            SURVEY_SHOWN: "true",
-          });
-        },
-      );
+      () => {
+        feature.addToPayload({
+          SURVEY_SHOWN: "true",
+        });
+      },
+    );
 
-      browser.notificationBar.onReportPageBroken.addListener(
-        () => {
-          feature.addToPayload({
-            SURVEY_REPORTED_BROKEN: "true",
-          });
-        },
-      );
+    browser.notificationBar.onReportPageBroken.addListener(
+      () => {
+        feature.addToPayload({
+          SURVEY_REPORTED_BROKEN: "true",
+        });
+      },
+    );
 
-      browser.notificationBar.onReportPageNotBroken.addListener(
-        () => {
-          feature.addToPayload({
-            SURVEY_REPORTED_BROKEN: "false",
-          });
-        },
-      );
+    browser.notificationBar.onReportPageNotBroken.addListener(
+      () => {
+        feature.addToPayload({
+          SURVEY_REPORTED_BROKEN: "false",
+        });
+      },
+    );
+  }
+
+  contentConnected(p) {
+    this.portFromCS = p;
+    // Let the content know we've navigated.
+    this.portFromCS.onMessage.addListener((m) => {
+        // Only send telemetry and show notification if trackers exist on the page.
+        if (!this.trackersOnPage) {
+          console.log("trackers don't exist returning");
+          return;
+        }
+
+        this.payload = {...m.payload};
+        if (m.message === "reload") {
+          // TODO: copy implementation of page reload research - increment probability of showing survey https://docs.google.com/document/d/1u2AIjPwJdiU7dAz8vmefEObAZUnXMarfwbjnpzVjhXs/edit#heading=h.sdmvtreqzdw0
+
+          browser.notificationBar.show();
+          setTimeout(() => {
+            this.sendTelemetry(this.payload);
+          }, 20000); // 20 seconds, it's a reload, so we want to wait for the user's response
+        } else if (m.message === "navigate") {
+          setTimeout(() => {
+            this.sendTelemetry(this.payload);
+          }, 8000); // 8 seconds
+        }
+    });
   }
 
   addToPayload(data) {
     console.log("adding to payload", data);
-    feature.payload = {...this.payload, ...data};
+    this.payload = {...this.payload, ...data};
   }
 
+  // TODO: ensure we send this telemetry before changing pages so as not to mix up
+  // the pings, danger of this because of the timeout.
   /* good practice to have the literal 'sending' be wrapped up */
   sendTelemetry(stringStringMap) {
     browser.study.sendTelemetry(stringStringMap);
+    this.payload = {};
   }
 
   /**

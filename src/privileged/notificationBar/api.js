@@ -9,11 +9,6 @@ ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm");
 ChromeUtils.import("resource://gre/modules/ExtensionUtils.jsm");
 
 // eslint-disable-next-line no-undef
-const { EventManager } = ExtensionCommon;
-// eslint-disable-next-line no-undef
-const { EventEmitter } = ExtensionUtils;
-
-// eslint-disable-next-line no-undef
 XPCOMUtils.defineLazyModuleGetter(
   this,
   "BrowserWindowTracker",
@@ -47,6 +42,7 @@ function getMostRecentBrowserWindow() {
  *      https://github.com/gregglind/57-perception-shield-study/blob/680124a/addon/lib/Feature.jsm#L148-L152
  *
  */
+ // eslint-disable-next-line no-undef
 class NotificationBarEventEmitter extends EventEmitter {
   emitShow(variationName) {
     const self = this;
@@ -104,7 +100,7 @@ this.notificationBar = class extends ExtensionAPI {
         show() {
           notificationBarEventEmitter.emitShow();
         },
-        // TODO: customize some events for telemetry
+        // eslint-disable-next-line no-undef
         onSurveyShown: new EventManager(
           context,
           "notificationBar.onSurveyShown",
@@ -124,6 +120,7 @@ this.notificationBar = class extends ExtensionAPI {
             };
           },
         ).api(),
+        // eslint-disable-next-line no-undef
         onReportPageBroken: new EventManager(
           context,
           "notificationBar.onReportPageBroken",
@@ -143,6 +140,7 @@ this.notificationBar = class extends ExtensionAPI {
             };
           },
         ).api(),
+        // eslint-disable-next-line no-undef
         onReportPageNotBroken: new EventManager(
           context,
           "notificationBar.onReportPageNotBroken",
