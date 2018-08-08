@@ -11,7 +11,7 @@ port.onMessage.addListener(function(m) {
         // send Telemetry only accepts strings...
         payload = {
           PAGE_RELOADED: "true",
-          HOSTNAME: location.hostname,
+          etld: location.hostname,
           TIME_TO_DOM_CONTENT_LOADED_START_MS: entry.domContentLoadedEventStart.toString(),
           TIME_TO_DOM_COMPLETE_MS: entry.domComplete.toString(),
           TIME_TO_DOM_INTERACTIVE_MS: entry.domInteractive.toString(),
@@ -23,11 +23,10 @@ port.onMessage.addListener(function(m) {
           // TIME_TO_DOM_LOADING_MS ( integer)
           // TIME_TO_FIRST_INTERACTION_MS ( integer)
         };
-        port.postMessage({message: "reload", payload});
+        port.postMessage({message: "reload", payload, etld: location.hostname});
       } else {
         payload = {
           PAGE_RELOADED: "false",
-          HOSTNAME: location.hostname,
           TIME_TO_DOM_CONTENT_LOADED_START_MS: entry.domContentLoadedEventStart.toString(),
           TIME_TO_DOM_COMPLETE_MS: entry.domComplete.toString(),
           TIME_TO_DOM_INTERACTIVE_MS: entry.domInteractive.toString(),
@@ -39,7 +38,7 @@ port.onMessage.addListener(function(m) {
           // TIME_TO_DOM_LOADING_MS ( integer)
           // TIME_TO_FIRST_INTERACTION_MS ( integer)
         };
-        port.postMessage({message: "navigate", payload});
+        port.postMessage({message: "navigate", payload, etld: location.hostname});
       }
     }
   }
