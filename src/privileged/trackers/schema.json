@@ -16,13 +16,17 @@
         "name": "onRecordTrackers",
         "type": "function",
         "description": "There is at least one tracker on this site.",
-        "parameters": []
+        "parameters": [
+          {"type": "integer", "name": "tabId", "minimum": 0}
+        ]
       },
       {
         "name": "onLocationChanged",
         "type": "function",
         "description": "The location changed",
-        "parameters": []
+        "parameters": [
+          {"type": "integer", "name": "tabId", "minimum": 0}
+        ]
       }
     ]
   }

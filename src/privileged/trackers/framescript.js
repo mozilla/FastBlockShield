@@ -3,7 +3,9 @@ const {classes: Cc, interfaces: Ci} = Components;
 const trackerListener = {
   QueryInterface: XPCOMUtils.generateQI(["nsIWebProgressListener", "nsISupportsWeakReference"]),
   onLocationChange: function(progress, request, uri, flag) {
-    sendAsyncMessage("locationChange");
+    if (progress.isTopLevel) {
+      sendAsyncMessage("locationChange");
+    }
   },
   // Is it possible to get this message more than once per page?
   onSecurityChange: function(webProgress, request, state) {
