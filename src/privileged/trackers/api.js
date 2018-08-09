@@ -4,8 +4,7 @@
 ChromeUtils.import("resource://gre/modules/Services.jsm");
 ChromeUtils.import("resource://gre/modules/XPCOMUtils.jsm");
 
-const { EventManager } = ExtensionCommon;
-const { EventEmitter } = ExtensionUtils;
+const { EventManager, EventEmitter } = ExtensionCommon;
 
 XPCOMUtils.defineLazyModuleGetter(
   this,
