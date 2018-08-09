@@ -29,3 +29,20 @@ const filter = Cc["@mozilla.org/appshell/component/browser-status-filter;1"].cre
 filter.addProgressListener(trackerListener, Ci.nsIWebProgress.NOTIFY_ALL);
 const webProgress = docShell.QueryInterface(Ci.nsIInterfaceRequestor).getInterface(Ci.nsIWebProgress);
 webProgress.addProgressListener(filter, Ci.nsIWebProgress.NOTIFY_ALL);
+
+console.log("RUNNNNNNNINININININING");
+
+// handle uncaught promises errors
+addEventListener('unhandledrejection', function(e) {
+  console.log("REJECT", e);
+});
+
+// handle uncaught errors
+addEventListener('error', function(e) {
+  console.log("ERRORROROORORO$$$$$$#####$$$", e);
+  sendAsyncMessage("pageError", e.error.name);
+  // this also works
+  // content.postMessage({error: simplifiedError}, '*');
+});
+
+

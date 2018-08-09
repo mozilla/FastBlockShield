@@ -209,6 +209,25 @@ class Feature {
         tabInfo.telemetryPayload.page_reloaded_survey = SURVEY_PAGE_NOT_BROKEN;
       },
     );
+    
+    browser.trackers.onErrorDetected.addListener(
+      (error, tabId) => {
+        this.recordPageErrors(error, tabId);
+        console.log("ERRORS DETECTED FROM FEATURE>JS", error, tabId)
+      }
+    );
+  }
+
+  recordPageErrors(error, tabId) {
+    let tabInfo = TabRecords.getOrInsertTabInfo(tabId);
+
+    if (tabInfo.telemetryPayload[`num_${error}`]) {
+      tabInfo.telemetryPayload[`num_${error}`] += 1;
+    } else {
+      tabInfo.telemetryPayload.num_JS_exceptions += 1;
+    }
+
+    console.log ("ERRRRRROOORRR MOST IMPORTANT", tabInfo.telemetryPayload, error);
   }
 
   generateUUID() {
@@ -434,3 +453,4 @@ class BrowserActionButtonChoiceFeature {
 // make an instance of the feature class available to background.js
 // construct only. will be configured after setup
 window.feature = new Feature();
+
