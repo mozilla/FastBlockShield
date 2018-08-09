@@ -31,6 +31,9 @@ class TrackersEventEmitter extends EventEmitter {
   emitLocationChange(tabId) {
     this.emit("location-change", {tabId});
   }
+  emitErrorDetected(error, tabId) {
+    this.emit("page-error-detected", error, tabId);
+  }
 }
 
 /* https://firefox-source-docs.mozilla.org/toolkit/components/extensions/webextensions/functions.html */
@@ -57,6 +60,11 @@ this.trackers = class extends ExtensionAPI {
             let tabId = tabTracker.getBrowserTabId(message.target);
             trackersEventEmitter.emitLocationChange(tabId);
           });
+          mm.addMessageListener("pageError", (e) => {
+            let tabId = tabTracker.getBrowserTabId(e.target);
+            trackersEventEmitter.emitErrorDetected(e.data, tabId);
+          });
+
           mm.loadFrameScript(context.extension.getURL("privileged/trackers/framescript.js"), true);
         },
         onRecordTrackers: new EventManager(
@@ -92,6 +100,25 @@ this.trackers = class extends ExtensionAPI {
             return () => {
               trackersEventEmitter.off(
                 "location-change",
+                listener,
+              );
+            };
+          },
+        ).api(),
+        onErrorDetected: new EventManager(
+          context,
+          "trackers.onErrorDetected",
+          fire => {
+            const listener = (value, error, tabId) => {
+              fire.async(error, tabId);
+            };
+            trackersEventEmitter.on(
+              "page-error-detected",
+              listener,
+            );
+            return () => {
+              trackersEventEmitter.off(
+                "page-error-detected",
                 listener,
               );
             };
