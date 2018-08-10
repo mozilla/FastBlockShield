@@ -14,22 +14,20 @@
     ],
     "events": [
       {
-        "name": "onSurveyShown",
-        "type": "function",
-        "description": "The survey has been shown to the user.",
-        "parameters": []
-      },
-      {
         "name": "onReportPageBroken",
         "type": "function",
         "description": "The user clicked 'yes', this page was broken.",
-        "parameters": []
+        "parameters": [
+          {"type": "integer", "name": "tabId", "minimum": 0}
+        ]
       },
       {
         "name": "onReportPageNotBroken",
         "type": "function",
         "description": "The user clicked 'no', this page was not broken.",
-        "parameters": []
+        "parameters": [
+          {"type": "integer", "name": "tabId", "minimum": 0}
+        ]
       }
     ]
   }

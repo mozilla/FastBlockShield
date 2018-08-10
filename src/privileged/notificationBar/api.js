@@ -8,6 +8,8 @@ ChromeUtils.import("resource://gre/modules/XPCOMUtils.jsm");
 ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm");
 ChromeUtils.import("resource://gre/modules/ExtensionUtils.jsm");
 
+var {Management: {global: {tabTracker}}} = ChromeUtils.import("resource://gre/modules/Extension.jsm", {});
+
 // eslint-disable-next-line no-undef
 XPCOMUtils.defineLazyModuleGetter(
   this,
@@ -49,11 +51,14 @@ class NotificationBarEventEmitter extends EventEmitter {
     const recentWindow = getMostRecentBrowserWindow();
     const doc = recentWindow.document;
 
+    let browser = recentWindow.gBrowser.selectedBrowser;
+    let tabId = tabTracker.getBrowserTabId(browser);
+
     const primaryAction =  {
       label: "Yes!",
       accessKey: "f",
       callback: () => {
-        self.emit("page-broken");
+        self.emit("page-broken", {tabId});
       },
     };
 
@@ -62,7 +67,7 @@ class NotificationBarEventEmitter extends EventEmitter {
         label: "Nope",
         accessKey: "d",
         callback: () => {
-          self.emit("page-not-broken");
+          self.emit("page-not-broken", {tabId});
         },
       },
     ];
@@ -75,9 +80,7 @@ class NotificationBarEventEmitter extends EventEmitter {
       // }
     };
 
-    doc.defaultView.PopupNotifications.show(recentWindow.gBrowser.selectedBrowser, "fast-block-notification", "Is this page broken?", null, primaryAction, secondaryActions, {eventCallback: populatePanel});
-
-    self.emit("survey-shown");
+    doc.defaultView.PopupNotifications.show(browser, "fast-block-notification", "Is this page broken?", null, primaryAction, secondaryActions, {eventCallback: populatePanel});
   }
 }
 
@@ -101,32 +104,12 @@ this.notificationBar = class extends ExtensionAPI {
           notificationBarEventEmitter.emitShow();
         },
         // eslint-disable-next-line no-undef
-        onSurveyShown: new EventManager(
-          context,
-          "notificationBar.onSurveyShown",
-          fire => {
-            const listener = value => {
-              fire.async(value);
-            };
-            notificationBarEventEmitter.on(
-              "survey-shown",
-              listener,
-            );
-            return () => {
-              notificationBarEventEmitter.off(
-                "survey-shown",
-                listener,
-              );
-            };
-          },
-        ).api(),
-        // eslint-disable-next-line no-undef
         onReportPageBroken: new EventManager(
           context,
           "notificationBar.onReportPageBroken",
           fire => {
-            const listener = value => {
-              fire.async(value);
+            const listener = (value, {tabId}) => {
+              fire.async(tabId);
             };
             notificationBarEventEmitter.on(
               "page-broken",
@@ -145,8 +128,8 @@ this.notificationBar = class extends ExtensionAPI {
           context,
           "notificationBar.onReportPageNotBroken",
           fire => {
-            const listener = value => {
-              fire.async(value);
+            const listener = (value, {tabId}) => {
+              fire.async(tabId);
             };
             notificationBarEventEmitter.on(
               "page-not-broken",

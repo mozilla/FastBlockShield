@@ -57,7 +57,7 @@
   ],
   "permissions": ["management", "storage", "alarms", "webNavigation"],
   "background": {
-    "scripts": ["studySetup.js", "feature.js", "background.js"]
+    "scripts": ["studySetup.js", "feature.js", "background.js", "tabs.js"]
   },
   "content_scripts": [
     {

@@ -1,16 +1,24 @@
+/* global TabRecords */
+
+// Constants for the page_reloaded_survey telemetry probe.
+const SURVEY_SHOWN = 1;
+const SURVEY_PAGE_BROKEN = 2;
+const SURVEY_PAGE_NOT_BROKEN = 3;
 
 class Feature {
   constructor() {}
 
-  configure(studyInfo) {
-    const feature = this;
+  async configure(studyInfo) {
     const { variation } = studyInfo;
-    this.contentConnected = this.contentConnected.bind(this);
-    this.payload = {};
-    this.trackersOnPage = false;
-    browser.storage.local.get("fastblockRecords").then((data) => {
-      this.fastblockRecords = data || {};
-    });
+
+    // The userid will be used to create a unique hash
+    // for the etld + userid combination.
+    let {userid} = await browser.storage.sync.get("userid");
+    if (!userid) {
+      userid = this.generateUUID();
+      await browser.storage.sync.set({userid});
+    }
+    this.userid = userid;
 
     // Initiate our browser action
     new BrowserActionButtonChoiceFeature(variation);
@@ -123,101 +131,84 @@ class Feature {
         break;
     }
 
-    browser.runtime.onConnect.addListener(this.contentConnected);
-    // Let the content know we've navigated.
-    browser.webNavigation.onCompleted.addListener(() => {
-      if (feature.portFromCS) {
-        feature.portFromCS.postMessage({message: "navigation"});
-      }
-    });
-
+    // Whenever trackers are detected on a tab, record their presence.
     browser.trackers.listenForTrackers();
-    browser.trackers.onLocationChanged.addListener(
-      () => {
-        // reset tracker status when location changes
-        this.trackersOnPage = false;
-      }
-    );
-
     browser.trackers.onRecordTrackers.addListener(
-      () => {
-        this.trackersOnPage = true;
+      tabId => {
+        if (tabId < 0) {
+          return;
+        }
+        let tabInfo = TabRecords.getOrInsertTabInfo(tabId);
+        tabInfo.hasTrackers = true;
       }
     );
 
-    browser.notificationBar.onSurveyShown.addListener(
-      () => {
-        feature.addToPayload({
-          SURVEY_SHOWN: "true",
-        });
-      },
-    );
-
-    browser.notificationBar.onReportPageBroken.addListener(
-      () => {
-        feature.addToPayload({
-          SURVEY_REPORTED_BROKEN: "true",
-        });
-      },
-    );
-
-    browser.notificationBar.onReportPageNotBroken.addListener(
-      () => {
-        feature.addToPayload({
-          SURVEY_REPORTED_BROKEN: "false",
-        });
-      },
-    );
-  }
-
-  contentConnected(p) {
-    this.portFromCS = p;
-    this.portFromCS.onMessage.addListener((m) => {
-      // Only send telemetry and show notification if trackers exist on the page.
-      if (!this.trackersOnPage) {
-        console.log("trackers don't exist returning");
-        return;
+    // When the top-level location of a tab changes, submit telemetry probes
+    // for the old page and reset the payload to record the new page.
+    browser.trackers.onLocationChanged.addListener(
+      async (tabId) => {
+        if (tabId < 0) {
+          return;
+        }
+        let tabInfo = TabRecords.getOrInsertTabInfo(tabId);
+        // Only submit telemetry if we have recorded load info and
+        // the tab actually has trackers.
+        if (tabInfo.telemetryPayload.etld && tabInfo.hasTrackers) {
+          this.sendTelemetry(tabInfo.telemetryPayload);
+        }
+        TabRecords.resetPayload(tabId);
+        tabInfo.hasTrackers = false;
       }
-      this.addToPayload(m.payload);
+    );
 
-      // Get the user id from sync storage, or create and set it if it doesn't exist.
-      // Add the user id to the etld from the page and encrypt
-      browser.storage.sync.get("userid")
-        .then((items) => {
-          let userid = items.userid;
-          if (userid) {
-            this.saveRecordsSendTelemetry(this.SHA256(userid + m.etld), m.message);
-          } else {
-            userid = this.generateUUID();
-            browser.storage.sync.set({userid}, () => {
-              this.saveRecordsSendTelemetry(this.SHA256(userid + m.etld), m.message);
-            });
-          }
-        });
+    // When a tab is removed, make sure to submit telemetry for the
+    // last page and delete the tab entry.
+    browser.tabs.onRemoved.addListener(tabId => {
+      let tabInfo = TabRecords.getOrInsertTabInfo(tabId);
+      // Only submit telemetry if we have recorded load info and
+      // the tab actually has trackers.
+      if (tabInfo.telemetryPayload.etld && tabInfo.hasTrackers) {
+        this.sendTelemetry(tabInfo.telemetryPayload);
+      }
+      TabRecords.deleteTabEntry(tabId);
     });
-  }
 
-  saveRecordsSendTelemetry(etld, message) {
-    // Update the etld id in the telemetry payload.
-    this.addToPayload({etld});
+    // Watch for messages from the content script about page information
+    // such as whether the page was reloaded and load timing info.
+    browser.runtime.onConnect.addListener((p) => {
+      p.onMessage.addListener(({data}) => {
+        let tabInfo = TabRecords.getOrInsertTabInfo(p.sender.tab.id);
+        tabInfo.telemetryPayload.etld = this.SHA256(userid + data.etld);
+        tabInfo.telemetryPayload.page_reloaded = data.pageReloaded;
+        for (let key in data.performanceEvents) {
+          tabInfo.telemetryPayload[key] = data.performanceEvents[key];
+        }
 
-    if (message === "reload") {
-      // set default value so we can increment.
-      this.fastblockRecords[etld] =
-        this.fastblockRecords[etld] || {count: 0, survey_shown: false};
-      this.fastblockRecords[etld].count += 1;
-      if (!this.fastblockRecords[etld].survey_shown) {
-        this.possiblyShowNotification();
-      }
+        // Show the user a survey if the page was reloaded.
+        if (data.pageReloaded && tabInfo.hasTrackers) {
+          tabInfo.reloadCount += 1;
+          this.possiblyShowNotification(tabInfo);
+        }
+      });
+    });
 
-      setTimeout(() => {
-        this.sendTelemetry(this.payload);
-      }, 20000); // 20 seconds, it's a reload, so we want to possibly wait for the user's response
-    } else if (message === "navigate") {
-      setTimeout(() => {
-        this.sendTelemetry(this.payload);
-      }, 8000); // 8 seconds
-    }
+    // Watch for the user pressing the "Yes this page is broken"
+    // button and record the answer.
+    browser.notificationBar.onReportPageBroken.addListener(
+      tabId => {
+        let tabInfo = TabRecords.getOrInsertTabInfo(tabId);
+        tabInfo.telemetryPayload.page_reloaded_survey = SURVEY_PAGE_BROKEN;
+      },
+    );
+
+    // Watch for the user pressing the "No this page is not broken"
+    // button and record the answer.
+    browser.notificationBar.onReportPageNotBroken.addListener(
+      tabId => {
+        let tabInfo = TabRecords.getOrInsertTabInfo(tabId);
+        tabInfo.telemetryPayload.page_reloaded_survey = SURVEY_PAGE_NOT_BROKEN;
+      },
+    );
   }
 
   generateUUID() {
@@ -354,27 +345,32 @@ class Feature {
   // The refresh count is retained across sessions - ex if they refresh once
   // then close the browser and later refresh on the same page, that page's count
   // will be retained and incremented.
-  possiblyShowNotification() {
-    const reloadCount = this.fastblockRecords[this.payload.etld].count;
+  possiblyShowNotification(tabInfo) {
+    if (tabInfo.surveyShown) {
+      return;
+    }
+
     const num = Math.floor(Math.random() * 10);
-    if (num <= (3 + reloadCount)) {
-      this.fastblockRecords[this.payload.etld].survey_shown = true;
+    if (num <= (3 + tabInfo.reloadCount)) {
+      tabInfo.telemetryPayload.page_reloaded_survey = SURVEY_SHOWN;
+      tabInfo.surveyShown = true;
       browser.notificationBar.show();
     }
-    browser.storage.local.set({fastblockRecords: this.fastblockRecords});
   }
 
-  addToPayload(data) {
-    console.log("adding to payload", data);
-    this.payload = {...this.payload, ...data};
-  }
+  /**
+   * Takes a flat JSON object, converts all values to strings and
+   * submits it to Shield telemetry.
+   */
+  sendTelemetry(payload) {
+    let stringToStringMap = {};
 
-  // TODO: ensure we send this telemetry before changing pages so as not to mix up
-  // the pings, danger of this because of the timeout.
-  /* good practice to have the literal 'sending' be wrapped up */
-  sendTelemetry(stringStringMap) {
-    browser.study.sendTelemetry(stringStringMap);
-    this.payload = {};
+    // Shield Telemetry deals with flat string-string mappings.
+    for (let key in payload) {
+      stringToStringMap[key] = payload[key].toString();
+    }
+
+    browser.study.sendTelemetry(stringToStringMap);
   }
 
   /**

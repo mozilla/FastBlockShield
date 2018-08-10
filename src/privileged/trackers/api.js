@@ -6,6 +6,8 @@ ChromeUtils.import("resource://gre/modules/XPCOMUtils.jsm");
 
 const { EventManager, EventEmitter } = ExtensionCommon;
 
+var {Management: {global: {tabTracker}}} = ChromeUtils.import("resource://gre/modules/Extension.jsm", {});
+
 XPCOMUtils.defineLazyModuleGetter(
   this,
   "BrowserWindowTracker",
@@ -23,11 +25,11 @@ function getMostRecentBrowserWindow() {
 }
 
 class TrackersEventEmitter extends EventEmitter {
-  emitTrackersExist() {
-    this.emit("trackers-exist");
+  emitTrackersExist(tabId) {
+    this.emit("trackers-exist", {tabId});
   }
-  emitlocationChange() {
-    this.emit("location-change");
+  emitLocationChange(tabId) {
+    this.emit("location-change", {tabId});
   }
 }
 
@@ -47,11 +49,13 @@ this.trackers = class extends ExtensionAPI {
             // True or false depending on if the script contains tracker(s)
             // only send message on true.
             if (message.data.content) {
-              trackersEventEmitter.emitTrackersExist();
+              let tabId = tabTracker.getBrowserTabId(message.target);
+              trackersEventEmitter.emitTrackersExist(tabId);
             }
           });
-          mm.addMessageListener("locationChange", () => {
-            trackersEventEmitter.emitlocationChange();
+          mm.addMessageListener("locationChange", (message) => {
+            let tabId = tabTracker.getBrowserTabId(message.target);
+            trackersEventEmitter.emitLocationChange(tabId);
           });
           mm.loadFrameScript(context.extension.getURL("privileged/trackers/framescript.js"), true);
         },
@@ -59,8 +63,8 @@ this.trackers = class extends ExtensionAPI {
           context,
           "trackers.onRecordTrackers",
           fire => {
-            const listener = value => {
-              fire.async(value);
+            const listener = (value, {tabId}) => {
+              fire.async(tabId);
             };
             trackersEventEmitter.on(
               "trackers-exist",
@@ -78,8 +82,8 @@ this.trackers = class extends ExtensionAPI {
           context,
           "trackers.onLocationChanged",
           fire => {
-            const listener = value => {
-              fire.async(value);
+            const listener = (value, {tabId}) => {
+              fire.async(tabId);
             };
             trackersEventEmitter.on(
               "location-change",
