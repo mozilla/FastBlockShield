@@ -1,0 +1,37 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Error Testing</title>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-98252211-3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-98252211-3');
+  </script>
+
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+
+</head>
+
+<body>
+  <h1>This page should cause errors. Click each button to trigger each type.</h1>
+  
+  <button id="eval-error">evalError</button>
+  <button id="internal-error">internalError</button>
+  <button id="range-error">rangeError</button>
+  <button id="reference-error">referenceError</button>
+  <button id="syntax-error">syntaxError</button>
+  <button id="type-error">typeError</button>
+  <button id="uri-error">uriError</button>
+  <button id="security-error">securityError</button>
+  <button id="other-error">otherError</button>
+  
+  
+  <script src="./errors.js"></script>
+</body>
+</html>
