@@ -66,13 +66,5 @@
       "match_about_blank": true,
       "run_at": "document_start"
     }
-  ],
-  "icons": {
-    "48": "icons/shield-icon.svg"
-  },
-  "browser_action": {
-    "browser_style": true,
-    "default_icon": "icons/shield-icon.svg",
-    "default_title": "__MSG_buttonTitle__"
-  }
+  ]
 }

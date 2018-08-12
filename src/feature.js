@@ -20,9 +20,6 @@ class Feature {
     }
     this.userid = userid;
 
-    // Initiate our browser action
-    new BrowserActionButtonChoiceFeature(variation);
-
     // TODO: how will I get the lists, will it be a pref?
     // TODO reduce this to an array of sorts
     switch (variation.name) {
@@ -378,56 +375,6 @@ class Feature {
    */
   async cleanup() {
     // TODO: put prefs back
-  }
-}
-
-class BrowserActionButtonChoiceFeature {
-  /**
-   * - set image, text, click handler (telemetry)
-   */
-  constructor(variation) {
-    console.log(
-      "Initializing BrowserActionButtonChoiceFeature:",
-      variation.name,
-    );
-    this.timesClickedInSession = 0;
-
-    browser.browserAction.onClicked.addListener(() => this.handleButtonClick());
-    console.log("initialized");
-  }
-
-  /** handleButtonClick
-   *
-   * - instrument browserAction button clicks
-   * - change label
-   */
-  handleButtonClick() {
-    console.log("handleButtonClick");
-    // note: doesn't persist across a session, unless you use localStorage or similar.
-    this.timesClickedInSession += 1;
-    console.log("got a click", this.timesClickedInSession);
-    browser.browserAction.setBadgeText({
-      text: this.timesClickedInSession.toString(),
-    });
-
-    // telemetry: FIRST CLICK
-    if (this.timesClickedInSession === 1) {
-      browser.study.sendTelemetry({ event: "button-first-click-in-session" });
-    }
-
-    // telemetry EVERY CLICK
-    browser.study.sendTelemetry({
-      event: "button-click",
-      timesClickedInSession: "" + this.timesClickedInSession,
-    });
-
-    // webExtension-initiated ending for "used-often"
-    //
-    // - 3 timesClickedInSession in a session ends the study.
-    // - see `../Config.jsm` for what happens during this ending.
-    if (this.timesClickedInSession >= 3) {
-      browser.study.endStudy("used-often");
-    }
   }
 }
 
