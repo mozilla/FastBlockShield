@@ -206,6 +206,21 @@ class Feature {
         tabInfo.telemetryPayload.page_reloaded_survey = SURVEY_PAGE_NOT_BROKEN;
       },
     );
+
+    browser.trackers.onErrorDetected.addListener(
+      (error, tabId) => {
+        this.recordPageError(error, tabId);
+      }
+    );
+  }
+
+  recordPageError(error, tabId) {
+    const tabInfo = TabRecords.getOrInsertTabInfo(tabId);
+    if (`num_${error}` in tabInfo.telemetryPayload) {
+      tabInfo.telemetryPayload[`num_${error}`] += 1;
+    } else {
+      tabInfo.telemetryPayload.num_JS_exceptions += 1;
+    }
   }
 
   generateUUID() {

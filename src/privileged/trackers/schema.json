@@ -27,6 +27,15 @@
         "parameters": [
           {"type": "integer", "name": "tabId", "minimum": 0}
         ]
+      },
+      {
+        "name": "onErrorDetected",
+        "type": "function",
+        "description": "There is a page error",
+        "parameters": [
+          {"type": "string", "name": "error"},
+          {"type": "integer", "name": "tabId", "minimum": 0}
+        ]
       }
     ]
   }
