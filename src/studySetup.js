@@ -14,6 +14,15 @@
  *  - study defined 'shouldAllowEnroll' logic.
  */
 
+
+const variations = [
+  "TPL0", "TPL1", "TPL2", "TPL3",
+  "FB2L0", "FB2L1", "FB2L2", "FB2L3", 
+  "FB5L0", "FB5L1", "FB5L2", "FB5L3",
+  "Control", "TT"
+];
+
+
 /** Base for studySetup, as used by `browser.study.setup`.
  *
  * Will be augmented by 'getStudySetup'
@@ -69,65 +78,8 @@ const baseStudySetup = {
     },
   },
 
-  weightedVariations: [
-    {
-      name: "0",
-      weight: 1,
-    },
-    {
-      name: "1",
-      weight: 1,
-    },
-    {
-      name: "2",
-      weight: 1,
-    },
-    {
-      name: "3",
-      weight: 1,
-    },
-    {
-      name: "4",
-      weight: 1,
-    },
-    {
-      name: "5",
-      weight: 1,
-    },
-    {
-      name: "6",
-      weight: 1,
-    },
-    {
-      name: "7",
-      weight: 1,
-    },
-    {
-      name: "8",
-      weight: 1,
-    },
-    {
-      name: "9",
-      weight: 1,
-    },
-    {
-      name: "10",
-      weight: 1,
-    },
-    {
-      name: "11",
-      weight: 1,
-    },
-    // Control branch has weight of 4, rather than 4 different branches
-    {
-      name: "12",
-      weight: 4,
-    },
-    {
-      name: "13",
-      weight: 1,
-    },
-  ],
+  weightedVariations: variations.map(variation=>{return {name: variation, weight: 1}}),
+
   // TODO: does this exclude the recruitment period?
   // maximum time that the study should run, from the first run
   expire: {
