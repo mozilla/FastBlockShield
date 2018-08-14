@@ -9,9 +9,6 @@ module.exports = function(config) {
   config.set({
     singleRun: true,
     browsers: [
-      "Firefox",
-      "FirefoxAurora", // Firefox Beta
-      "FirefoxDeveloper",
       "FirefoxNightly",
     ],
     frameworks: ["mocha", "chai"],

@@ -9,14 +9,26 @@ The sole focus of the Fastblock feature is to restrict the loading of trackers. 
 ## Development
 
 You must run the study with [Firefox
-Nightly](https://www.mozilla.org/en-US/firefox/channel/desktop/#nightly) or
-[Developer
-Edition](https://www.mozilla.org/firefox/developer/).
+Nightly](https://www.mozilla.org/en-US/firefox/channel/desktop/#nightly)
 
 See [Getting
 Started](https://github.com/mozilla/FastBlockShield/blob/master/docs/DEV.md#getting-started) for instructions to install, run, lint, and build the add-on.
 
 You should be able to `npm start -- -f Nightly`
+
+### Tests
+
+We currently have functional tests, you can find them under `test/functional/`.
+Please test your new code and make sure to run the tests before committing.
+
+To run the tests, use
+
+```shell
+npm run build
+npm run test:func
+```
+
+Note that you have to re-run `npm run build` when making changes to study code because the tests use a bundled version of the add-on.
 
 ## Running Variations
 
@@ -42,5 +54,5 @@ All the variations are listed in
 You can run any of them like so:
 
 ```
-npm start -- -f Nightly --pref=extensions.button-icon-preference_shield_mozilla_org.test.variationName=FB2L0
+npm start -- -f Nightly --pref=extensions.fastblock-shield_mozilla_org.test.variationName=FB2L0
 ```
