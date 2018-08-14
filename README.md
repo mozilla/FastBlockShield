@@ -44,3 +44,50 @@ You can run any of them like so:
 ```
 npm start -- -f Nightly --pref=extensions.button-icon-preference_shield_mozilla_org.test.variationName=FB2L0
 ```
+
+## User Scenarios
+
+In all variations:
+
+  * Nothing different should happen in Private Browsing or Safe Mode operation
+  * If the user refreshes the page, by approximately the 6th time,
+    they should be shown a panel notification: "Is this page broken?"
+
+### Tracking Protection
+
+```
+npm start -- -f Nightly --pref=extensions.button-icon-preference_shield_mozilla_org.
+test.variationName=TPL0
+```
+
+In a Tracking Protection [variation](#variations):
+
+  * The user should see the "How Tracking Protection works" onboarding experience
+    when they first visit a site with trackers detected.
+  * The "Content Blocking" panel should show "Trackers: Blocked",
+    "Slow-loading Trackers: Add blocking...", and "Disable Blocking for This
+    Site"
+
+### Fastblock
+
+```
+npm start -- -f Nightly --pref=extensions.button-icon-preference_shield_mozilla_org.
+test.variationName=FB2L0
+```
+
+In a Fastblock [variation](#variations):
+
+  * The user will not receive any Fastblock onboarding
+  * The "Content Blocking" panel should show "Slow-loading Trackers: Blocked",
+    "Trackers: Add blocking...", and "Disable Blocking for This Site"
+
+### Tracker Tailing
+
+```
+npm start -- -f Nightly --pref=extensions.button-icon-preference_shield_mozilla_org.
+test.variationName=TT
+```
+
+In a Tracker-Tailing [variation](#variations):
+
+TBD
