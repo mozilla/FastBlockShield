@@ -158,21 +158,23 @@ class Feature {
 
     // Watch for messages from the content script about page information
     // such as whether the page was reloaded and load timing info.
-    browser.runtime.onConnect.addListener((p) => {
-      p.onMessage.addListener(({data}) => {
-        let tabInfo = TabRecords.getOrInsertTabInfo(p.sender.tab.id);
-        tabInfo.telemetryPayload.etld = this.SHA256(userid + data.etld);
-        tabInfo.telemetryPayload.page_reloaded = data.pageReloaded;
-        for (let key in data.performanceEvents) {
-          tabInfo.telemetryPayload[key] = data.performanceEvents[key];
-        }
+    browser.runtime.onMessage.addListener((content, sender) => {
+      if (content.message !== "contentInfo") {
+        return;
+      }
+      let {data} = content;
+      let tabInfo = TabRecords.getOrInsertTabInfo(sender.tab.id);
+      tabInfo.telemetryPayload.etld = this.SHA256(userid + data.etld);
+      tabInfo.telemetryPayload.page_reloaded = data.pageReloaded;
+      for (let key in data.performanceEvents) {
+        tabInfo.telemetryPayload[key] = data.performanceEvents[key];
+      }
 
-        // Show the user a survey if the page was reloaded.
-        if (data.pageReloaded && tabInfo.hasTrackers) {
-          tabInfo.reloadCount += 1;
-          this.possiblyShowNotification(tabInfo);
-        }
-      });
+      // Show the user a survey if the page was reloaded.
+      if (data.pageReloaded && tabInfo.hasTrackers) {
+        tabInfo.reloadCount += 1;
+        this.possiblyShowNotification(tabInfo);
+      }
     });
 
     // Watch for the user pressing the "Yes this page is broken"
