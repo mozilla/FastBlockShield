@@ -1,12 +1,12 @@
 {
-  "name": "Button Icon Preference - Shield Study Example",
+  "name": "Mozilla FastBlock User Study",
   "description": "__MSG_extensionDescription__",
   "version": "2.0.0",
   "manifest_version": 2,
   "applications": {
     "gecko": {
-      "id": "button-icon-preference@shield.mozilla.org",
-      "strict_min_version": "61.0a1"
+      "id": "fastblock-shield@mozilla.org",
+      "strict_min_version": "62"
     }
   },
   "default_locale": "en-US",
