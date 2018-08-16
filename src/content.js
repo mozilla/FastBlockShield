@@ -1,4 +1,3 @@
-let port = browser.runtime.connect();
 
 window.addEventListener("load", function() {
   // there *should* be only one entry - I haven't see anything to the alternative yet
@@ -21,5 +20,5 @@ window.addEventListener("load", function() {
     // TIME_TO_FIRST_INTERACTION_MS ( integer)
   };
 
-  port.postMessage({message: "contentInfo", data});
+  browser.runtime.sendMessage({message: "contentInfo", data});
 });
