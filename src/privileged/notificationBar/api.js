@@ -90,7 +90,7 @@ this.notificationBar = class extends ExtensionAPI {
    * Goes through each 'browser' for a window and removes the notification, if it exists.
    */
   onShutdown(shutdownReason) {
-    // TODO: clean the notification this from all browser windows. depends on https://github.com/mozilla/FastBlockShield/issues/50
+    // TODO: clean the notification from all browser windows. depends on https://github.com/mozilla/FastBlockShield/issues/50
     const recentWindow = getMostRecentBrowserWindow();
     const doc = recentWindow.document;
 
