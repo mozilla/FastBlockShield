@@ -46,7 +46,13 @@ describe("setup and teardown", function() {
 
       await utils.setupWebdriver.uninstallAddon(driver, addonId);
 
-      // TODO check that prefs were cleared
+      await checkPrefs(driver, [
+        // list pref will change see #35
+        ["privacy.fastblock.list", null],
+        ["browser.fastblock.enabled", false],
+        ["privacy.trackingprotection.enabled", false],
+        ["network.http.tailing.enabled", true],
+      ]);
 
       await utils.clearPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName");
     });
@@ -65,7 +71,13 @@ describe("setup and teardown", function() {
 
       await utils.setupWebdriver.uninstallAddon(driver, addonId);
 
-      // TODO check that prefs were cleared
+      await checkPrefs(driver, [
+        // list pref will change see #35
+        ["privacy.fastblock.list", null],
+        ["browser.fastblock.enabled", false],
+        ["privacy.trackingprotection.enabled", false],
+        ["network.http.tailing.enabled", true],
+      ]);
 
       await utils.clearPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName");
     });
@@ -84,7 +96,13 @@ describe("setup and teardown", function() {
 
       await utils.setupWebdriver.uninstallAddon(driver, addonId);
 
-      // TODO check that prefs were cleared
+      await checkPrefs(driver, [
+        // list pref will change see #35
+        ["privacy.fastblock.list", null],
+        ["browser.fastblock.enabled", false],
+        ["privacy.trackingprotection.enabled", false],
+        ["network.http.tailing.enabled", true],
+      ]);
 
       await utils.clearPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName");
     });
@@ -103,7 +121,13 @@ describe("setup and teardown", function() {
 
       await utils.setupWebdriver.uninstallAddon(driver, addonId);
 
-      // TODO check that prefs were cleared
+      await checkPrefs(driver, [
+        // list pref will change see #35
+        ["privacy.fastblock.list", null],
+        ["browser.fastblock.enabled", false],
+        ["privacy.trackingprotection.enabled", false],
+        ["network.http.tailing.enabled", true],
+      ]);
 
       await utils.clearPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName");
     });
@@ -123,7 +147,13 @@ describe("setup and teardown", function() {
 
       await utils.setupWebdriver.uninstallAddon(driver, addonId);
 
-      // TODO check that prefs were cleared
+      await checkPrefs(driver, [
+        // list pref will change see #35
+        ["privacy.fastblock.list", null],
+        ["browser.fastblock.enabled", false],
+        ["privacy.trackingprotection.enabled", false],
+        ["network.http.tailing.enabled", true],
+      ]);
 
       await utils.clearPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName");
     });
@@ -143,7 +173,13 @@ describe("setup and teardown", function() {
 
       await utils.setupWebdriver.uninstallAddon(driver, addonId);
 
-      // TODO check that prefs were cleared
+      await checkPrefs(driver, [
+        // list pref will change see #35
+        ["privacy.fastblock.list", null],
+        ["browser.fastblock.enabled", false],
+        ["privacy.trackingprotection.enabled", false],
+        ["network.http.tailing.enabled", true],
+      ]);
 
       await utils.clearPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName");
     });
@@ -163,7 +199,13 @@ describe("setup and teardown", function() {
 
       await utils.setupWebdriver.uninstallAddon(driver, addonId);
 
-      // TODO check that prefs were cleared
+      await checkPrefs(driver, [
+        // list pref will change see #35
+        ["privacy.fastblock.list", null],
+        ["browser.fastblock.enabled", false],
+        ["privacy.trackingprotection.enabled", false],
+        ["network.http.tailing.enabled", true],
+      ]);
 
       await utils.clearPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName");
     });
@@ -183,7 +225,13 @@ describe("setup and teardown", function() {
 
       await utils.setupWebdriver.uninstallAddon(driver, addonId);
 
-      // TODO check that prefs were cleared
+      await checkPrefs(driver, [
+        // list pref will change see #35
+        ["privacy.fastblock.list", null],
+        ["browser.fastblock.enabled", false],
+        ["privacy.trackingprotection.enabled", false],
+        ["network.http.tailing.enabled", true],
+      ]);
 
       await utils.clearPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName");
     });
@@ -203,7 +251,13 @@ describe("setup and teardown", function() {
 
       await utils.setupWebdriver.uninstallAddon(driver, addonId);
 
-      // TODO check that prefs were cleared
+      await checkPrefs(driver, [
+        // list pref will change see #35
+        ["privacy.fastblock.list", null],
+        ["browser.fastblock.enabled", false],
+        ["privacy.trackingprotection.enabled", false],
+        ["network.http.tailing.enabled", true],
+      ]);
 
       await utils.clearPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName");
     });
@@ -223,7 +277,13 @@ describe("setup and teardown", function() {
 
       await utils.setupWebdriver.uninstallAddon(driver, addonId);
 
-      // TODO check that prefs were cleared
+      await checkPrefs(driver, [
+        // list pref will change see #35
+        ["privacy.fastblock.list", null],
+        ["browser.fastblock.enabled", false],
+        ["privacy.trackingprotection.enabled", false],
+        ["network.http.tailing.enabled", true],
+      ]);
 
       await utils.clearPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName");
     });
@@ -243,7 +303,13 @@ describe("setup and teardown", function() {
 
       await utils.setupWebdriver.uninstallAddon(driver, addonId);
 
-      // TODO check that prefs were cleared
+      await checkPrefs(driver, [
+        // list pref will change see #35
+        ["privacy.fastblock.list", null],
+        ["browser.fastblock.enabled", false],
+        ["privacy.trackingprotection.enabled", false],
+        ["network.http.tailing.enabled", true],
+      ]);
 
       await utils.clearPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName");
     });
@@ -263,7 +329,13 @@ describe("setup and teardown", function() {
 
       await utils.setupWebdriver.uninstallAddon(driver, addonId);
 
-      // TODO check that prefs were cleared
+      await checkPrefs(driver, [
+        // list pref will change see #35
+        ["privacy.fastblock.list", null],
+        ["browser.fastblock.enabled", false],
+        ["privacy.trackingprotection.enabled", false],
+        ["network.http.tailing.enabled", true],
+      ]);
 
       await utils.clearPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName");
     });
@@ -279,7 +351,13 @@ describe("setup and teardown", function() {
 
       await utils.setupWebdriver.uninstallAddon(driver, addonId);
 
-      // TODO check that prefs were cleared
+      await checkPrefs(driver, [
+        // list pref will change see #35
+        ["privacy.fastblock.list", null],
+        ["browser.fastblock.enabled", false],
+        ["privacy.trackingprotection.enabled", false],
+        ["network.http.tailing.enabled", true],
+      ]);
 
       await utils.clearPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName");
     });
@@ -298,7 +376,13 @@ describe("setup and teardown", function() {
 
       await utils.setupWebdriver.uninstallAddon(driver, addonId);
 
-      // TODO check that prefs were cleared
+      await checkPrefs(driver, [
+        // list pref will change see #35
+        ["privacy.fastblock.list", null],
+        ["browser.fastblock.enabled", false],
+        ["privacy.trackingprotection.enabled", false],
+        ["network.http.tailing.enabled", true],
+      ]);
 
       await utils.clearPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName");
     });
