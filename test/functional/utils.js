@@ -72,6 +72,20 @@ async function clearPreference(driver, name) {
   await driver.executeScript(`Services.prefs.clearUserPref("${name}");`);
 }
 
+async function openNewTab(driver) {
+  driver.setContext(Context.CHROME);
+  await driver.executeScript(`
+    gBrowser.selectedTab = gBrowser.addTab("about:blank", {triggeringPrincipal: Services.scriptSecurityManager.createNullPrincipal({})});
+  `);
+}
+
+async function removeCurrentTab(driver) {
+  driver.setContext(Context.CHROME);
+  await driver.executeScript(`
+    gBrowser.removeTab(gBrowser.selectedTab);
+  `);
+}
+
 // What we expose to our add-on-specific tests
 module.exports = {
   FIREFOX_PREFERENCES,
@@ -83,4 +97,6 @@ module.exports = {
   setPreference,
   getPreference,
   clearPreference,
+  openNewTab,
+  removeCurrentTab,
 };
