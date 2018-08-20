@@ -33,7 +33,6 @@ window.TabRecords = {
       num_TypeError: 0,
       num_URIError: 0,
       num_SecurityError: 0,
-      num_JS_exceptions: 0,
     };
 
     return tabInfo;
