@@ -210,8 +210,6 @@ class Feature {
     const tabInfo = TabRecords.getOrInsertTabInfo(tabId);
     if (`num_${error}` in tabInfo.telemetryPayload) {
       tabInfo.telemetryPayload[`num_${error}`] += 1;
-    } else {
-      tabInfo.telemetryPayload.num_JS_exceptions += 1;
     }
   }
 
