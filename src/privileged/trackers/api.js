@@ -1,6 +1,6 @@
 "use strict";
 
-/* global ExtensionAPI, ExtensionCommon, ExtensionUtils, XPCOMUtils */
+/* global ExtensionAPI, ExtensionCommon, ExtensionUtils, XPCOMUtils, Services */
 ChromeUtils.import("resource://gre/modules/Services.jsm");
 ChromeUtils.import("resource://gre/modules/XPCOMUtils.jsm");
 
@@ -13,16 +13,6 @@ XPCOMUtils.defineLazyModuleGetter(
   "BrowserWindowTracker",
   "resource:///modules/BrowserWindowTracker.jsm",
 );
-
-/** Return most recent NON-PRIVATE browser window, so that we can
- * manipulate chrome elements on it.
- */
-function getMostRecentBrowserWindow() {
-  return BrowserWindowTracker.getTopWindow({
-    private: false,
-    allowPopups: false,
-  });
-}
 
 class TrackersEventEmitter extends EventEmitter {
   emitTrackersExist(tabId) {
@@ -38,34 +28,59 @@ class TrackersEventEmitter extends EventEmitter {
 
 /* https://firefox-source-docs.mozilla.org/toolkit/components/extensions/webextensions/functions.html */
 this.trackers = class extends ExtensionAPI {
+  constructor(extension) {
+    super(extension);
+    this.framescriptUrl = extension.getURL("privileged/trackers/framescript.js");
+  }
+
+
+  onShutdown(shutdownReason) {
+    EveryWindow.unregisterCallback("set-content-listeners");
+    for (const win of [...BrowserWindowTracker.orderedWindows]) {
+      const mm = win.getGroupMessageManager("browsers");
+      // Ensure the framescript will not be loaded in any newly opened tabs.
+      mm.removeDelayedFrameScript(this.framescriptUrl);
+    }
+  }
+
   getAPI(context) {
     const trackersEventEmitter = new TrackersEventEmitter();
-    console.log("CONTEXT", context);
+    /* global EveryWindow */
+    Services.scriptloader.loadSubScript(
+      context.extension.getURL("privileged/trackers/EveryWindow.js"));
     return {
       trackers: {
-        async listenForTrackers() {
-          // Set up frame script and message manager.
-          // Must load framescript in order to get access to docShell.
-          const mm = getMostRecentBrowserWindow().getGroupMessageManager("browsers");
+        async unmount(win) {
+          const mm = win.ownerGlobal.getGroupMessageManager("browsers");
+          mm.removeMessageListener("trackerStatus", this.trackerCallback);
+          mm.removeMessageListener("locationChange", this.locationCallback);
+          mm.removeMessageListener("pageError", this.pageErrorCallback);
+        },
+        async trackerCallback(e) {
+          if (e.data.content) {
+            const tabId = tabTracker.getBrowserTabId(e.target);
+            trackersEventEmitter.emitTrackersExist(tabId);
+          }
+        },
+        async locationCallback(e) {
+          const tabId = tabTracker.getBrowserTabId(e.target);
+          trackersEventEmitter.emitLocationChange(tabId);
+        },
+        async pageErrorCallback(e) {
+          const tabId = tabTracker.getBrowserTabId(e.target);
+          trackersEventEmitter.emitErrorDetected(e.data, tabId);
+        },
+        async setListeners(win) {
+          const mm = win.getGroupMessageManager("browsers");
           // Web Progress Listener has detected a change.
-          mm.addMessageListener("trackerStatus", (message) => {
-            // True or false depending on if the script contains tracker(s)
-            // only send message on true.
-            if (message.data.content) {
-              let tabId = tabTracker.getBrowserTabId(message.target);
-              trackersEventEmitter.emitTrackersExist(tabId);
-            }
-          });
-          mm.addMessageListener("locationChange", (message) => {
-            let tabId = tabTracker.getBrowserTabId(message.target);
-            trackersEventEmitter.emitLocationChange(tabId);
-          });
-          mm.addMessageListener("pageError", (e) => {
-            let tabId = tabTracker.getBrowserTabId(e.target);
-            trackersEventEmitter.emitErrorDetected(e.data, tabId);
-          });
+          mm.addMessageListener("trackerStatus", this.trackerCallback);
+          mm.addMessageListener("locationChange", this.locationCallback);
+          mm.addMessageListener("pageError", this.pageErrorCallback);
 
           mm.loadFrameScript(context.extension.getURL("privileged/trackers/framescript.js"), true);
+        },
+        async listenForTrackers() {
+          EveryWindow.registerCallback("set-content-listeners", this.setListeners.bind(this), this.unmount.bind(this));
         },
         onRecordTrackers: new EventManager(
           context,
