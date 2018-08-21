@@ -21,14 +21,6 @@
         ]
       },
       {
-        "name": "onLocationChanged",
-        "type": "function",
-        "description": "The location changed",
-        "parameters": [
-          {"type": "integer", "name": "tabId", "minimum": 0}
-        ]
-      },
-      {
         "name": "onErrorDetected",
         "type": "function",
         "description": "There is a page error",

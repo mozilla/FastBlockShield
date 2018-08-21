@@ -126,24 +126,6 @@ class Feature {
       }
     );
 
-    // When the top-level location of a tab changes, submit telemetry probes
-    // for the old page and reset the payload to record the new page.
-    browser.trackers.onLocationChanged.addListener(
-      async (tabId) => {
-        if (tabId < 0) {
-          return;
-        }
-        let tabInfo = TabRecords.getOrInsertTabInfo(tabId);
-        // Only submit telemetry if we have recorded load info and
-        // the tab actually has trackers.
-        if (tabInfo.telemetryPayload.etld && tabInfo.hasTrackers) {
-          this.sendTelemetry(tabInfo.telemetryPayload);
-        }
-        TabRecords.resetPayload(tabId);
-        tabInfo.hasTrackers = false;
-      }
-    );
-
     // When a tab is removed, make sure to submit telemetry for the
     // last page and delete the tab entry.
     browser.tabs.onRemoved.addListener(tabId => {
@@ -159,25 +141,37 @@ class Feature {
     // Watch for messages from the content script about page information
     // such as whether the page was reloaded and load timing info.
     browser.runtime.onMessage.addListener((content, sender) => {
-      if (content.message !== "contentInfo") {
-        return;
-      }
-      let {data} = content;
-      let tabInfo = TabRecords.getOrInsertTabInfo(sender.tab.id);
+      // When the top-level location of a tab changes, submit telemetry probes
+      // for the old page and reset the payload to record the new page.
+      if (content.message === "unload") {
+        let tabInfo = TabRecords.getOrInsertTabInfo(sender.tab.id);
+        // Only submit telemetry if we have recorded load info and
+        // the tab actually has trackers.
+        if (tabInfo.telemetryPayload.etld && tabInfo.hasTrackers) {
+          this.sendTelemetry(tabInfo.telemetryPayload);
+        }
+        TabRecords.resetPayload(sender.tab.id);
+        tabInfo.hasTrackers = false;
 
-      this.SHA256(userid + data.etld).then(hash => {
-        tabInfo.telemetryPayload.etld = hash;
-      });
+      // We've arrived at a page, record the timing and page error telemetry.
+      } else if (content.message === "contentInfo") {
+        let {data} = content;
+        let tabInfo = TabRecords.getOrInsertTabInfo(sender.tab.id);
 
-      tabInfo.telemetryPayload.page_reloaded = data.pageReloaded;
-      for (let key in data.performanceEvents) {
-        tabInfo.telemetryPayload[key] = data.performanceEvents[key];
-      }
+        this.SHA256(userid + data.etld).then(hash => {
+          tabInfo.telemetryPayload.etld = hash;
+        });
 
-      // Show the user a survey if the page was reloaded.
-      if (data.pageReloaded && tabInfo.hasTrackers) {
-        tabInfo.reloadCount += 1;
-        this.possiblyShowNotification(tabInfo);
+        tabInfo.telemetryPayload.page_reloaded = data.pageReloaded;
+        for (let key in data.performanceEvents) {
+          tabInfo.telemetryPayload[key] = data.performanceEvents[key];
+        }
+
+        // Show the user a survey if the page was reloaded.
+        if (data.pageReloaded && tabInfo.hasTrackers) {
+          tabInfo.reloadCount += 1;
+          this.possiblyShowNotification(tabInfo);
+        }
       }
     });
 
