@@ -1,4 +1,11 @@
-/* globals Services */
+/**
+ * Based on https://github.com/mozilla/blurts-addon/blob/master/src/privileged/subscripts/EveryWindow.jsm
+ * Ensure a function runs on every window, including future windows.
+ * Ignoring private windows.
+ */
+
+/* globals Services, PrivateBrowsingUtils */
+ChromeUtils.import("resource://gre/modules/PrivateBrowsingUtils.jsm");
 
 this.EveryWindow = {
   _callbacks: new Map(),
@@ -35,11 +42,16 @@ this.EveryWindow = {
     const windowList = Services.wm.getEnumerator("navigator:browser");
     while (windowList.hasMoreElements()) {
       const win = windowList.getNext();
-      win.delayedStartupPromise.then(() => { aFunction(win); });
+      if (!PrivateBrowsingUtils.isWindowPrivate(win)) {
+        win.delayedStartupPromise.then(() => { aFunction(win); });
+      }
     }
   },
 
   _onOpenWindow(aWindow) {
+    if (PrivateBrowsingUtils.isWindowPrivate(aWindow)) {
+      return;
+    }
     for (const c of this._callbacks.values()) {
       c.init(aWindow);
     }
@@ -50,6 +62,9 @@ this.EveryWindow = {
 
   _onWindowClosing(aEvent) {
     const win = aEvent.target;
+    if (PrivateBrowsingUtils.isWindowPrivate(win)) {
+      return;
+    }
     for (const c of this._callbacks.values()) {
       c.uninit(win);
     }
