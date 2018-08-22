@@ -20,6 +20,7 @@ describe("telemetry", function() {
     driver = await utils.setupWebdriver.promiseSetupDriver(
       utils.FIREFOX_PREFERENCES,
     );
+    await utils.setPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName", "TPL0");
     await utils.setupWebdriver.installAddon(driver);
   });
 
@@ -44,6 +45,13 @@ describe("telemetry", function() {
       const attributes = ping.payload.data.attributes;
       assert.equal(attributes.page_reloaded, "false", "page reloaded is false");
       assert.equal(parseInt(attributes.page_reloaded_survey), 0, "page reloaded survey not shown");
+    });
+
+    it("correctly records the amount of trackers on the page", async () => {
+      let ping = studyPings[0];
+      let attributes = ping.payload.data.attributes;
+      assert.equal(attributes.num_blockable_trackers, "1", "found a blockable tracker");
+      assert.equal(attributes.num_trackers_blocked, "1", "found blocked trackers");
     });
 
     it("correctly records performance metrics", async () => {

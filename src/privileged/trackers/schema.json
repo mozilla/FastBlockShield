@@ -17,7 +17,9 @@
         "type": "function",
         "description": "There is at least one tracker on this site.",
         "parameters": [
-          {"type": "integer", "name": "tabId", "minimum": 0}
+          {"type": "integer", "name": "tabId", "minimum": 0},
+          {"type": "integer", "name": "trackersFound", "minimum": 0},
+          {"type": "integer", "name": "trackersBlocked", "minimum": 0}
         ]
       },
       {
