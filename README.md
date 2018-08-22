@@ -50,8 +50,8 @@ npm start -- -f Nightly --pref=extensions.button-icon-preference_shield_mozilla_
 In all variations:
 
   * Nothing different should happen in Private Browsing or Safe Mode operation
-  * If the user refreshes the page, by approximately the 6th time,
-    they should be shown a panel notification: "Is this page broken?"
+  * If the user refreshes a page that has trackers on it, they have a chance of being shown
+    a panel notification: "Is this page broken?". This chance is 100% by the 6th refresh.
 
 ### Tracking Protection
 
