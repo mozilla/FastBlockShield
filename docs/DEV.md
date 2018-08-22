@@ -151,7 +151,7 @@ npm run test:func
 
 Runs functional tests using the Selenium driver, verifying the telemetry payload at Firefox startup and add-on installation in a clean profile, then does **optimistic testing** of the _commonest path_ though the study for a user:
 
-* prove the notification bar ui opens
+* prove the notification bar UI opens
 * _clicking on the left-most button presented_.
 * verifying that sent Telemetry is correct.
 
