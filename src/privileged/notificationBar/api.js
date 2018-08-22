@@ -8,7 +8,7 @@ ChromeUtils.import("resource://gre/modules/XPCOMUtils.jsm");
 ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm");
 ChromeUtils.import("resource://gre/modules/ExtensionUtils.jsm");
 
-var {Management: {global: {tabTracker}}} = ChromeUtils.import("resource://gre/modules/Extension.jsm", {});
+const {Management: {global: {tabTracker}}} = ChromeUtils.import("resource://gre/modules/Extension.jsm", {});
 
 // eslint-disable-next-line no-undef
 XPCOMUtils.defineLazyModuleGetter(
@@ -44,15 +44,15 @@ function getMostRecentBrowserWindow() {
  *      https://github.com/gregglind/57-perception-shield-study/blob/680124a/addon/lib/Feature.jsm#L148-L152
  *
  */
- // eslint-disable-next-line no-undef
+// eslint-disable-next-line no-undef
 class NotificationBarEventEmitter extends EventEmitter {
   emitShow(variationName) {
     const self = this;
     const recentWindow = getMostRecentBrowserWindow();
     const doc = recentWindow.document;
 
-    let browser = recentWindow.gBrowser.selectedBrowser;
-    let tabId = tabTracker.getBrowserTabId(browser);
+    const browser = recentWindow.gBrowser.selectedBrowser;
+    const tabId = tabTracker.getBrowserTabId(browser);
 
     const primaryAction =  {
       label: "Yes!",
@@ -90,8 +90,8 @@ this.notificationBar = class extends ExtensionAPI {
    * Goes through each tab for each window and removes the notification, if it exists.
    */
   onShutdown(shutdownReason) {
-    for (let win of BrowserWindowTracker.orderedWindows) {
-      for (let browser of win.gBrowser.browsers) {
+    for (const win of BrowserWindowTracker.orderedWindows) {
+      for (const browser of win.gBrowser.browsers) {
         const notification = win.PopupNotifications.getNotification("fast-block-notification", browser);
         if (notification) {
           win.PopupNotifications.remove(notification);

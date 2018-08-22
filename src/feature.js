@@ -121,7 +121,7 @@ class Feature {
         if (tabId < 0) {
           return;
         }
-        let tabInfo = TabRecords.getOrInsertTabInfo(tabId);
+        const tabInfo = TabRecords.getOrInsertTabInfo(tabId);
         tabInfo.hasTrackers = true;
       }
     );
@@ -129,7 +129,7 @@ class Feature {
     // When a tab is removed, make sure to submit telemetry for the
     // last page and delete the tab entry.
     browser.tabs.onRemoved.addListener(tabId => {
-      let tabInfo = TabRecords.getOrInsertTabInfo(tabId);
+      const tabInfo = TabRecords.getOrInsertTabInfo(tabId);
       // Only submit telemetry if we have recorded load info and
       // the tab actually has trackers.
       if (tabInfo.telemetryPayload.etld && tabInfo.hasTrackers) {
@@ -144,7 +144,7 @@ class Feature {
       // When the top-level location of a tab changes, submit telemetry probes
       // for the old page and reset the payload to record the new page.
       if (content.message === "unload") {
-        let tabInfo = TabRecords.getOrInsertTabInfo(sender.tab.id);
+        const tabInfo = TabRecords.getOrInsertTabInfo(sender.tab.id);
         // Only submit telemetry if we have recorded load info and
         // the tab actually has trackers.
         if (tabInfo.telemetryPayload.etld && tabInfo.hasTrackers) {
@@ -155,15 +155,15 @@ class Feature {
 
       // We've arrived at a page, record the timing and page error telemetry.
       } else if (content.message === "contentInfo") {
-        let {data} = content;
-        let tabInfo = TabRecords.getOrInsertTabInfo(sender.tab.id);
+        const {data} = content;
+        const tabInfo = TabRecords.getOrInsertTabInfo(sender.tab.id);
 
         this.SHA256(userid + data.etld).then(hash => {
           tabInfo.telemetryPayload.etld = hash;
         });
 
         tabInfo.telemetryPayload.page_reloaded = data.pageReloaded;
-        for (let key in data.performanceEvents) {
+        for (const key in data.performanceEvents) {
           tabInfo.telemetryPayload[key] = data.performanceEvents[key];
         }
 
@@ -179,7 +179,7 @@ class Feature {
     // button and record the answer.
     browser.notificationBar.onReportPageBroken.addListener(
       tabId => {
-        let tabInfo = TabRecords.getOrInsertTabInfo(tabId);
+        const tabInfo = TabRecords.getOrInsertTabInfo(tabId);
         tabInfo.telemetryPayload.page_reloaded_survey = SURVEY_PAGE_BROKEN;
       },
     );
@@ -188,7 +188,7 @@ class Feature {
     // button and record the answer.
     browser.notificationBar.onReportPageNotBroken.addListener(
       tabId => {
-        let tabInfo = TabRecords.getOrInsertTabInfo(tabId);
+        const tabInfo = TabRecords.getOrInsertTabInfo(tabId);
         tabInfo.telemetryPayload.page_reloaded_survey = SURVEY_PAGE_NOT_BROKEN;
       },
     );
@@ -254,10 +254,10 @@ class Feature {
    * submits it to Shield telemetry.
    */
   sendTelemetry(payload) {
-    let stringToStringMap = {};
+    const stringToStringMap = {};
 
     // Shield Telemetry deals with flat string-string mappings.
-    for (let key in payload) {
+    for (const key in payload) {
       stringToStringMap[key] = payload[key].toString();
     }
 
