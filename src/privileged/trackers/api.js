@@ -18,9 +18,6 @@ class TrackersEventEmitter extends EventEmitter {
   emitTrackersExist(tabId) {
     this.emit("trackers-exist", {tabId});
   }
-  emitLocationChange(tabId) {
-    this.emit("location-change", {tabId});
-  }
   emitErrorDetected(error, tabId) {
     this.emit("page-error-detected", error, tabId);
   }
@@ -53,7 +50,6 @@ this.trackers = class extends ExtensionAPI {
         async unmount(win) {
           const mm = win.ownerGlobal.getGroupMessageManager("browsers");
           mm.removeMessageListener("trackerStatus", this.trackerCallback);
-          mm.removeMessageListener("locationChange", this.locationCallback);
           mm.removeMessageListener("pageError", this.pageErrorCallback);
         },
         async trackerCallback(e) {
@@ -61,10 +57,6 @@ this.trackers = class extends ExtensionAPI {
             const tabId = tabTracker.getBrowserTabId(e.target);
             trackersEventEmitter.emitTrackersExist(tabId);
           }
-        },
-        async locationCallback(e) {
-          const tabId = tabTracker.getBrowserTabId(e.target);
-          trackersEventEmitter.emitLocationChange(tabId);
         },
         async pageErrorCallback(e) {
           const tabId = tabTracker.getBrowserTabId(e.target);
@@ -74,7 +66,6 @@ this.trackers = class extends ExtensionAPI {
           const mm = win.getGroupMessageManager("browsers");
           // Web Progress Listener has detected a change.
           mm.addMessageListener("trackerStatus", this.trackerCallback);
-          mm.addMessageListener("locationChange", this.locationCallback);
           mm.addMessageListener("pageError", this.pageErrorCallback);
 
           mm.loadFrameScript(context.extension.getURL("privileged/trackers/framescript.js"), true);
@@ -96,25 +87,6 @@ this.trackers = class extends ExtensionAPI {
             return () => {
               trackersEventEmitter.off(
                 "trackers-exist",
-                listener,
-              );
-            };
-          },
-        ).api(),
-        onLocationChanged: new EventManager(
-          context,
-          "trackers.onLocationChanged",
-          fire => {
-            const listener = (value, {tabId}) => {
-              fire.async(tabId);
-            };
-            trackersEventEmitter.on(
-              "location-change",
-              listener,
-            );
-            return () => {
-              trackersEventEmitter.off(
-                "location-change",
                 listener,
               );
             };

@@ -1,5 +1,5 @@
 // TODO some of this should probably be transmitted earlier already, maybe on DOMContentLoaded.
-window.addEventListener("load", function() {
+window.addEventListener("load", () => {
   // We call setTimeout because otherwise our loadEventEnd entry (which is
   // filled after the "load" event handler runs) would be empty.
   setTimeout(function() {
@@ -7,7 +7,7 @@ window.addEventListener("load", function() {
     let entry = performance.getEntriesByType("navigation")[0];
 
     let data = {
-      pageReloaded: entry.type == "reload",
+      pageReloaded: entry.type === "reload",
       etld: location.hostname,
       performanceEvents: {
         TIME_TO_DOM_CONTENT_LOADED_START_MS: entry.domContentLoadedEventStart,
@@ -25,4 +25,8 @@ window.addEventListener("load", function() {
 
     browser.runtime.sendMessage({message: "contentInfo", data});
   }, 0);
+});
+
+window.addEventListener("unload", () => {
+  browser.runtime.sendMessage({message: "unload"});
 });
