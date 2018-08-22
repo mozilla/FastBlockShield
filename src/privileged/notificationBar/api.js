@@ -87,20 +87,17 @@ class NotificationBarEventEmitter extends EventEmitter {
 this.notificationBar = class extends ExtensionAPI {
   /**
    * Extension Shutdown
-   * Goes through each 'browser' for a window and removes the notification, if it exists.
+   * Goes through each tab for each window and removes the notification, if it exists.
    */
   onShutdown(shutdownReason) {
-    // TODO: clean the notification from all browser windows. depends on https://github.com/mozilla/FastBlockShield/issues/50
-    const recentWindow = getMostRecentBrowserWindow();
-    const doc = recentWindow.document;
-
-    recentWindow.gBrowser.browsers.forEach((browser) => {
-      let notification = doc.defaultView.PopupNotifications
-                         .getNotification("fast-block-notification", browser);
-      if (notification) {
-        doc.defaultView.PopupNotifications.remove(notification);
+    for (let win of BrowserWindowTracker.orderedWindows) {
+      for (let browser of win.gBrowser.browsers) {
+        const notification = win.PopupNotifications.getNotification("fast-block-notification", browser);
+        if (notification) {
+          win.PopupNotifications.remove(notification);
+        }
       }
-    });
+    }
   }
 
   getAPI(context) {
