@@ -44,7 +44,7 @@ Clicking on the button:
 
 ONCE ONLY users see:
 
-* a notification bar, introducing the featur
+* a notification bar, introducing the feature
 * allowing them to opt out
 
 Icon will be the same every run.
@@ -63,7 +63,7 @@ If the user clicks on the badge more than 3 times, it ends the study.
    Test fails IF:
 
    * there is no bar.
-   * elements are not correct or are not displaye
+   * elements are not correct or are not displayed
 
 2. UI functionality: VOTE
 

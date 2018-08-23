@@ -1,6 +1,6 @@
 # Fast Block Shield Study
 
-This repository is a [Shield Study](https://wiki.mozilla.org/Firefox/Shield/Shield_Studies) based on the [Shield Studies Addon Template](https://github.com/mozilla/shield-studies-addon-template). 
+This repository is a [Shield Study](https://wiki.mozilla.org/Firefox/Shield/Shield_Studies) based on the [Shield Studies Add-on Template](https://github.com/mozilla/shield-studies-addon-template). 
 
 ### About This Add-on
 
