@@ -11,12 +11,12 @@ window.TabRecords = {
       etld: null,
       num_blockable_trackers: 0,
       num_trackers_blocked: 0,
-      TIME_TO_DOM_CONTENT_LOADED_START_MS: 0,
-      TIME_TO_DOM_COMPLETE_MS: 0,
-      TIME_TO_DOM_INTERACTIVE_MS: 0,
-      TIME_TO_LOAD_EVENT_START_MS: 0,
-      TIME_TO_LOAD_EVENT_END_MS: 0,
-      TIME_TO_RESPONSE_START_MS: 0,
+      TIME_TO_DOM_CONTENT_LOADED_START_MS: -1,
+      TIME_TO_DOM_COMPLETE_MS: -1,
+      TIME_TO_DOM_INTERACTIVE_MS: -1,
+      TIME_TO_LOAD_EVENT_START_MS: -1,
+      TIME_TO_LOAD_EVENT_END_MS: -1,
+      TIME_TO_RESPONSE_START_MS: -1,
       // Missing:
       // TIME_TO_NON_BLANK_PAINT_MS ( integer)
       // TIME_TO_DOM_LOADING_MS ( integer)
