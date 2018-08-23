@@ -6,7 +6,7 @@ window.TabRecords = {
   _tabs: new Map(),
 
   resetPayload(tabId) {
-    let tabInfo = this._tabs.get(tabId);
+    const tabInfo = this._tabs.get(tabId);
     tabInfo.telemetryPayload = {
       etld: null,
       num_blockable_trackers: 0,

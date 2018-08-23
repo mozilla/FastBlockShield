@@ -23,7 +23,7 @@ const FIREFOX_PREFERENCES = {
   "general.warnOnAboutConfig": false,
 
   // Force variation for testing
-  //"extensions.fastblock-shield_mozilla_org.test.variationName": "0",
+  // "extensions.fastblock-shield_mozilla_org.test.variationName": "0",
 
   // Enable verbose shield study utils logging
   "shieldStudy.logLevel": "All",
@@ -47,7 +47,7 @@ const { telemetry } = require("shield-studies-addon-utils/testUtils/telemetry");
 const { ui } = require("shield-studies-addon-utils/testUtils/ui");
 
 async function setPreference(driver, name, value) {
-  if (typeof value == "string") {
+  if (typeof value === "string") {
     value = `"${value}"`;
   }
 
@@ -60,7 +60,7 @@ async function setPreference(driver, name, value) {
 
 async function getPreference(driver, name) {
   driver.setContext(Context.CHROME);
-  let value = await driver.executeScript(`
+  const value = await driver.executeScript(`
     var Preferences = ChromeUtils.import("resource://gre/modules/Preferences.jsm", {}).Preferences;
     return Preferences.get("${name}");
   `);

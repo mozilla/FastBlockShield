@@ -4,9 +4,9 @@ window.addEventListener("load", () => {
   // filled after the "load" event handler runs) would be empty.
   setTimeout(function() {
     // there *should* be only one entry - I haven't see anything to the alternative yet
-    let entry = performance.getEntriesByType("navigation")[0];
+    const entry = performance.getEntriesByType("navigation")[0];
 
-    let data = {
+    const data = {
       pageReloaded: entry.type === "reload",
       etld: location.hostname,
       performanceEvents: {

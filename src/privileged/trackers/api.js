@@ -6,7 +6,7 @@ ChromeUtils.import("resource://gre/modules/XPCOMUtils.jsm");
 
 const { EventManager, EventEmitter } = ExtensionCommon;
 
-var {Management: {global: {tabTracker}}} = ChromeUtils.import("resource://gre/modules/Extension.jsm", {});
+const {Management: {global: {tabTracker}}} = ChromeUtils.import("resource://gre/modules/Extension.jsm", {});
 
 XPCOMUtils.defineLazyModuleGetter(
   this,

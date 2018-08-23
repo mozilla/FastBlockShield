@@ -29,26 +29,26 @@ describe("telemetry", function() {
 
   function checkTelemetryPayload() {
     it("has recorded one ping", async () => {
-      assert(studyPings.length == 1, "one shield telemetry ping");
+      assert(studyPings.length === 1, "one shield telemetry ping");
     });
 
     it("correctly records etld as a hash", async () => {
-      let ping = studyPings[0];
-      let attributes = ping.payload.data.attributes;
+      const ping = studyPings[0];
+      const attributes = ping.payload.data.attributes;
       assert.exists(attributes.etld, "etld exists");
       assert.notInclude(attributes.etld, "itisatrap", "etld does not contain the domain");
     });
 
     it("correctly records whether the page was reloaded", async () => {
-      let ping = studyPings[0];
-      let attributes = ping.payload.data.attributes;
+      const ping = studyPings[0];
+      const attributes = ping.payload.data.attributes;
       assert.equal(attributes.page_reloaded, "false", "page reloaded is false");
       assert.equal(parseInt(attributes.page_reloaded_survey), 0, "page reloaded survey not shown");
     });
 
     it("correctly records performance metrics", async () => {
-      let ping = studyPings[0];
-      let attributes = ping.payload.data.attributes;
+      const ping = studyPings[0];
+      const attributes = ping.payload.data.attributes;
       assert.isAbove(parseInt(attributes.TIME_TO_DOM_COMPLETE_MS), 0, "has TIME_TO_DOM_COMPLETE_MS data");
       assert.isAbove(parseInt(attributes.TIME_TO_DOM_CONTENT_LOADED_START_MS), 0, "has TIME_TO_DOM_CONTENT_LOADED_START_MS data");
       assert.isAbove(parseInt(attributes.TIME_TO_DOM_INTERACTIVE_MS), 0, "has TIME_TO_DOM_INTERACTIVE_MS data");
@@ -58,8 +58,8 @@ describe("telemetry", function() {
     });
 
     it("correctly records JS errors", async () => {
-      let ping = studyPings[0];
-      let attributes = ping.payload.data.attributes;
+      const ping = studyPings[0];
+      const attributes = ping.payload.data.attributes;
       assert.equal(parseInt(attributes.num_EvalError), 2, "has EvalError");
       assert.equal(parseInt(attributes.num_InternalError), 1, "has InternalError");
       assert.equal(parseInt(attributes.num_RangeError), 1, "has RangeError");
@@ -109,7 +109,7 @@ describe("telemetry", function() {
 
   describe("records shield telemetry on tracking pages after reload", function() {
     before(async () => {
-      let time = Date.now();
+      const time = Date.now();
       driver.setContext(Context.CONTENT);
       await driver.get("https://itisatrap.org/firefox/its-a-tracker.html");
       await driver.sleep(500);
@@ -135,7 +135,7 @@ describe("telemetry", function() {
 
   describe("records shield telemetry on tracking pages after navigation", function() {
     before(async () => {
-      let time = Date.now();
+      const time = Date.now();
       driver.setContext(Context.CONTENT);
       await driver.get("https://itisatrap.org/firefox/its-a-tracker.html");
       await driver.sleep(500);
@@ -154,10 +154,10 @@ describe("telemetry", function() {
 
   describe("records shield telemetry on tracking pages after the tab closes", function() {
     before(async () => {
-      let time = Date.now();
+      const time = Date.now();
       utils.openNewTab(driver);
       await driver.sleep(500);
-      let tabs = await driver.getAllWindowHandles();
+      const tabs = await driver.getAllWindowHandles();
       await driver.switchTo().window(tabs[1]);
       driver.setContext(Context.CONTENT);
       await driver.get("https://itisatrap.org/firefox/its-a-tracker.html");
@@ -178,7 +178,7 @@ describe("telemetry", function() {
 
   describe("records no shield telemetry on non-tracking pages", function() {
     before(async () => {
-      let time = Date.now();
+      const time = Date.now();
       driver.setContext(Context.CONTENT);
       await driver.get("https://example.org");
       await driver.sleep(500);
