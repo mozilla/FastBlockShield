@@ -1,7 +1,7 @@
 /* global XPCOMUtils, sendAsyncMessage, docShell */
 const {classes: Cc, interfaces: Ci} = Components;
 const trackerListener = {
-  QueryInterface: XPCOMUtils.generateQI(["nsIWebProgressListener", "nsISupportsWeakReference"]),
+  QueryInterface: ChromeUtils.generateQI(["nsIWebProgressListener", "nsISupportsWeakReference"]),
   onSecurityChange(webProgress, request, state) {
     const isBlocking = state & Ci.nsIWebProgressListener.STATE_BLOCKED_TRACKING_CONTENT;
     const isAllowing = state & Ci.nsIWebProgressListener.STATE_LOADED_TRACKING_CONTENT;
