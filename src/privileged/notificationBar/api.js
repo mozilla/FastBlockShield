@@ -51,38 +51,40 @@ class NotificationBarEventEmitter extends EventEmitter {
   emitShow(variationName) {
     const self = this;
     const recentWindow = getMostRecentBrowserWindow();
-    const doc = recentWindow.document;
-
     const browser = recentWindow.gBrowser.selectedBrowser;
     const tabId = tabTracker.getBrowserTabId(browser);
 
     const primaryAction =  {
-      label: "Yes!",
+      disableHighlight: true,
+      label: "Yes (broken)",
       accessKey: "f",
       callback: () => {
-        self.emit("page-broken", {tabId});
+        self.emit("page-broken", tabId);
       },
     };
 
     const secondaryActions =  [
       {
-        label: "Nope",
+        label: "No (works)",
         accessKey: "d",
         callback: () => {
-          self.emit("page-not-broken", {tabId});
+          self.emit("page-not-broken", tabId);
         },
       },
     ];
 
-    const populatePanel = (event) => {
-      // console.log("EVENT HAPPENED", event);
-      // Can edit the contents of the panel here if we want variations per branch
-      // if (event !== "shown") {
-      //   return;
-      // }
+    // option name is described as: "An optional string formatted to look bold and used in the
+    //                    notification description header text. Usually a host name or
+    //                    addon name."
+    // It is bold, but not used in a header, we're working with it anyway.
+    const options = {
+      hideClose: true,
+      persistent: true,
+      autofocus: true,
+      name: "Firefox Survey: ",
+      popupIconURL: "chrome://branding/content/icon64.png",
     };
-
-    doc.defaultView.PopupNotifications.show(browser, "fast-block-notification", "Is this page broken?", null, primaryAction, secondaryActions, {eventCallback: populatePanel});
+    recentWindow.PopupNotifications.show(browser, "fast-block-notification", "<> Did you reload this page to resolve loading issues?", null, primaryAction, secondaryActions, options);
   }
 }
 
@@ -113,7 +115,7 @@ this.notificationBar = class extends ExtensionAPI {
           context,
           "notificationBar.onReportPageBroken",
           fire => {
-            const listener = (value, {tabId}) => {
+            const listener = (value, tabId) => {
               fire.async(tabId);
             };
             notificationBarEventEmitter.on(
@@ -132,7 +134,7 @@ this.notificationBar = class extends ExtensionAPI {
           context,
           "notificationBar.onReportPageNotBroken",
           fire => {
-            const listener = (value, {tabId}) => {
+            const listener = (value, tabId) => {
               fire.async(tabId);
             };
             notificationBarEventEmitter.on(

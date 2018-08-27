@@ -1,4 +1,4 @@
-/* global XPCOMUtils, sendAsyncMessage, docShell */
+/* global ChromeUtils, sendAsyncMessage, docShell */
 const {classes: Cc, interfaces: Ci} = Components;
 const trackerListener = {
   QueryInterface: ChromeUtils.generateQI(["nsIWebProgressListener", "nsISupportsWeakReference"]),
