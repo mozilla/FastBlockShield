@@ -4,9 +4,10 @@
 ChromeUtils.import("resource://gre/modules/Services.jsm");
 ChromeUtils.import("resource://gre/modules/XPCOMUtils.jsm");
 
-const { EventManager, EventEmitter } = ExtensionCommon;
-
-const {Management: {global: {tabTracker}}} = ChromeUtils.import("resource://gre/modules/Extension.jsm", {});
+/* eslint-disable-next-line no-var */
+var {EventManager, EventEmitter} = ExtensionCommon;
+/* eslint-disable-next-line no-var */
+var {Management: {global: {tabTracker}}} = ChromeUtils.import("resource://gre/modules/Extension.jsm", {});
 
 XPCOMUtils.defineLazyModuleGetter(
   this,

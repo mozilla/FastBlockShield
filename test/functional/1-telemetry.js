@@ -57,12 +57,12 @@ describe("telemetry", function() {
     it("correctly records performance metrics", async () => {
       const ping = studyPings[0];
       const attributes = ping.payload.data.attributes;
-      assert.isAbove(parseInt(attributes.TIME_TO_DOM_COMPLETE_MS), 0, "has TIME_TO_DOM_COMPLETE_MS data");
-      assert.isAbove(parseInt(attributes.TIME_TO_DOM_CONTENT_LOADED_START_MS), 0, "has TIME_TO_DOM_CONTENT_LOADED_START_MS data");
-      assert.isAbove(parseInt(attributes.TIME_TO_DOM_INTERACTIVE_MS), 0, "has TIME_TO_DOM_INTERACTIVE_MS data");
-      assert.isAbove(parseInt(attributes.TIME_TO_LOAD_EVENT_START_MS), 0, "has TIME_TO_LOAD_EVENT_START_MS data");
-      assert.isAbove(parseInt(attributes.TIME_TO_LOAD_EVENT_END_MS), 0, "has TIME_TO_LOAD_EVENT_END_MS data");
-      assert.isAbove(parseInt(attributes.TIME_TO_RESPONSE_START_MS), 0, "has TIME_TO_RESPONSE_START_MS data");
+      assert.isAtLeast(parseInt(attributes.TIME_TO_DOM_COMPLETE_MS), 0, "has TIME_TO_DOM_COMPLETE_MS data");
+      assert.isAtLeast(parseInt(attributes.TIME_TO_DOM_CONTENT_LOADED_START_MS), 0, "has TIME_TO_DOM_CONTENT_LOADED_START_MS data");
+      assert.isAtLeast(parseInt(attributes.TIME_TO_DOM_INTERACTIVE_MS), 0, "has TIME_TO_DOM_INTERACTIVE_MS data");
+      assert.isAtLeast(parseInt(attributes.TIME_TO_LOAD_EVENT_START_MS), 0, "has TIME_TO_LOAD_EVENT_START_MS data");
+      assert.isAtLeast(parseInt(attributes.TIME_TO_LOAD_EVENT_END_MS), 0, "has TIME_TO_LOAD_EVENT_END_MS data");
+      assert.isAtLeast(parseInt(attributes.TIME_TO_RESPONSE_START_MS), 0, "has TIME_TO_RESPONSE_START_MS data");
     });
 
     it("correctly records JS errors", async () => {

@@ -6,7 +6,7 @@
   "applications": {
     "gecko": {
       "id": "fastblock-shield@mozilla.org",
-      "strict_min_version": "62"
+      "strict_min_version": "62.0"
     }
   },
   "default_locale": "en-US",
