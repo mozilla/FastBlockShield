@@ -15,8 +15,8 @@ XPCOMUtils.defineLazyModuleGetter(
 );
 
 class TrackersEventEmitter extends EventEmitter {
-  emitTrackersExist(tabId) {
-    this.emit("trackers-exist", {tabId});
+  emitTrackersExist(tabId, trackersFound, trackersBlocked) {
+    this.emit("trackers-exist", tabId, trackersFound, trackersBlocked);
   }
   emitErrorDetected(error, tabId) {
     this.emit("page-error-detected", error, tabId);
@@ -53,10 +53,9 @@ this.trackers = class extends ExtensionAPI {
           mm.removeMessageListener("pageError", this.pageErrorCallback);
         },
         async trackerCallback(e) {
-          if (e.data.content) {
-            const tabId = tabTracker.getBrowserTabId(e.target);
-            trackersEventEmitter.emitTrackersExist(tabId);
-          }
+          const tabId = tabTracker.getBrowserTabId(e.target);
+          trackersEventEmitter.emitTrackersExist(tabId,
+            e.data.trackersFound, e.data.trackersBlocked);
         },
         async pageErrorCallback(e) {
           const tabId = tabTracker.getBrowserTabId(e.target);
@@ -77,8 +76,8 @@ this.trackers = class extends ExtensionAPI {
           context,
           "trackers.onRecordTrackers",
           fire => {
-            const listener = (value, {tabId}) => {
-              fire.async(tabId);
+            const listener = (value, tabId, trackersFound, trackersBlocked) => {
+              fire.async(tabId, trackersFound, trackersBlocked);
             };
             trackersEventEmitter.on(
               "trackers-exist",

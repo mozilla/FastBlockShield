@@ -117,12 +117,14 @@ class Feature {
     // Whenever trackers are detected on a tab, record their presence.
     browser.trackers.listenForTrackers();
     browser.trackers.onRecordTrackers.addListener(
-      tabId => {
+      (tabId, trackersFound, trackersBlocked) => {
         if (tabId < 0) {
           return;
         }
         const tabInfo = TabRecords.getOrInsertTabInfo(tabId);
         tabInfo.hasTrackers = true;
+        tabInfo.telemetryPayload.num_blockable_trackers = trackersFound;
+        tabInfo.telemetryPayload.num_trackers_blocked = trackersBlocked;
       }
     );
 
