@@ -209,14 +209,12 @@ class Feature {
     }
   }
 
+  // Adapted from https://gist.github.com/jed/982883
   generateUUID() {
-    let d = new Date().getTime();
-    const uuid = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx".replace(/[x]/g, (c) => {
-      const r = (d + Math.random() * 16) % 16 | 0;
-      d = Math.floor(d / 16);
-      return (c === "x" ? r : (r & 0x3 | 0x8)).toString(16);
-    });
-    return uuid;
+    const randomNumbers = window.crypto.getRandomValues(new Uint8Array(32)).values();
+    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, a =>
+      (a ^ randomNumbers.next().value & 0b1111 >> a / 4).toString(16)
+    );
   }
 
   SHA256(message) {
