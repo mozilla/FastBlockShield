@@ -4,6 +4,46 @@
     "description": "Pref get, set, watch, unwatch(?)",
     "functions": [
       {
+        "name": "registerPrefCleanup",
+        "type": "function",
+        "description": "Registers a pref name to be cleaned up on uninstall",
+        "async": true,
+        "parameters": [
+          {
+            "name": "prefName",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "setStringPref",
+        "type": "function",
+        "description": "Sets the value of a string pref",
+        "async": true,
+        "parameters": [
+          {
+            "name": "prefName",
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "getStringPref",
+        "type": "function",
+        "description": "Returns the value of a string pref",
+        "async": true,
+        "parameters": [
+          {
+            "name": "prefName",
+            "type": "string"
+          }
+        ]
+      },
+      {
         "name": "setIntPref",
         "type": "function",
         "description": "Sets the value of an int pref",

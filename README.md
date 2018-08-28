@@ -69,7 +69,7 @@ In all variations:
 
 ```
 npm start -- -f Nightly --pref=extensions.button-icon-preference_shield_mozilla_org.
-test.variationName=TPL0
+test.variationName=TP
 ```
 
 In a Tracking Protection [variation](#variations):

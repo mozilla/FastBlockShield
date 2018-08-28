@@ -1,4 +1,5 @@
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "getStudySetup" }]*/
+/* global VARIATIONS */
 
 /**
  *  Overview:
@@ -13,15 +14,6 @@
  *  - some user defined endings.
  *  - study defined 'shouldAllowEnroll' logic.
  */
-
-
-const variations = [
-  "TPL0", "TPL1", "TPL2", "TPL3",
-  "FB2L0", "FB2L1", "FB2L2", "FB2L3",
-  "FB5L0", "FB5L1", "FB5L2", "FB5L3",
-  "Control", "TT",
-];
-
 
 /** Base for studySetup, as used by `browser.study.setup`.
  *
@@ -78,9 +70,8 @@ const baseStudySetup = {
     },
   },
 
-  weightedVariations: variations.map(variation => { return {name: variation, weight: 1}; }),
+  weightedVariations: null,
 
-  // TODO: does this exclude the recruitment period?
   // maximum time that the study should run, from the first run
   expire: {
     days: 21,
@@ -128,6 +119,10 @@ async function cachingFirstRunShouldAllowEnroll() {
 async function getStudySetup() {
   // shallow copy
   const studySetup = Object.assign({}, baseStudySetup);
+
+  studySetup.weightedVariations = Object.keys(VARIATIONS).map(variation => {
+    return {name: variation, weight: VARIATIONS[variation].weight};
+  });
 
   studySetup.allowEnroll = await cachingFirstRunShouldAllowEnroll();
 
