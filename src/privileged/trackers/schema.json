@@ -4,7 +4,7 @@
     "description": "checking for trackers",
     "functions": [
       {
-        "name": "listenForTrackers",
+        "name": "init",
         "type": "function",
         "description": "init listener to listen for changes in trackers",
         "async": true,
@@ -12,6 +12,14 @@
       }
     ],
     "events": [
+      {
+        "name": "onReportBreakage",
+        "type": "function",
+        "description": "User reported breakage through the control center",
+        "parameters": [
+          {"type": "integer", "name": "tabId", "minimum": 0}
+        ]
+      },
       {
         "name": "onRecordTrackers",
         "type": "function",
