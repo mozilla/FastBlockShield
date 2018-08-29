@@ -73,52 +73,52 @@ In all variations:
 
     
 ### Control
-    In a Control [variation](#variations):
+In a Control [variation](#variations):
 
-      * There are no differences for Control branches from the behaviours described for all variations
+  * There are no differences for Control branches from the behaviours described for all variations
 
-    ```
-    npm start -- -f Nightly --pref=extensions.button-icon-preference_shield_mozilla_org.
-    test.variationName=Control0
-    ```
+```
+npm start -- -f Nightly --pref=extensions.button-icon-preference_shield_mozilla_org.
+test.variationName=Control0
+```
 
 ### Tracking Protection
 
-    ```
-    npm start -- -f Nightly --pref=extensions.button-icon-preference_shield_mozilla_org.
-    test.variationName=TP
-    ```
+ ```
+ npm start -- -f Nightly --pref=extensions.button-icon-preference_shield_mozilla_org.
+ test.variationName=TP
+ ```
 
-    In a Tracking Protection [variation](#variations):
+ In a Tracking Protection [variation](#variations):
 
-      * The user should see the "How Tracking Protection works" onboarding experience
-        when they first visit a site with trackers detected.
-      * The "Content Blocking" panel should show "Trackers: Blocked",
-        "Slow-loading Trackers: Add blocking...", and "Disable Blocking for This
-        Site"
+   * The user should see the "How Tracking Protection works" onboarding experience
+     when they first visit a site with trackers detected.
+   * The "Content Blocking" panel should show "Trackers: Blocked",
+     "Slow-loading Trackers: Add blocking...", and "Disable Blocking for This
+     Site"
 
 ### Fastblock
 
-    ```
-    npm start -- -f Nightly --pref=extensions.button-icon-preference_shield_mozilla_org.
-    test.variationName=FB2L0
-    ```
+ ```
+ npm start -- -f Nightly --pref=extensions.button-icon-preference_shield_mozilla_org.
+ test.variationName=FB2L0
+ ```
 
-    In a Fastblock [variation](#variations):
+ In a Fastblock [variation](#variations):
 
-      * The user will not receive any Fastblock onboarding
-      * The "Content Blocking" panel should show "Slow-loading Trackers: Blocked",
-        "Trackers: Add blocking...", and "Disable Blocking for This Site"
+   * The user will not receive any Fastblock onboarding
+   * The "Content Blocking" panel should show "Slow-loading Trackers: Blocked",
+     "Trackers: Add blocking...", and "Disable Blocking for This Site"
 
 ### Testing Guide
 
-    In combination with the above instructions, add the pref `shieldStudy.logLevel=all` to the command to see extra logging. The logging will show the contents of the Telemetry ping, and the variation.
+In combination with the above instructions, add the pref `shieldStudy.logLevel=all` to the command to see extra logging. The logging will show the contents of the Telemetry ping, and the variation.
 
-    ```
-    npm start -- -f Nightly --pref=extensions.fastblock-shield_mozilla_org.test.variationName=TPL0 --pref=shieldStudy.logLevel=all
-    ```
+```
+npm start -- -f Nightly --pref=extensions.fastblock-shield_mozilla_org.test.variationName=TPL0 --pref=shieldStudy.logLevel=all
+```
 
-    Here is a [page](https://mozilla.github.io/FastBlockShield/) that causes various Javascript Errors when buttons are clicked. The page also contains a GA tracker, resulting in a telemetry ping. The errors should be reported in the telemetry ping.
+Here is a [page](https://mozilla.github.io/FastBlockShield/) that causes various Javascript Errors when buttons are clicked. The page also contains a GA tracker, resulting in a telemetry ping. The errors should be reported in the telemetry ping.
 
 ### Design
 
