@@ -1,10 +1,10 @@
 {
-  "name": "shield-studies-addon-template",
-  "description": "Template Shield Study",
-  "version": "2.0.0",
+  "name": "fastblock-shield",
+  "description": "Shield Study for testing FastBlock",
+  "version": "1.0.0",
   "author": "Mozilla",
   "bugs": {
-    "url": "https://github.com/mozilla/shield-studies-addon-template/issues"
+    "url": "https://github.com/mozilla/FastBlockShield/issues"
   },
   "dependencies": {
     "shield-studies-addon-utils": "5.0.3"
