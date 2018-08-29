@@ -5,7 +5,7 @@
   "manifest_version": 2,
   "applications": {
     "gecko": {
-      "id": "fastblock-shield@mozilla.org",
+      "id": "fastblock@shield.mozilla.org",
       "strict_min_version": "62.0"
     }
   },

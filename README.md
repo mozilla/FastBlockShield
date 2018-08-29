@@ -54,7 +54,7 @@ All the variations are listed in
 You can run any of them like so:
 
 ```
-npm start -- -f Nightly --pref=extensions.fastblock-shield_mozilla_org.test.variationName=FB2L0
+npm start -- -f Nightly --pref=extensions.fastblock_shield_mozilla_org.test.variationName=FB2L0
 ```
 
 ## User Scenarios
@@ -119,7 +119,7 @@ In a Fastblock [variation](#variations):
 In combination with the above instructions, add the pref `shieldStudy.logLevel=all` to the command to see extra logging. The logging will show the contents of the Telemetry ping, and the variation.
 
 ```
-npm start -- -f Nightly --pref=extensions.fastblock-shield_mozilla_org.test.variationName=TPL0 --pref=shieldStudy.logLevel=all
+npm start -- -f Nightly --pref=extensions.fastblock_shield_mozilla_org.test.variationName=TPL0 --pref=shieldStudy.logLevel=all
 ```
 
 ### Websites to test

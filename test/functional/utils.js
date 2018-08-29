@@ -23,7 +23,7 @@ const FIREFOX_PREFERENCES = {
   "general.warnOnAboutConfig": false,
 
   // Force variation for testing
-  // "extensions.fastblock-shield_mozilla_org.test.variationName": "0",
+  // "extensions.fastblock_shield_mozilla_org.test.variationName": "0",
 
   // Enable verbose shield study utils logging
   "shieldStudy.logLevel": "All",

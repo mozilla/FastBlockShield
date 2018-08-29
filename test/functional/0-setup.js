@@ -59,7 +59,7 @@ describe("setup and teardown", function() {
 
     describe("sets the correct prefs for variation TP", () => {
       before(async () => {
-        await utils.setPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName", "TP");
+        await utils.setPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName", "TP");
         addonId = await utils.setupWebdriver.installAddon(driver);
         await driver.sleep(SETUP_DELAY);
       });
@@ -85,13 +85,13 @@ describe("setup and teardown", function() {
       });
 
       after(async () => {
-        await utils.clearPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName");
+        await utils.clearPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName");
       });
     });
 
     describe("sets the correct prefs for variation FB2L0", () => {
       before(async () => {
-        await utils.setPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName", "FB2L0");
+        await utils.setPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName", "FB2L0");
         addonId = await utils.setupWebdriver.installAddon(driver);
         await driver.sleep(SETUP_DELAY);
       });
@@ -119,13 +119,13 @@ describe("setup and teardown", function() {
       });
 
       after(async () => {
-        await utils.clearPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName");
+        await utils.clearPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName");
       });
     });
 
     describe("sets the correct prefs for variation FB2L1", () => {
       before(async () => {
-        await utils.setPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName", "FB2L1");
+        await utils.setPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName", "FB2L1");
         addonId = await utils.setupWebdriver.installAddon(driver);
         await driver.sleep(SETUP_DELAY);
       });
@@ -153,13 +153,13 @@ describe("setup and teardown", function() {
       });
 
       after(async () => {
-        await utils.clearPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName");
+        await utils.clearPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName");
       });
     });
 
     describe("sets the correct prefs for variation FB2L2", () => {
       before(async () => {
-        await utils.setPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName", "FB2L2");
+        await utils.setPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName", "FB2L2");
         addonId = await utils.setupWebdriver.installAddon(driver);
         await driver.sleep(SETUP_DELAY);
       });
@@ -187,13 +187,13 @@ describe("setup and teardown", function() {
       });
 
       after(async () => {
-        await utils.clearPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName");
+        await utils.clearPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName");
       });
     });
 
     describe("sets the correct prefs for variation FB2L3", () => {
       before(async () => {
-        await utils.setPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName", "FB2L3");
+        await utils.setPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName", "FB2L3");
         addonId = await utils.setupWebdriver.installAddon(driver);
         await driver.sleep(SETUP_DELAY);
       });
@@ -221,13 +221,13 @@ describe("setup and teardown", function() {
       });
 
       after(async () => {
-        await utils.clearPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName");
+        await utils.clearPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName");
       });
     });
 
     describe("sets the correct prefs for variation FB5L0", () => {
       before(async () => {
-        await utils.setPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName", "FB5L0");
+        await utils.setPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName", "FB5L0");
         addonId = await utils.setupWebdriver.installAddon(driver);
         await driver.sleep(SETUP_DELAY);
       });
@@ -255,13 +255,13 @@ describe("setup and teardown", function() {
       });
 
       after(async () => {
-        await utils.clearPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName");
+        await utils.clearPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName");
       });
     });
 
     describe("sets the correct prefs for variation FB5L1", () => {
       before(async () => {
-        await utils.setPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName", "FB5L1");
+        await utils.setPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName", "FB5L1");
         addonId = await utils.setupWebdriver.installAddon(driver);
         await driver.sleep(SETUP_DELAY);
       });
@@ -289,13 +289,13 @@ describe("setup and teardown", function() {
       });
 
       after(async () => {
-        await utils.clearPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName");
+        await utils.clearPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName");
       });
     });
 
     describe("sets the correct prefs for variation FB5L2", () => {
       before(async () => {
-        await utils.setPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName", "FB5L2");
+        await utils.setPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName", "FB5L2");
         addonId = await utils.setupWebdriver.installAddon(driver);
         await driver.sleep(SETUP_DELAY);
       });
@@ -323,13 +323,13 @@ describe("setup and teardown", function() {
       });
 
       after(async () => {
-        await utils.clearPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName");
+        await utils.clearPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName");
       });
     });
 
     describe("sets the correct prefs for variation FB5L3", () => {
       before(async () => {
-        await utils.setPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName", "FB5L3");
+        await utils.setPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName", "FB5L3");
         addonId = await utils.setupWebdriver.installAddon(driver);
         await driver.sleep(SETUP_DELAY);
       });
@@ -357,13 +357,13 @@ describe("setup and teardown", function() {
       });
 
       after(async () => {
-        await utils.clearPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName");
+        await utils.clearPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName");
       });
     });
 
     describe("sets the correct prefs for variation ControlL0", () => {
       before(async () => {
-        await utils.setPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName", "ControlL0");
+        await utils.setPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName", "ControlL0");
         addonId = await utils.setupWebdriver.installAddon(driver);
         await driver.sleep(SETUP_DELAY);
       });
@@ -392,13 +392,13 @@ describe("setup and teardown", function() {
       });
 
       after(async () => {
-        await utils.clearPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName");
+        await utils.clearPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName");
       });
     });
 
     describe("sets the correct prefs for variation ControlL1", () => {
       before(async () => {
-        await utils.setPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName", "ControlL1");
+        await utils.setPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName", "ControlL1");
         addonId = await utils.setupWebdriver.installAddon(driver);
         await driver.sleep(SETUP_DELAY);
       });
@@ -427,13 +427,13 @@ describe("setup and teardown", function() {
       });
 
       after(async () => {
-        await utils.clearPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName");
+        await utils.clearPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName");
       });
     });
 
     describe("sets the correct prefs for variation ControlL2", () => {
       before(async () => {
-        await utils.setPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName", "ControlL2");
+        await utils.setPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName", "ControlL2");
         addonId = await utils.setupWebdriver.installAddon(driver);
         await driver.sleep(SETUP_DELAY);
       });
@@ -462,13 +462,13 @@ describe("setup and teardown", function() {
       });
 
       after(async () => {
-        await utils.clearPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName");
+        await utils.clearPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName");
       });
     });
 
     describe("sets the correct prefs for variation ControlL3", () => {
       before(async () => {
-        await utils.setPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName", "ControlL3");
+        await utils.setPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName", "ControlL3");
         addonId = await utils.setupWebdriver.installAddon(driver);
         await driver.sleep(SETUP_DELAY);
       });
@@ -497,7 +497,7 @@ describe("setup and teardown", function() {
       });
 
       after(async () => {
-        await utils.clearPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName");
+        await utils.clearPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName");
       });
     });
 

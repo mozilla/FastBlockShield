@@ -29,7 +29,7 @@
 * (Create profile: <https://developer.mozilla.org/Firefox/Multiple_profiles>, or via some other method)
 * Navigate to _about:config_ and set the following preferences. (If a preference does not exist, create it by right-clicking in the white area and selecting New -> String)
 * Set `shieldStudy.logLevel` to `All`. This permits shield-add-on log output in browser console.
-* Set `extensions.fastblock-shield_mozilla_org.test.variationName` to `FB2L0` (or any other study variation/branch to test specifically)
+* Set `extensions.fastblock_shield_mozilla_org.test.variationName` to `FB2L0` (or any other study variation/branch to test specifically)
 <!-- TODO: create a zip file with this add-on  -->
 * Go to [this study's tracking bug](tbd: replace with your study's launch bug link in bugzilla) and install the latest add-on zip file
 
@@ -49,7 +49,7 @@ All the variations are listed in
 You can run any of them like so:
 
 ```
-npm start -- -f Nightly --pref=extensions.fastblock-shield_mozilla_org.test.variationName=FB2L0
+npm start -- -f Nightly --pref=extensions.fastblock_shield_mozilla_org.test.variationName=FB2L0
 ```
 
 ## Expected User Experience / Functionality
@@ -115,7 +115,7 @@ test.variationName=Control0
 In combination with the above instructions, add the pref `shieldStudy.logLevel=all` to the command to see extra logging. The logging will show the contents of the Telemetry ping, and the variation.
 
 ```
-npm start -- -f Nightly --pref=extensions.fastblock-shield_mozilla_org.test.variationName=TPL0 --pref=shieldStudy.logLevel=all
+npm start -- -f Nightly --pref=extensions.fastblock_shield_mozilla_org.test.variationName=TPL0 --pref=shieldStudy.logLevel=all
 ```
 
 ### Websites to test
