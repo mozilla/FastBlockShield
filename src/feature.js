@@ -13,10 +13,10 @@ class Feature {
 
     // The userid will be used to create a unique hash
     // for the etld + userid combination.
-    let {userid} = await browser.storage.sync.get("userid");
+    let {userid} = await browser.storage.local.get("userid");
     if (!userid) {
       userid = this.generateUUID();
-      await browser.storage.sync.set({userid});
+      await browser.storage.local.set({userid});
     }
     this.userid = userid;
 
@@ -160,20 +160,26 @@ class Feature {
         const {data} = content;
         const tabInfo = TabRecords.getOrInsertTabInfo(sender.tab.id);
 
-        this.SHA256(userid + data.etld).then(hash => {
-          tabInfo.telemetryPayload.etld = hash;
-        });
+        // Reset survey count when no longer refreshing
+        if (!data.pageReloaded) {
+          tabInfo.surveyShown = false;
+          tabInfo.reloadCount = 0;
+        }
 
         tabInfo.telemetryPayload.page_reloaded = data.pageReloaded;
         for (const key in data.performanceEvents) {
           tabInfo.telemetryPayload[key] = data.performanceEvents[key];
         }
 
-        // Show the user a survey if the page was reloaded.
-        if (data.pageReloaded && tabInfo.hasTrackers) {
-          tabInfo.reloadCount += 1;
-          this.possiblyShowNotification(tabInfo);
-        }
+        this.SHA256(userid + data.etld).then(hash => {
+          tabInfo.telemetryPayload.etld = hash;
+
+          // Show the user a survey if the page was reloaded.
+          if (data.pageReloaded && tabInfo.hasTrackers) {
+            tabInfo.reloadCount += 1;
+            this.possiblyShowNotification(tabInfo);
+          }
+        });
       }
     });
 
@@ -183,6 +189,7 @@ class Feature {
       tabId => {
         const tabInfo = TabRecords.getOrInsertTabInfo(tabId);
         tabInfo.telemetryPayload.page_reloaded_survey = SURVEY_PAGE_BROKEN;
+        this.recordSurveyInteraction(tabInfo);
       },
     );
 
@@ -192,6 +199,7 @@ class Feature {
       tabId => {
         const tabInfo = TabRecords.getOrInsertTabInfo(tabId);
         tabInfo.telemetryPayload.page_reloaded_survey = SURVEY_PAGE_NOT_BROKEN;
+        this.recordSurveyInteraction(tabInfo);
       },
     );
 
@@ -200,6 +208,10 @@ class Feature {
         this.recordPageError(error, tabId);
       }
     );
+  }
+
+  recordSurveyInteraction(tabInfo) {
+    browser.storage.local.set({[tabInfo.telemetryPayload.etld]: true});
   }
 
   recordPageError(error, tabId) {
@@ -230,14 +242,15 @@ class Feature {
     });
   }
 
-  // start at 40% chance, increment by 10% until at 6 times, then it is guaranteed
-  // currently, do not show question again per hostname
-  // should this be per session per hostname? or X amount of times per hostname.
-  // The refresh count is retained across sessions - ex if they refresh once
-  // then close the browser and later refresh on the same page, that page's count
-  // will be retained and incremented.
-  possiblyShowNotification(tabInfo) {
-    if (tabInfo.surveyShown) {
+  // Start at 40% chance of showing the notification,
+  // increment by 10% until at 6 times, then it is guaranteed.
+  // Never show the popup again on the same site if the popup has been interacted with.
+  // If the popup is ignored, do not show it while the user continues refreshing
+  // but reset upon navigation and possibly show again. The popup can show again on the
+  // same site and page if it was ignored.
+  async possiblyShowNotification(tabInfo) {
+    const storedEtld = await browser.storage.local.get(tabInfo.telemetryPayload.etld);
+    if (storedEtld[tabInfo.telemetryPayload.etld] || tabInfo.surveyShown) {
       return;
     }
 
