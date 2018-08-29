@@ -72,6 +72,11 @@ async function clearPreference(driver, name) {
   await driver.executeScript(`Services.prefs.clearUserPref("${name}");`);
 }
 
+function prefHasUserValue(driver, name) {
+  driver.setContext(Context.CHROME);
+  return driver.executeScript(`return Services.prefs.prefHasUserValue("${name}");`);
+}
+
 async function openNewTab(driver) {
   driver.setContext(Context.CHROME);
   await driver.executeScript(`
@@ -97,6 +102,7 @@ module.exports = {
   setPreference,
   getPreference,
   clearPreference,
+  prefHasUserValue,
   openNewTab,
   removeCurrentTab,
 };

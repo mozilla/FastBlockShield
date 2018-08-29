@@ -1,4 +1,4 @@
-/* global TabRecords */
+/* global TabRecords, VARIATIONS */
 
 // Constants for the page_reloaded_survey telemetry probe.
 const SURVEY_SHOWN = 1;
@@ -9,7 +9,7 @@ class Feature {
   constructor() {}
 
   async configure(studyInfo) {
-    const { variation } = studyInfo;
+    let { variation } = studyInfo;
 
     // The userid will be used to create a unique hash
     // for the etld + userid combination.
@@ -20,98 +20,19 @@ class Feature {
     }
     this.userid = userid;
 
-    // TODO: how will I get the lists, will it be a pref?
-    // TODO reduce this to an array of sorts
-    switch (variation.name) {
-      case "TPL0":
-        browser.prefs.setIntPref("privacy.fastblock.list", 0);
-        browser.prefs.setBoolPref("browser.fastblock.enabled", false);
-        browser.prefs.setBoolPref("privacy.trackingprotection.enabled", true);
-        browser.prefs.setBoolPref("network.http.tailing.enabled", false);
-        break;
-      case "TPL1":
-        browser.prefs.setIntPref("privacy.fastblock.list", 1);
-        browser.prefs.setBoolPref("browser.fastblock.enabled", false);
-        browser.prefs.setBoolPref("privacy.trackingprotection.enabled", true);
-        browser.prefs.setBoolPref("network.http.tailing.enabled", false);
-        break;
-      case "TPL2":
-        browser.prefs.setIntPref("privacy.fastblock.list", 2);
-        browser.prefs.setBoolPref("browser.fastblock.enabled", false);
-        browser.prefs.setBoolPref("privacy.trackingprotection.enabled", true);
-        browser.prefs.setBoolPref("network.http.tailing.enabled", false);
-        break;
-      case "TPL3":
-        browser.prefs.setIntPref("privacy.fastblock.list", 3);
-        browser.prefs.setBoolPref("browser.fastblock.enabled", false);
-        browser.prefs.setBoolPref("privacy.trackingprotection.enabled", true);
-        browser.prefs.setBoolPref("network.http.tailing.enabled", false);
-        break;
-      case "FB2L0":
-        browser.prefs.setIntPref("privacy.fastblock.list", 0);
-        browser.prefs.setIntPref("browser.fastblock.timeout", 2000);
-        browser.prefs.setBoolPref("browser.fastblock.enabled", true);
-        browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
-        browser.prefs.setBoolPref("network.http.tailing.enabled", false);
-        break;
-      case "FB2L1":
-        browser.prefs.setIntPref("privacy.fastblock.list", 1);
-        browser.prefs.setIntPref("browser.fastblock.timeout", 2000);
-        browser.prefs.setBoolPref("browser.fastblock.enabled", true);
-        browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
-        browser.prefs.setBoolPref("network.http.tailing.enabled", false);
-        break;
-      case "FB2L2":
-        browser.prefs.setIntPref("privacy.fastblock.list", 2);
-        browser.prefs.setIntPref("browser.fastblock.timeout", 2000);
-        browser.prefs.setBoolPref("browser.fastblock.enabled", true);
-        browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
-        browser.prefs.setBoolPref("network.http.tailing.enabled", false);
-        break;
-      case "FB2L3":
-        browser.prefs.setIntPref("privacy.fastblock.list", 3);
-        browser.prefs.setIntPref("browser.fastblock.timeout", 2000);
-        browser.prefs.setBoolPref("browser.fastblock.enabled", true);
-        browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
-        browser.prefs.setBoolPref("network.http.tailing.enabled", false);
-        break;
-      case "FB5L0":
-        browser.prefs.setIntPref("privacy.fastblock.list", 0);
-        browser.prefs.setIntPref("browser.fastblock.timeout", 5000);
-        browser.prefs.setBoolPref("browser.fastblock.enabled", true);
-        browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
-        browser.prefs.setBoolPref("network.http.tailing.enabled", false);
-        break;
-      case "FB5L1":
-        browser.prefs.setIntPref("privacy.fastblock.list", 1);
-        browser.prefs.setIntPref("browser.fastblock.timeout", 5000);
-        browser.prefs.setBoolPref("browser.fastblock.enabled", true);
-        browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
-        browser.prefs.setBoolPref("network.http.tailing.enabled", false);
-        break;
-      case "FB5L2":
-        browser.prefs.setIntPref("privacy.fastblock.list", 2);
-        browser.prefs.setIntPref("browser.fastblock.timeout", 5000);
-        browser.prefs.setBoolPref("browser.fastblock.enabled", true);
-        browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
-        browser.prefs.setBoolPref("network.http.tailing.enabled", false);
-        break;
-      case "FB5L3":
-        browser.prefs.setIntPref("privacy.fastblock.list", 3);
-        browser.prefs.setIntPref("browser.fastblock.timeout", 5000);
-        browser.prefs.setBoolPref("browser.fastblock.enabled", true);
-        browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
-        browser.prefs.setBoolPref("network.http.tailing.enabled", false);
-        break;
-      case "Control":
-        browser.prefs.setBoolPref("browser.fastblock.enabled", false);
-        break;
-      case "TT":
-        browser.prefs.setIntPref("privacy.fastblock.list", 0);
-        browser.prefs.setBoolPref("browser.fastblock.enabled", true);
-        browser.prefs.setBoolPref("privacy.trackingprotection.enabled", false);
-        browser.prefs.setBoolPref("network.http.tailing.enabled", true);
-        break;
+    variation = VARIATIONS[variation.name];
+
+    for (const pref in variation.prefs) {
+      browser.prefs.registerPrefCleanup(pref);
+
+      const value = variation.prefs[pref];
+      if (typeof value === "boolean") {
+        browser.prefs.setBoolPref(pref, value);
+      } else if (typeof value === "string") {
+        browser.prefs.setStringPref(pref, value);
+      } else if (typeof value === "number") {
+        browser.prefs.setIntPref(pref, value);
+      }
     }
 
     // Whenever trackers are detected on a tab, record their presence.
@@ -281,7 +202,8 @@ class Feature {
    * Called at end of study, and if the user disables the study or it gets uninstalled by other means.
    */
   async cleanup() {
-    // TODO: put prefs back
+    // This is not triggering properly, see
+    // https://github.com/mozilla/shield-studies-addon-utils/issues/246
   }
 }
 
