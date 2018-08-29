@@ -16,6 +16,9 @@ XPCOMUtils.defineLazyModuleGetter(
 );
 
 class TrackersEventEmitter extends EventEmitter {
+  emitReportBreakage(tabId) {
+    this.emit("report-breakage", tabId);
+  }
   emitTrackersExist(tabId, trackersFound, trackersBlocked) {
     this.emit("trackers-exist", tabId, trackersFound, trackersBlocked);
   }
@@ -52,6 +55,8 @@ this.trackers = class extends ExtensionAPI {
           const mm = win.ownerGlobal.getGroupMessageManager("browsers");
           mm.removeMessageListener("trackerStatus", this.trackerCallback);
           mm.removeMessageListener("pageError", this.pageErrorCallback);
+          const reportBreakageButton = win.document.getElementById("identity-popup-breakageReportView-submit");
+          reportBreakageButton.removeEventListener("command", this.onReportBreakageButtonCommand);
         },
         async trackerCallback(e) {
           const tabId = tabTracker.getBrowserTabId(e.target);
@@ -62,6 +67,14 @@ this.trackers = class extends ExtensionAPI {
           const tabId = tabTracker.getBrowserTabId(e.target);
           trackersEventEmitter.emitErrorDetected(e.data, tabId);
         },
+        onReportBreakageButtonCommand() {
+          const win = BrowserWindowTracker.getTopWindow({
+            private: false,
+            allowPopups: false,
+          });
+          const tabId = tabTracker.getBrowserTabId(win.gBrowser.selectedBrowser);
+          trackersEventEmitter.emitReportBreakage(tabId);
+        },
         async setListeners(win) {
           const mm = win.getGroupMessageManager("browsers");
           // Web Progress Listener has detected a change.
@@ -69,10 +82,35 @@ this.trackers = class extends ExtensionAPI {
           mm.addMessageListener("pageError", this.pageErrorCallback);
 
           mm.loadFrameScript(context.extension.getURL("privileged/trackers/framescript.js"), true);
+
+          const reportBreakageButton = win.document.getElementById("identity-popup-breakageReportView-submit");
+          reportBreakageButton.addEventListener("command", this.onReportBreakageButtonCommand);
         },
-        async listenForTrackers() {
+
+        async init() {
           EveryWindow.registerCallback("set-content-listeners", this.setListeners.bind(this), this.unmount.bind(this));
         },
+
+        onReportBreakage: new EventManager(
+          context,
+          "trackers.onReportBreakage",
+          fire => {
+            const listener = (value, tabId) => {
+              fire.async(tabId);
+            };
+            trackersEventEmitter.on(
+              "report-breakage",
+              listener,
+            );
+            return () => {
+              trackersEventEmitter.off(
+                "report-breakage",
+                listener,
+              );
+            };
+          },
+        ).api(),
+
         onRecordTrackers: new EventManager(
           context,
           "trackers.onRecordTrackers",
@@ -92,6 +130,7 @@ this.trackers = class extends ExtensionAPI {
             };
           },
         ).api(),
+
         onErrorDetected: new EventManager(
           context,
           "trackers.onErrorDetected",

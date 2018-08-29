@@ -9,6 +9,9 @@ window.VARIATIONS = {
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
 
+      // Show the "Report Breakage" dialog in the control center
+      "browser.contentblocking.reportBreakage.enabled": true,
+
       "browser.fastblock.enabled": false,
       "privacy.trackingprotection.enabled": true,
 
@@ -33,6 +36,9 @@ window.VARIATIONS = {
 
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
+
+      // Show the "Report Breakage" dialog in the control center
+      "browser.contentblocking.reportBreakage.enabled": true,
 
       "browser.fastblock.enabled": true,
       "browser.fastblock.timeout": 2000,
@@ -61,6 +67,9 @@ window.VARIATIONS = {
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
 
+      // Show the "Report Breakage" dialog in the control center
+      "browser.contentblocking.reportBreakage.enabled": true,
+
       "browser.fastblock.enabled": true,
       "browser.fastblock.timeout": 2000,
       "privacy.trackingprotection.enabled": false,
@@ -86,6 +95,9 @@ window.VARIATIONS = {
 
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
+
+      // Show the "Report Breakage" dialog in the control center
+      "browser.contentblocking.reportBreakage.enabled": true,
 
       "browser.fastblock.enabled": true,
       "browser.fastblock.timeout": 2000,
@@ -113,6 +125,9 @@ window.VARIATIONS = {
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
 
+      // Show the "Report Breakage" dialog in the control center
+      "browser.contentblocking.reportBreakage.enabled": true,
+
       "browser.fastblock.enabled": true,
       "browser.fastblock.timeout": 2000,
       "privacy.trackingprotection.enabled": false,
@@ -138,6 +153,9 @@ window.VARIATIONS = {
 
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
+
+      // Show the "Report Breakage" dialog in the control center
+      "browser.contentblocking.reportBreakage.enabled": true,
 
       "browser.fastblock.enabled": true,
       "browser.fastblock.timeout": 5000,
@@ -166,6 +184,9 @@ window.VARIATIONS = {
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
 
+      // Show the "Report Breakage" dialog in the control center
+      "browser.contentblocking.reportBreakage.enabled": true,
+
       "browser.fastblock.enabled": true,
       "browser.fastblock.timeout": 5000,
       "privacy.trackingprotection.enabled": false,
@@ -191,6 +212,9 @@ window.VARIATIONS = {
 
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
+
+      // Show the "Report Breakage" dialog in the control center
+      "browser.contentblocking.reportBreakage.enabled": true,
 
       "browser.fastblock.enabled": true,
       "browser.fastblock.timeout": 5000,
@@ -218,6 +242,9 @@ window.VARIATIONS = {
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
 
+      // Show the "Report Breakage" dialog in the control center
+      "browser.contentblocking.reportBreakage.enabled": true,
+
       "browser.fastblock.enabled": true,
       "browser.fastblock.timeout": 5000,
       "privacy.trackingprotection.enabled": false,
@@ -243,6 +270,9 @@ window.VARIATIONS = {
 
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
+
+      // Show the "Report Breakage" dialog in the control center
+      "browser.contentblocking.reportBreakage.enabled": true,
 
       "browser.fastblock.enabled": false,
       "privacy.trackingprotection.enabled": false,
@@ -271,6 +301,9 @@ window.VARIATIONS = {
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
 
+      // Show the "Report Breakage" dialog in the control center
+      "browser.contentblocking.reportBreakage.enabled": true,
+
       "browser.fastblock.enabled": false,
       "privacy.trackingprotection.enabled": false,
 
@@ -298,6 +331,9 @@ window.VARIATIONS = {
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
 
+      // Show the "Report Breakage" dialog in the control center
+      "browser.contentblocking.reportBreakage.enabled": true,
+
       "browser.fastblock.enabled": false,
       "privacy.trackingprotection.enabled": false,
 
@@ -324,6 +360,9 @@ window.VARIATIONS = {
 
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
+
+      // Show the "Report Breakage" dialog in the control center
+      "browser.contentblocking.reportBreakage.enabled": true,
 
       "browser.fastblock.enabled": false,
       "privacy.trackingprotection.enabled": false,

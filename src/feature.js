@@ -35,8 +35,10 @@ class Feature {
       }
     }
 
+    // Initialize listeners in privileged code.
+    browser.trackers.init();
+
     // Whenever trackers are detected on a tab, record their presence.
-    browser.trackers.listenForTrackers();
     browser.trackers.onRecordTrackers.addListener(
       (tabId, trackersFound, trackersBlocked) => {
         if (tabId < 0) {
@@ -46,6 +48,18 @@ class Feature {
         tabInfo.hasTrackers = true;
         tabInfo.telemetryPayload.num_blockable_trackers = trackersFound;
         tabInfo.telemetryPayload.num_trackers_blocked = trackersBlocked;
+      }
+    );
+
+    // Record when users submitted a breakage report in the control center.
+    browser.trackers.onReportBreakage.addListener(
+      tabId => {
+        if (tabId < 0) {
+          return;
+        }
+
+        const tabInfo = TabRecords.getOrInsertTabInfo(tabId);
+        tabInfo.telemetryPayload.user_reported_page_breakage = true;
       }
     );
 
