@@ -1,10 +1,10 @@
 {
-  "name": "shield-studies-addon-template",
-  "description": "Template Shield Study",
-  "version": "2.0.0",
+  "name": "fastblock-shield",
+  "description": "Shield Study for testing FastBlock",
+  "version": "1.0.0",
   "author": "Mozilla",
   "bugs": {
-    "url": "https://github.com/mozilla/shield-studies-addon-template/issues"
+    "url": "https://github.com/mozilla/FastBlockShield/issues"
   },
   "dependencies": {
     "shield-studies-addon-utils": "5.0.3"
@@ -51,7 +51,7 @@
   "engines": {
     "node": ">=8.11.1"
   },
-  "homepage": "https://github.com/mozilla/shield-studies-addon-template",
+  "homepage": "https://github.com/mozilla/FastBlockShield",
   "keywords": [
     "firefox",
     "mozilla",
@@ -61,7 +61,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git://github.com/mozilla/shield-studies-addon-template.git"
+    "url": "git://github.com/mozilla/FastBlockShield.git"
   },
   "scripts": {
     "build": "web-ext build",
@@ -88,7 +88,7 @@
     "sign": "echo 'TBD, see: https://bugzilla.mozilla.org/show_bug.cgi?id=1407757'",
     "start": "web-ext run --no-reload",
     "test": "npm-run-all -n test:unit test:func",
-    "test:func": "FIREFOX_BINARY=${FIREFOX_BINARY:-nightly} ADDON_ZIP=./dist/mozilla_fastblock_user_study-2.0.0.zip mocha test/functional/ --bail",
+    "test:func": "FIREFOX_BINARY=${FIREFOX_BINARY:-nightly} ADDON_ZIP=./dist/mozilla_fastblock_user_study-1.0.0.zip mocha test/functional/ --bail",
     "test:unit": "NODE_ENV=test karma start",
     "watch": "web-ext run"
   }

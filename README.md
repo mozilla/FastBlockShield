@@ -32,7 +32,7 @@ Note that you have to re-run `npm run build` when making changes to study code b
 
 ## Running Variations
 
-First, be sure you go thru the [Development](#Development) steps and are able
+First, be sure you go through the [Development](#Development) steps and are able
 to `npm start -- -f Nightly`
 
 To run a specific variation, you will pass the variation name to the `start`
@@ -43,14 +43,14 @@ command with `--pref`.
 There are a number of variations to study features and heuristics:
 
   * `Control`
+    * 4 control branches - denoted by `[0-3]`
   * Tracking Protection - denoted by `TP`
   * Fastblock - denoted by `FB`
     * 2 timeouts - denoted by `[2|5]`
-  * 4 separate block-lists - denoted by `L[0-3]`
-  * Tracker tailing - denoted by `TT`
+    * 4 separate block-lists - denoted by `L[0-3]`
 
 All the variations are listed in
-[`feature.js`](https://github.com/mozilla/FastBlockShield/blob/master/src/feature.js).
+[`variations.js`](https://github.com/mozilla/FastBlockShield/blob/master/src/variations.js).
 You can run any of them like so:
 
 ```
@@ -61,9 +61,30 @@ npm start -- -f Nightly --pref=extensions.fastblock-shield_mozilla_org.test.vari
 
 In all variations:
 
-  * Nothing different should happen in Private Browsing or Safe Mode operation
-  * If the user refreshes a page that has trackers on it, they have a chance of being shown
-    a panel notification: "Is this page broken?". This chance is 100% by the 6th refresh.
+  * Nothing different should happen in Private Browsing or Safe Mode operation.
+  * Nothing different should happen on a page without trackers.
+  * No telemetry will be sent on a page without trackers.
+  * Panel Behaviour:
+    * If the user refreshes a page that has trackers on it, they have a chance of being shown
+      a panel notification: "Did you reload this page to resolve loading issues?". This chance is 100% by the 6th refresh.
+    * If the panel is ignored it will not show up again on the next refreshes. Once the user
+      navigates, on the next refresh there is once again a chance the panel will show up. And the
+      chance that it might show up on the same etld+1 is once again possible.
+    * If "yes" or "no" is clicked on the panel, it will never show up again for that etld+1.
+    * The panel should not dismiss until interacted with, or until the user navigates or refreshes
+      the page
+  * Telemetry Behaviour:
+    * Telemetry will be sent upon page unload.
+
+### Control
+In a Control [variation](#variations):
+
+  * There are no differences for Control branches from the behaviours described for all variations
+
+```
+npm start -- -f Nightly --pref=extensions.button-icon-preference_shield_mozilla_org.
+test.variationName=Control0
+```
 
 ### Tracking Protection
 
@@ -93,13 +114,18 @@ In a Fastblock [variation](#variations):
   * The "Content Blocking" panel should show "Slow-loading Trackers: Blocked",
     "Trackers: Add blocking...", and "Disable Blocking for This Site"
 
-### Tracker Tailing
+### Testing Guide
+
+In combination with the above instructions, add the pref `shieldStudy.logLevel=all` to the command to see extra logging. The logging will show the contents of the Telemetry ping, and the variation.
 
 ```
-npm start -- -f Nightly --pref=extensions.button-icon-preference_shield_mozilla_org.
-test.variationName=TT
+npm start -- -f Nightly --pref=extensions.fastblock-shield_mozilla_org.test.variationName=TPL0 --pref=shieldStudy.logLevel=all
 ```
 
-In a Tracker-Tailing [variation](#variations):
+### Websites to test
 
-TBD
+You can find a good a assortment of test sites with trackers on the [Tracking Protection Wiki Page](https://wiki.mozilla.org/Security/Tracking_protection#QA). These pages were designed to simply and reliably load one or two tracking resources for testing.
+
+Here is a [test page](https://mozilla.github.io/FastBlockShield/) that causes various Javascript Errors when buttons are clicked. The page also contains a GA tracker, resulting in a telemetry ping. The errors should be reported in the telemetry ping.
+
+Of course there is a large variety of sites on the internet that employ trackers and cause errors. This study should generally work the same for all of them, though there may be specific exceptions. In general please be aware of the sensitivity of FastBlock to network speed and that sites can also intermittently differ in how they load trackers or throw errors.

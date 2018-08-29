@@ -15,6 +15,12 @@ window.VARIATIONS = {
       "browser.fastblock.enabled": false,
       "privacy.trackingprotection.enabled": true,
 
+      // Make sure to enable tailing.
+      "network.http.tailing.enabled": true,
+
+      // Reset TP list to the default value.
+      "urlclassifier.trackingTable": "test-track-simple,base-track-digest256",
+
       // Disable FastBlock UI.
       "browser.contentblocking.fastblock.ui.enabled": false,
       "browser.contentblocking.fastblock.control-center.ui.enabled": false,
@@ -38,6 +44,13 @@ window.VARIATIONS = {
       "browser.fastblock.timeout": 2000,
       "privacy.trackingprotection.enabled": false,
 
+      // Make sure to enable tailing.
+      "network.http.tailing.enabled": true,
+
+      // L0 gets the default lists.
+      "urlclassifier.trackingAnnotationTable": "test-track-simple,base-track-digest256",
+      "urlclassifier.trackingAnnotationWhitelistTable": "test-trackwhite-simple,mozstd-trackwhite-digest256",
+
       // Disable TP UI.
       "browser.contentblocking.trackingprotection.ui.enabled": false,
       "browser.contentblocking.trackingprotection.control-center.ui.enabled": false,
@@ -60,6 +73,9 @@ window.VARIATIONS = {
       "browser.fastblock.enabled": true,
       "browser.fastblock.timeout": 2000,
       "privacy.trackingprotection.enabled": false,
+
+      // Make sure to enable tailing.
+      "network.http.tailing.enabled": true,
 
       "urlclassifier.trackingAnnotationTable": "test-track-simple,fastblock1-track-digest256",
       "urlclassifier.trackingAnnotationWhitelistTable": "test-trackwhite-simple,mozstd-trackwhite-digest256,fastblock1-trackwhite-digest256",
@@ -87,6 +103,9 @@ window.VARIATIONS = {
       "browser.fastblock.timeout": 2000,
       "privacy.trackingprotection.enabled": false,
 
+      // Make sure to enable tailing.
+      "network.http.tailing.enabled": true,
+
       "urlclassifier.trackingAnnotationTable": "test-track-simple,fastblock2-track-digest256",
       "urlclassifier.trackingAnnotationWhitelistTable": "test-trackwhite-simple,mozstd-trackwhite-digest256,fastblock2-trackwhite-digest256",
 
@@ -113,8 +132,11 @@ window.VARIATIONS = {
       "browser.fastblock.timeout": 2000,
       "privacy.trackingprotection.enabled": false,
 
+      // Make sure to enable tailing.
+      "network.http.tailing.enabled": true,
+
       "urlclassifier.trackingAnnotationTable": "test-track-simple,fastblock3-track-digest256",
-      "urlclassifier.trackingAnnotationWhitelistTable": "test-trackwhite-simple,mozstd-trackwhite-digest256,fastblock3-trackwhite-digest256",
+      "urlclassifier.trackingAnnotationWhitelistTable": "test-trackwhite-simple,mozstd-trackwhite-digest256",
 
       // Disable TP UI.
       "browser.contentblocking.trackingprotection.ui.enabled": false,
@@ -139,6 +161,13 @@ window.VARIATIONS = {
       "browser.fastblock.timeout": 5000,
       "privacy.trackingprotection.enabled": false,
 
+      // Make sure to enable tailing.
+      "network.http.tailing.enabled": true,
+
+      // L0 gets the default lists.
+      "urlclassifier.trackingAnnotationTable": "test-track-simple,base-track-digest256",
+      "urlclassifier.trackingAnnotationWhitelistTable": "test-trackwhite-simple,mozstd-trackwhite-digest256",
+
       // Disable TP UI.
       "browser.contentblocking.trackingprotection.ui.enabled": false,
       "browser.contentblocking.trackingprotection.control-center.ui.enabled": false,
@@ -161,6 +190,9 @@ window.VARIATIONS = {
       "browser.fastblock.enabled": true,
       "browser.fastblock.timeout": 5000,
       "privacy.trackingprotection.enabled": false,
+
+      // Make sure to enable tailing.
+      "network.http.tailing.enabled": true,
 
       "urlclassifier.trackingAnnotationTable": "test-track-simple,fastblock1-track-digest256",
       "urlclassifier.trackingAnnotationWhitelistTable": "test-trackwhite-simple,mozstd-trackwhite-digest256,fastblock1-trackwhite-digest256",
@@ -188,6 +220,9 @@ window.VARIATIONS = {
       "browser.fastblock.timeout": 5000,
       "privacy.trackingprotection.enabled": false,
 
+      // Make sure to enable tailing.
+      "network.http.tailing.enabled": true,
+
       "urlclassifier.trackingAnnotationTable": "test-track-simple,fastblock2-track-digest256",
       "urlclassifier.trackingAnnotationWhitelistTable": "test-trackwhite-simple,mozstd-trackwhite-digest256,fastblock2-trackwhite-digest256",
 
@@ -214,8 +249,11 @@ window.VARIATIONS = {
       "browser.fastblock.timeout": 5000,
       "privacy.trackingprotection.enabled": false,
 
+      // Make sure to enable tailing.
+      "network.http.tailing.enabled": true,
+
       "urlclassifier.trackingAnnotationTable": "test-track-simple,fastblock3-track-digest256",
-      "urlclassifier.trackingAnnotationWhitelistTable": "test-trackwhite-simple,mozstd-trackwhite-digest256,fastblock3-trackwhite-digest256",
+      "urlclassifier.trackingAnnotationWhitelistTable": "test-trackwhite-simple,mozstd-trackwhite-digest256",
 
       // Disable TP UI.
       "browser.contentblocking.trackingprotection.ui.enabled": false,
@@ -238,6 +276,12 @@ window.VARIATIONS = {
 
       "browser.fastblock.enabled": false,
       "privacy.trackingprotection.enabled": false,
+
+      // Make sure to enable tailing.
+      "network.http.tailing.enabled": true,
+
+      "urlclassifier.trackingAnnotationTable": "test-track-simple,base-track-digest256",
+      "urlclassifier.trackingAnnotationWhitelistTable": "test-trackwhite-simple,mozstd-trackwhite-digest256",
 
       // Disable TP and FastBlock UI.
       "browser.contentblocking.fastblock.ui.enabled": false,
@@ -262,6 +306,9 @@ window.VARIATIONS = {
 
       "browser.fastblock.enabled": false,
       "privacy.trackingprotection.enabled": false,
+
+      // Make sure to enable tailing.
+      "network.http.tailing.enabled": true,
 
       "urlclassifier.trackingAnnotationTable": "test-track-simple,fastblock1-track-digest256",
       "urlclassifier.trackingAnnotationWhitelistTable": "test-trackwhite-simple,mozstd-trackwhite-digest256,fastblock1-trackwhite-digest256",
@@ -290,6 +337,9 @@ window.VARIATIONS = {
       "browser.fastblock.enabled": false,
       "privacy.trackingprotection.enabled": false,
 
+      // Make sure to enable tailing.
+      "network.http.tailing.enabled": true,
+
       "urlclassifier.trackingAnnotationTable": "test-track-simple,fastblock2-track-digest256",
       "urlclassifier.trackingAnnotationWhitelistTable": "test-trackwhite-simple,mozstd-trackwhite-digest256,fastblock2-trackwhite-digest256",
 
@@ -317,8 +367,11 @@ window.VARIATIONS = {
       "browser.fastblock.enabled": false,
       "privacy.trackingprotection.enabled": false,
 
+      // Make sure to enable tailing.
+      "network.http.tailing.enabled": true,
+
       "urlclassifier.trackingAnnotationTable": "test-track-simple,fastblock3-track-digest256",
-      "urlclassifier.trackingAnnotationWhitelistTable": "test-trackwhite-simple,mozstd-trackwhite-digest256,fastblock3-trackwhite-digest256",
+      "urlclassifier.trackingAnnotationWhitelistTable": "test-trackwhite-simple,mozstd-trackwhite-digest256",
 
       // Disable TP and FastBlock UI.
       "browser.contentblocking.fastblock.ui.enabled": false,

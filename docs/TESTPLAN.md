@@ -21,93 +21,110 @@
 
 ### Preparations
 
-* Download a Release version of Firefox
+* Download a Nightly version of Firefox
+* After 2018-09-04, use Beta instead
 
 ### Install the add-on and enroll in the study
 
 * (Create profile: <https://developer.mozilla.org/Firefox/Multiple_profiles>, or via some other method)
-* Navigate to _about:config_ and set the following preferences. (If a preference does not exist, create it be right-clicking in the white area and selecting New -> String)
+* Navigate to _about:config_ and set the following preferences. (If a preference does not exist, create it by right-clicking in the white area and selecting New -> String)
 * Set `shieldStudy.logLevel` to `All`. This permits shield-add-on log output in browser console.
-* Set `extensions.button-icon-preference_shield_mozilla_org.test.variationName` to `kittens` (or any other study variation/branch to test specifically)
+* Set `extensions.fastblock-shield_mozilla_org.test.variationName` to `FB2L0` (or any other study variation/branch to test specifically)
+<!-- TODO: create a zip file with this add-on  -->
 * Go to [this study's tracking bug](tbd: replace with your study's launch bug link in bugzilla) and install the latest add-on zip file
+
+### Variations
+
+There are a number of variations to study features and heuristics:
+
+  * `Control`
+    * 4 control branches - denoted by `[0-3]`
+  * Tracking Protection - denoted by `TP`
+  * Fastblock - denoted by `FB`
+    * 2 timeouts - denoted by `[2|5]`
+    * 4 separate block-lists - denoted by `L[0-3]`
+
+All the variations are listed in
+[`variations.js`](https://github.com/mozilla/FastBlockShield/blob/master/src/variations.js).
+You can run any of them like so:
+
+```
+npm start -- -f Nightly --pref=extensions.fastblock-shield_mozilla_org.test.variationName=FB2L0
+```
 
 ## Expected User Experience / Functionality
 
-Users see:
+In all variations:
 
-* an icon in the browser address bar (webExtension BrowserAction) with one of 3 images (Cat, Dog, Lizard)
+  * Nothing different should happen in Private Browsing or Safe Mode operation.
+  * Nothing different should happen on a page without trackers.
+  * No telemetry will be sent on a page without trackers.
+  * Panel Behaviour:
+    * If the user refreshes a page that has trackers on it, they have a chance of being shown
+      a panel notification: "Did you reload this page to resolve loading issues?". This chance is 100% by the 6th refresh.
+    * If the panel is ignored it will not show up again on the next refreshes. Once the user
+      navigates, on the next refresh there is once again a chance the panel will show up. And the
+      chance that it might show up on the same etld+1 is once again possible.
+    * If "yes" or "no" is clicked on the panel, it will never show up again for that etld+1.
+    * The panel should not dismiss until interacted with, or until the user navigates or refreshes
+      the page
+  * Telemetry Behaviour:
+    * Telemetry will be sent upon page unload.
 
-Clicking on the button:
+    
+### Control
+In a Control [variation](#variations):
 
-* changes the badge
-* sends telemetry
+  * There are no differences for Control branches from the behaviours described for all variations
 
-ONCE ONLY users see:
+```
+npm start -- -f Nightly --pref=extensions.button-icon-preference_shield_mozilla_org.
+test.variationName=Control0
+```
 
-* a notification bar, introducing the feature
-* allowing them to opt out
+### Tracking Protection
 
-Icon will be the same every run.
+ ```
+ npm start -- -f Nightly --pref=extensions.button-icon-preference_shield_mozilla_org.
+ test.variationName=TP
+ ```
 
-If the user clicks on the badge more than 3 times, it ends the study.
+ In a Tracking Protection [variation](#variations):
 
-### Do these tests
+   * The user should see the "How Tracking Protection works" onboarding experience
+     when they first visit a site with trackers detected.
+   * The "Content Blocking" panel should show "Trackers: Blocked",
+     "Slow-loading Trackers: Add blocking...", and "Disable Blocking for This
+     Site"
 
-1. UI APPEARANCE. OBSERVE a notification bar with these traits:
+### Fastblock
 
-   * Icon is 'heartbeat'
-   * Text is one of 8 selected "questions", such as: "Do you like Firefox?". These are listed in [/addon/Config.jsm](/addon/Config.jsm) as the variable `weightedVariations`.
-   * clickable buttons with labels 'yes | not sure | no' OR 'no | not sure | yes' (50/50 chance of each)
-   * an `x` button at the right that closes the notice.
+ ```
+ npm start -- -f Nightly --pref=extensions.button-icon-preference_shield_mozilla_org.
+ test.variationName=FB2L0
+ ```
 
-   Test fails IF:
+ In a Fastblock [variation](#variations):
 
-   * there is no bar.
-   * elements are not correct or are not displayed
+   * The user will not receive any Fastblock onboarding
+   * The "Content Blocking" panel should show "Slow-loading Trackers: Blocked",
+     "Trackers: Add blocking...", and "Disable Blocking for This Site"
 
-2. UI functionality: VOTE
+### Testing Guide
 
-   Expect: Click on a 'vote' button (any of: `yes | not sure | no`) has all these effects
+In combination with the above instructions, add the pref `shieldStudy.logLevel=all` to the command to see extra logging. The logging will show the contents of the Telemetry ping, and the variation.
 
-   * notice closes
-   * add-on uninstalls
-   * no additional tabs open
-   * telemetry pings are 'correct' with this SPECIFIC `study_state` as the ending
+```
+npm start -- -f Nightly --pref=extensions.fastblock-shield_mozilla_org.test.variationName=TPL0 --pref=shieldStudy.logLevel=all
+```
 
-     * ending is `voted`
-     * 'vote' is correct.
+### Websites to test
 
-3. UI functionality: 'X' button
+You can find a good a assortment of test sites with trackers on the [Tracking Protection Wiki Page](https://wiki.mozilla.org/Security/Tracking_protection#QA). These pages were designed to simply and reliably load one or two tracking resources for testing.
 
-   Click on the 'x' button.
+Here is a [test page](https://mozilla.github.io/FastBlockShield/) that causes various Javascript Errors when buttons are clicked. The page also contains a GA tracker, resulting in a telemetry ping. The errors should be reported in the telemetry ping.
 
-   * notice closes
-   * add-on uninstalls
-   * no additional tabs open
-   * telemetry pings are 'correct' with this SPECIFIC ending
-
-     * ending is `notification-x`
-
-4. UI functionality 'close window'
-
-   1. Open a 2nd Firefox window.
-   2. Close the initial window.
-
-   Then observe:
-
-   * notice closes
-   * add-on uninstalls
-   * no additional tabs open
-   * telemetry pings are 'correct' with this SPECIFIC ending
-
-     * ending is `window-or-fx-closed`
-
-5. UI functionality 'too-popular'
-
-   * Click on the web extension's icon three times
-   * Verify that the study ends
-   * Verify that sent Telemetry is correct
-   * Verify that the user is sent to the URL specified in `addon/Config.jsm` under `endings -> too-popular`.
+Of course there is a large variety of sites on the internet that employ trackers and cause errors. This study should generally work the same for all of them, though there may be specific exceptions. In general please be aware of the sensitivity of FastBlock to network speed and that sites can also intermittently differ in how they load trackers or throw errors.
 
 ### Design
 
