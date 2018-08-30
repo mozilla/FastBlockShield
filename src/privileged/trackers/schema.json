@@ -13,6 +13,23 @@
     ],
     "events": [
       {
+        "name": "onPageBeforeUnload",
+        "type": "function",
+        "description": "Before the page unloads, we send information about trackers and performance measures.",
+        "parameters": [
+          {"type": "integer", "name": "tabId", "minimum": 0},
+          {"type": "object", "name": "data"}
+        ]
+      },
+      {
+        "name": "onPageUnload",
+        "type": "function",
+        "description": "When the page unloads.",
+        "parameters": [
+          {"type": "integer", "name": "tabId", "minimum": 0}
+        ]
+      },
+      {
         "name": "onReportBreakage",
         "type": "function",
         "description": "User reported breakage through the control center",
@@ -21,13 +38,12 @@
         ]
       },
       {
-        "name": "onRecordTrackers",
+        "name": "onReloadWithTrackers",
         "type": "function",
-        "description": "There is at least one tracker on this site.",
+        "description": "This is called when we find a page that was reloaded and has at least one tracker.",
         "parameters": [
           {"type": "integer", "name": "tabId", "minimum": 0},
-          {"type": "integer", "name": "trackersFound", "minimum": 0},
-          {"type": "integer", "name": "trackersBlocked", "minimum": 0}
+          {"type": "string", "name": "etld"}
         ]
       },
       {

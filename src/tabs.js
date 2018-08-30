@@ -24,6 +24,7 @@ window.TabRecords = {
       page_reloaded: false,
       page_reloaded_survey: 0,
       user_reported_page_breakage: false,
+      user_added_exception: false,
       num_script_url_page: 0,
       num_EvalError: 0,
       num_InternalError: 0,
@@ -38,6 +39,10 @@ window.TabRecords = {
     return tabInfo;
   },
 
+  getTabInfo(tabId) {
+    return this._tabs.get(tabId);
+  },
+
   getOrInsertTabInfo(tabId) {
     let tabInfo = this._tabs.get(tabId);
     if (tabInfo) {
@@ -47,7 +52,6 @@ window.TabRecords = {
     tabInfo = {
       surveyShown: false,
       reloadCount: 0,
-      hasTrackers: false,
     };
 
     this._tabs.set(tabId, tabInfo);
