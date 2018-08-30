@@ -88,12 +88,17 @@ this.trackers = class extends ExtensionAPI {
         },
         async pageBeforeUnloadCallback(e) {
           const tabId = tabTracker.getBrowserTabId(e.target);
+          let uri;
           try {
+            uri = Services.io.newURI(e.data.telemetryData.completeLocation);
+            // Browser is never private, so type can always be "trackingprotection"
             e.data.telemetryData.etld =
               Services.eTLD.getBaseDomainFromHost(e.data.telemetryData.hostname);
           } catch (error) {
             return;
           }
+          e.data.telemetryData.user_has_tracking_protection_exception =
+            Services.perms.testExactPermission(uri, "trackingprotection") === Services.perms.ALLOW_ACTION;
           trackersEventEmitter.emitPageBeforeUnload(tabId, e.data.telemetryData);
         },
         async pageUnloadCallback(e) {
