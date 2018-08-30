@@ -52,6 +52,7 @@ telemetry: {
       "page_reloaded":"true",
       "page_reloaded_survey":"1",
       "user_reported_page_breakage":"false",
+      "user_added_exception":"false",
       "num_script_url_page":"0",
       "num_EvalError":"0",
       "num_InternalError":"0",
