@@ -28,22 +28,20 @@ describe("trackers", function() {
   });
 
   describe("recording trackers with FB and TP turned off", function() {
-    it.skip("This depends on platform support");
-    return;
-
     let studyPings;
 
     before(async () => {
+      await driver.sleep(500);
       await utils.setPreference(driver, "browser.fastblock.enabled", false);
       await utils.setPreference(driver, "privacy.trackingprotection.enabled", false);
-      await driver.sleep(1000);
+      await driver.sleep(500);
 
       const time = Date.now();
       driver.setContext(Context.CONTENT);
       await driver.get("https://example.com");
-      await driver.sleep(1000);
-      await driver.get("https://mozilla.github.io/tracking-test/disconnect.html");
-      await driver.sleep(1000);
+      await driver.sleep(500);
+      await driver.get("https://itisatrap.org/firefox/its-a-tracker.html");
+      await driver.sleep(500);
       await driver.get("https://example.com");
       await driver.sleep(500);
       studyPings = await utils.telemetry.getShieldPingsAfterTimestamp(
@@ -60,7 +58,7 @@ describe("trackers", function() {
     it("correctly records the amount of trackers on the page", async () => {
       const ping = studyPings[0];
       const attributes = ping.payload.data.attributes;
-      assert.equal(attributes.num_blockable_trackers, "3", "found all blockable trackers");
+      assert.equal(attributes.num_blockable_trackers, "1", "found all blockable trackers");
       assert.equal(attributes.num_trackers_blocked, "0", "found no blocked trackers");
     });
 
@@ -72,24 +70,23 @@ describe("trackers", function() {
 
 
   describe("recording trackers with FB not blocking", function() {
-    it.skip("This depends on platform support");
-    return;
-
     let studyPings;
 
     before(async () => {
+      await driver.sleep(500);
       await utils.setPreference(driver, "browser.fastblock.enabled", true);
       await utils.setPreference(driver, "browser.fastblock.timeout", 10000);
       await utils.setPreference(driver, "privacy.trackingprotection.enabled", false);
+      await driver.sleep(500);
 
       const time = Date.now();
       driver.setContext(Context.CONTENT);
       await driver.get("https://example.com");
-      await driver.sleep(1000);
-      await driver.get("https://mozilla.github.io/tracking-test/disconnect.html");
-      await driver.sleep(5000);
+      await driver.sleep(500);
+      await driver.get("https://itisatrap.org/firefox/its-a-tracker.html");
+      await driver.sleep(500);
       await driver.get("https://example.com");
-      await driver.sleep(1000);
+      await driver.sleep(500);
       studyPings = await utils.telemetry.getShieldPingsAfterTimestamp(
         driver,
         time,
@@ -104,7 +101,7 @@ describe("trackers", function() {
     it("correctly records the amount of trackers on the page", async () => {
       const ping = studyPings[0];
       const attributes = ping.payload.data.attributes;
-      assert.equal(attributes.num_blockable_trackers, "3", "found all blockable trackers");
+      assert.equal(attributes.num_blockable_trackers, "1", "found all blockable trackers");
       assert.equal(attributes.num_trackers_blocked, "0", "found no blocked trackers");
     });
 
@@ -116,61 +113,19 @@ describe("trackers", function() {
   });
 
   describe("recording trackers with FB blocking", function() {
-    it.skip("This depends on platform support");
-    return;
-
     let studyPings;
 
     before(async () => {
+      await driver.sleep(500);
       await utils.setPreference(driver, "browser.fastblock.enabled", true);
       await utils.setPreference(driver, "browser.fastblock.timeout", 0);
       await utils.setPreference(driver, "privacy.trackingprotection.enabled", false);
-      await driver.sleep(1000);
-
-      const time = Date.now();
-      driver.setContext(Context.CONTENT);
-      await driver.get("https://mozilla.github.io/tracking-test/disconnect.html");
-      await driver.sleep(1000);
-      await driver.get("https://example.com");
-      await driver.sleep(1000);
-      studyPings = await utils.telemetry.getShieldPingsAfterTimestamp(
-        driver,
-        time,
-      );
-      studyPings = studyPings.filter(ping => ping.type === "shield-study-addon");
-    });
-
-    it("has recorded one ping", async () => {
-      assert(studyPings.length === 1, "one shield telemetry ping");
-    });
-
-    it("correctly records the amount of trackers on the page", async () => {
-      const ping = studyPings[0];
-      const attributes = ping.payload.data.attributes;
-      assert.equal(attributes.num_blockable_trackers, "3", "found all blockable trackers");
-      assert.equal(attributes.num_trackers_blocked, "3", "found all blocked trackers");
-    });
-
-    after(async () => {
-      await utils.clearPreference(driver, "browser.fastblock.enabled");
-      await utils.clearPreference(driver, "browser.fastblock.timeout");
-      await utils.clearPreference(driver, "privacy.trackingprotection.enabled");
-    });
-  });
-
-  describe("recording trackers with TP blocking", function() {
-    let studyPings;
-
-    before(async () => {
-      await driver.sleep(1000);
-      await utils.setPreference(driver, "browser.fastblock.enabled", false);
-      await utils.setPreference(driver, "privacy.trackingprotection.enabled", true);
-      await driver.sleep(1000);
+      await driver.sleep(500);
 
       const time = Date.now();
       driver.setContext(Context.CONTENT);
       await driver.get("https://itisatrap.org/firefox/its-a-tracker.html");
-      await driver.sleep(1000);
+      await driver.sleep(500);
       await driver.get("https://example.com");
       await driver.sleep(500);
       studyPings = await utils.telemetry.getShieldPingsAfterTimestamp(
@@ -189,6 +144,46 @@ describe("trackers", function() {
       const attributes = ping.payload.data.attributes;
       assert.equal(attributes.num_blockable_trackers, "1", "found all blockable trackers");
       assert.equal(attributes.num_trackers_blocked, "1", "found all blocked trackers");
+    });
+
+    after(async () => {
+      await utils.clearPreference(driver, "browser.fastblock.enabled");
+      await utils.clearPreference(driver, "browser.fastblock.timeout");
+      await utils.clearPreference(driver, "privacy.trackingprotection.enabled");
+    });
+  });
+
+  describe("recording trackers with TP blocking", function() {
+    let studyPings;
+
+    before(async () => {
+      await driver.sleep(500);
+      await utils.setPreference(driver, "browser.fastblock.enabled", false);
+      await utils.setPreference(driver, "privacy.trackingprotection.enabled", true);
+      await driver.sleep(500);
+
+      const time = Date.now();
+      driver.setContext(Context.CONTENT);
+      await driver.get("https://mozilla.github.io/tracking-test/disconnect.html");
+      await driver.sleep(500);
+      await driver.get("https://example.com");
+      await driver.sleep(500);
+      studyPings = await utils.telemetry.getShieldPingsAfterTimestamp(
+        driver,
+        time,
+      );
+      studyPings = studyPings.filter(ping => ping.type === "shield-study-addon");
+    });
+
+    it("has recorded one ping", async () => {
+      assert(studyPings.length === 1, "one shield telemetry ping");
+    });
+
+    it("correctly records the amount of trackers on the page", async () => {
+      const ping = studyPings[0];
+      const attributes = ping.payload.data.attributes;
+      assert.equal(attributes.num_blockable_trackers, "3", "found all blockable trackers");
+      assert.equal(attributes.num_trackers_blocked, "3", "found all blocked trackers");
     });
 
     after(async () => {
