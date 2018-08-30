@@ -62,6 +62,13 @@ class Feature {
         tabInfo.telemetryPayload.user_reported_page_breakage = true;
       }
     );
+    browser.trackers.onAddException.addListener(tabId => {
+      if (tabId < 0) {
+        return;
+      }
+      const tabInfo = TabRecords.getOrInsertTabInfo(tabId);
+      tabInfo.telemetryPayload.user_added_exception = true;
+    });
 
     // When a tab is removed, make sure to submit telemetry for the
     // last page and delete the tab entry.

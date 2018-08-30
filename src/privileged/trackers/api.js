@@ -25,6 +25,9 @@ class TrackersEventEmitter extends EventEmitter {
   emitErrorDetected(error, tabId) {
     this.emit("page-error-detected", error, tabId);
   }
+  emitAddException(tabId) {
+    this.emit("exception-added", tabId);
+  }
 }
 
 /* https://firefox-source-docs.mozilla.org/toolkit/components/extensions/webextensions/functions.html */
@@ -57,6 +60,8 @@ this.trackers = class extends ExtensionAPI {
           mm.removeMessageListener("pageError", this.pageErrorCallback);
           const reportBreakageButton = win.document.getElementById("identity-popup-breakageReportView-submit");
           reportBreakageButton.removeEventListener("command", this.onReportBreakageButtonCommand);
+          const addExceptionButton = win.document.getElementById("tracking-action-unblock");
+          addExceptionButton.removeEventListener("command", this.onAddExceptionButtonCommand);
         },
         async trackerCallback(e) {
           const tabId = tabTracker.getBrowserTabId(e.target);
@@ -75,6 +80,14 @@ this.trackers = class extends ExtensionAPI {
           const tabId = tabTracker.getBrowserTabId(win.gBrowser.selectedBrowser);
           trackersEventEmitter.emitReportBreakage(tabId);
         },
+        async onAddExceptionButtonCommand() {
+          const win = BrowserWindowTracker.getTopWindow({
+            private: false,
+            allowPopups: false,
+          });
+          const tabId = tabTracker.getBrowserTabId(win.gBrowser.selectedBrowser);
+          trackersEventEmitter.emitAddException(tabId);
+        },
         async setListeners(win) {
           const mm = win.getGroupMessageManager("browsers");
           // Web Progress Listener has detected a change.
@@ -85,6 +98,9 @@ this.trackers = class extends ExtensionAPI {
 
           const reportBreakageButton = win.document.getElementById("identity-popup-breakageReportView-submit");
           reportBreakageButton.addEventListener("command", this.onReportBreakageButtonCommand);
+          // The user has clicked "disable protection for this site"
+          const addExceptionButton = win.document.getElementById("tracking-action-unblock");
+          addExceptionButton.addEventListener("command", this.onAddExceptionButtonCommand);
         },
 
         async init() {
@@ -145,6 +161,26 @@ this.trackers = class extends ExtensionAPI {
             return () => {
               trackersEventEmitter.off(
                 "page-error-detected",
+                listener,
+              );
+            };
+          },
+        ).api(),
+
+        onAddException: new EventManager(
+          context,
+          "trackers.onAddException",
+          fire => {
+            const listener = (value, tabId) => {
+              fire.async(tabId);
+            };
+            trackersEventEmitter.on(
+              "exception-added",
+              listener,
+            );
+            return () => {
+              trackersEventEmitter.off(
+                "exception-added",
                 listener,
               );
             };

@@ -38,6 +38,14 @@
           {"type": "string", "name": "error"},
           {"type": "integer", "name": "tabId", "minimum": 0}
         ]
+      },
+      {
+        "name": "onAddException",
+        "type": "function",
+        "description": "The user added this page to the tracking protection exception.",
+        "parameters": [
+          {"type": "integer", "name": "tabId", "minimum": 0}
+        ]
       }
     ]
   }
