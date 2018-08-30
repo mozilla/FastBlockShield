@@ -33,6 +33,18 @@
 <!-- TODO: create a zip file with this add-on  -->
 * Go to [this study's tracking bug](tbd: replace with your study's launch bug link in bugzilla) and install the latest add-on zip file
 
+### Test Beta or other versions of Firefox
+
+npm will launch the add-on in Nightly by default, but you may want to test it in Beta.
+
+Using `npm start` you may pass in the path or short name of the Firefox release you want to test with the `--firefox` option:
+
+```
+npm start -- --firefox=beta --pref=extensions.fastblock_shield_mozilla_org.test.variationName=FB2L0
+```
+
+See https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Getting_started_with_web-ext#Testing_in_different_versions_of_Firefox for more information.
+
 ### Variations
 
 There are a number of variations to study features and heuristics:
@@ -49,7 +61,7 @@ All the variations are listed in
 You can run any of them like so:
 
 ```
-npm start -- -f Nightly --pref=extensions.fastblock_shield_mozilla_org.test.variationName=FB2L0
+npm start -- --pref=extensions.fastblock_shield_mozilla_org.test.variationName=FB2L0
 ```
 
 ## Expected User Experience / Functionality
@@ -78,15 +90,13 @@ In a Control [variation](#variations):
   * There are no differences for Control branches from the behaviours described for all variations
 
 ```
-npm start -- -f Nightly --pref=extensions.button-icon-preference_shield_mozilla_org.
-test.variationName=Control0
+npm start -- --pref=extensions.fastblock_shield_mozilla_org.test.variationName=ControlL0
 ```
 
 ### Tracking Protection
 
  ```
- npm start -- -f Nightly --pref=extensions.button-icon-preference_shield_mozilla_org.
- test.variationName=TP
+ npm start -- --pref=extensions.fastblock_shield_mozilla_org.test.variationName=TP
  ```
 
  In a Tracking Protection [variation](#variations):
@@ -100,8 +110,7 @@ test.variationName=Control0
 ### Fastblock
 
  ```
- npm start -- -f Nightly --pref=extensions.button-icon-preference_shield_mozilla_org.
- test.variationName=FB2L0
+ npm start -- --pref=extensions.fastblock_shield_mozilla_org.test.variationName=FB2L0
  ```
 
  In a Fastblock [variation](#variations):
@@ -115,7 +124,7 @@ test.variationName=Control0
 In combination with the above instructions, add the pref `shieldStudy.logLevel=all` to the command to see extra logging. The logging will show the contents of the Telemetry ping, and the variation.
 
 ```
-npm start -- -f Nightly --pref=extensions.fastblock_shield_mozilla_org.test.variationName=TPL0 --pref=shieldStudy.logLevel=all
+npm start -- --pref=extensions.fastblock_shield_mozilla_org.test.variationName=TP --pref=shieldStudy.logLevel=all
 ```
 
 ### Websites to test

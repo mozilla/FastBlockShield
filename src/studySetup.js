@@ -70,6 +70,7 @@ const baseStudySetup = {
     },
   },
 
+  // Will be set in getStudySetup().
   weightedVariations: null,
 
   // maximum time that the study should run, from the first run
