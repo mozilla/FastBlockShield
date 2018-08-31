@@ -84,7 +84,7 @@ class NotificationBarEventEmitter extends EventEmitter {
       name: "Firefox Survey: ",
       popupIconURL: "chrome://branding/content/icon64.png",
     };
-    recentWindow.PopupNotifications.show(browser, "fast-block-notification", "<> Did you reload this page to resolve loading issues?", null, primaryAction, secondaryActions, options);
+    recentWindow.PopupNotifications.show(browser, "fast-block", "<> Did you reload this page to resolve loading issues?", null, primaryAction, secondaryActions, options);
   }
 }
 
@@ -96,7 +96,7 @@ this.notificationBar = class extends ExtensionAPI {
   onShutdown(shutdownReason) {
     for (const win of BrowserWindowTracker.orderedWindows) {
       for (const browser of win.gBrowser.browsers) {
-        const notification = win.PopupNotifications.getNotification("fast-block-notification", browser);
+        const notification = win.PopupNotifications.getNotification("fast-block", browser);
         if (notification) {
           win.PopupNotifications.remove(notification);
         }

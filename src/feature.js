@@ -4,6 +4,14 @@
 const SURVEY_SHOWN = 1;
 const SURVEY_PAGE_BROKEN = 2;
 const SURVEY_PAGE_NOT_BROKEN = 3;
+// We only ask the user once per etld+1, so we make sure
+// to send along the previous response of the user.
+const SURVEY_PREVIOUSLY_BROKEN = 4;
+const SURVEY_PREVIOUSLY_NOT_BROKEN = 5;
+// We don't want to nag the user about this too much,
+// so we ask only once per tab. If the survey was hidden
+// because of that, make sure to mark it in the payload.
+const SURVEY_HIDDEN = 6;
 
 class Feature {
   constructor() {}
@@ -132,7 +140,7 @@ class Feature {
       tabId => {
         const tabInfo = TabRecords.getOrInsertTabInfo(tabId);
         tabInfo.telemetryPayload.page_reloaded_survey = SURVEY_PAGE_BROKEN;
-        this.recordSurveyInteraction(tabInfo);
+        this.recordSurveyInteraction(tabInfo, SURVEY_PREVIOUSLY_BROKEN);
       },
     );
 
@@ -142,7 +150,7 @@ class Feature {
       tabId => {
         const tabInfo = TabRecords.getOrInsertTabInfo(tabId);
         tabInfo.telemetryPayload.page_reloaded_survey = SURVEY_PAGE_NOT_BROKEN;
-        this.recordSurveyInteraction(tabInfo);
+        this.recordSurveyInteraction(tabInfo, SURVEY_PREVIOUSLY_NOT_BROKEN);
       },
     );
 
@@ -153,8 +161,8 @@ class Feature {
     );
   }
 
-  recordSurveyInteraction(tabInfo) {
-    browser.storage.local.set({[tabInfo.telemetryPayload.etld]: true});
+  recordSurveyInteraction(tabInfo, response) {
+    browser.storage.local.set({[tabInfo.telemetryPayload.etld]: response});
   }
 
   recordPageError(error, tabId) {
@@ -193,7 +201,15 @@ class Feature {
   // same site and page if it was ignored.
   async possiblyShowNotification(tabInfo) {
     const storedEtld = await browser.storage.local.get(tabInfo.telemetryPayload.etld);
-    if (storedEtld[tabInfo.telemetryPayload.etld] || tabInfo.surveyShown) {
+    if (storedEtld[tabInfo.telemetryPayload.etld]) {
+      tabInfo.telemetryPayload.page_reloaded_survey = storedEtld[tabInfo.telemetryPayload.etld];
+      return;
+    }
+
+    if (tabInfo.surveyShown) {
+      if (!tabInfo.telemetryPayload.page_reloaded_survey) {
+        tabInfo.telemetryPayload.page_reloaded_survey = SURVEY_HIDDEN;
+      }
       return;
     }
 
