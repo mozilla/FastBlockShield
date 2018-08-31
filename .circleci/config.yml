@@ -63,8 +63,6 @@ jobs:
       - store_artifacts:
           path: "dist"
 
-      - run:
-
       # Needs signed add-on to work on branded releases
       #- run:
       #    name: Functional tests with Firefox Release
