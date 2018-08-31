@@ -26,6 +26,7 @@ const allPrefs = [
 
 async function checkPrefs(driver, prefs) {
   for (const pref of allPrefs) {
+    // eslint-disable-next-line eqeqeq
     if (prefs[pref] != undefined) {
       const val = await utils.getPreference(driver, pref);
       assert.equal(val, prefs[pref], `set the right pref for ${pref}`);

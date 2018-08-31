@@ -1,4 +1,5 @@
 /* eslint-env node, mocha */
+/* eslint-disable no-unreachable */
 
 // for unhandled promise rejection debugging
 process.on("unhandledRejection", r => console.error(r)); // eslint-disable-line no-console
@@ -49,8 +50,8 @@ describe("telemetry", function() {
     });
 
     it("correctly records the amount of trackers on the page", async () => {
-      let ping = studyPings[0];
-      let attributes = ping.payload.data.attributes;
+      const ping = studyPings[0];
+      const attributes = ping.payload.data.attributes;
       assert.equal(attributes.num_blockable_trackers, "1", "found a blockable tracker");
       assert.equal(attributes.num_trackers_blocked, "1", "found blocked trackers");
     });

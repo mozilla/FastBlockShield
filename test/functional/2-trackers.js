@@ -1,4 +1,5 @@
 /* eslint-env node, mocha */
+/* eslint-disable no-unreachable */
 
 // for unhandled promise rejection debugging
 process.on("unhandledRejection", r => console.error(r)); // eslint-disable-line no-console
@@ -37,7 +38,7 @@ describe("trackers", function() {
       await utils.setPreference(driver, "privacy.trackingprotection.enabled", false);
       await driver.sleep(1000);
 
-      let time = Date.now();
+      const time = Date.now();
       driver.setContext(Context.CONTENT);
       await driver.get("https://example.com");
       await driver.sleep(1000);
@@ -53,12 +54,12 @@ describe("trackers", function() {
     });
 
     it("has recorded one ping", async () => {
-      assert(studyPings.length == 1, "one shield telemetry ping");
+      assert(studyPings.length === 1, "one shield telemetry ping");
     });
 
     it("correctly records the amount of trackers on the page", async () => {
-      let ping = studyPings[0];
-      let attributes = ping.payload.data.attributes;
+      const ping = studyPings[0];
+      const attributes = ping.payload.data.attributes;
       assert.equal(attributes.num_blockable_trackers, "3", "found all blockable trackers");
       assert.equal(attributes.num_trackers_blocked, "0", "found no blocked trackers");
     });
@@ -81,7 +82,7 @@ describe("trackers", function() {
       await utils.setPreference(driver, "browser.fastblock.timeout", 10000);
       await utils.setPreference(driver, "privacy.trackingprotection.enabled", false);
 
-      let time = Date.now();
+      const time = Date.now();
       driver.setContext(Context.CONTENT);
       await driver.get("https://example.com");
       await driver.sleep(1000);
@@ -97,12 +98,12 @@ describe("trackers", function() {
     });
 
     it("has recorded one ping", async () => {
-      assert(studyPings.length == 1, "one shield telemetry ping");
+      assert(studyPings.length === 1, "one shield telemetry ping");
     });
 
     it("correctly records the amount of trackers on the page", async () => {
-      let ping = studyPings[0];
-      let attributes = ping.payload.data.attributes;
+      const ping = studyPings[0];
+      const attributes = ping.payload.data.attributes;
       assert.equal(attributes.num_blockable_trackers, "3", "found all blockable trackers");
       assert.equal(attributes.num_trackers_blocked, "0", "found no blocked trackers");
     });
@@ -126,7 +127,7 @@ describe("trackers", function() {
       await utils.setPreference(driver, "privacy.trackingprotection.enabled", false);
       await driver.sleep(1000);
 
-      let time = Date.now();
+      const time = Date.now();
       driver.setContext(Context.CONTENT);
       await driver.get("https://mozilla.github.io/tracking-test/disconnect.html");
       await driver.sleep(1000);
@@ -140,12 +141,12 @@ describe("trackers", function() {
     });
 
     it("has recorded one ping", async () => {
-      assert(studyPings.length == 1, "one shield telemetry ping");
+      assert(studyPings.length === 1, "one shield telemetry ping");
     });
 
     it("correctly records the amount of trackers on the page", async () => {
-      let ping = studyPings[0];
-      let attributes = ping.payload.data.attributes;
+      const ping = studyPings[0];
+      const attributes = ping.payload.data.attributes;
       assert.equal(attributes.num_blockable_trackers, "3", "found all blockable trackers");
       assert.equal(attributes.num_trackers_blocked, "3", "found all blocked trackers");
     });
@@ -166,7 +167,7 @@ describe("trackers", function() {
       await utils.setPreference(driver, "privacy.trackingprotection.enabled", true);
       await driver.sleep(1000);
 
-      let time = Date.now();
+      const time = Date.now();
       driver.setContext(Context.CONTENT);
       await driver.get("https://itisatrap.org/firefox/its-a-tracker.html");
       await driver.sleep(1000);
@@ -180,12 +181,12 @@ describe("trackers", function() {
     });
 
     it("has recorded one ping", async () => {
-      assert(studyPings.length == 1, "one shield telemetry ping");
+      assert(studyPings.length === 1, "one shield telemetry ping");
     });
 
     it("correctly records the amount of trackers on the page", async () => {
-      let ping = studyPings[0];
-      let attributes = ping.payload.data.attributes;
+      const ping = studyPings[0];
+      const attributes = ping.payload.data.attributes;
       assert.equal(attributes.num_blockable_trackers, "1", "found all blockable trackers");
       assert.equal(attributes.num_trackers_blocked, "1", "found all blocked trackers");
     });
