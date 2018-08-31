@@ -34,41 +34,8 @@ const baseStudySetup = {
     removeTestingFlag: false,
   },
 
-  // endings with urls
-  endings: {
-    /** standard endings */
-    "user-disable": {
-      baseUrls: [
-        "https://qsurvey.mozilla.com/s3/Shield-Study-Example-Survey/?reason=user-disable",
-      ],
-    },
-    ineligible: {
-      baseUrls: [],
-    },
-    expired: {
-      baseUrls: [
-        "https://qsurvey.mozilla.com/s3/Shield-Study-Example-Survey/?reason=expired",
-      ],
-    },
-
-    /** Study specific endings */
-    "used-often": {
-      baseUrls: [
-        "https://qsurvey.mozilla.com/s3/Shield-Study-Example-Survey/?reason=used-often",
-      ],
-      category: "ended-positive",
-    },
-    "a-non-url-opening-ending": {
-      baseUrls: [],
-      category: "ended-neutral",
-    },
-    "introduction-leave-study": {
-      baseUrls: [
-        "https://qsurvey.mozilla.com/s3/Shield-Study-Example-Survey/?reason=introduction-leave-study",
-      ],
-      category: "ended-negative",
-    },
-  },
+  // We don't do surveys at the end of the study.
+  endings: { },
 
   // Will be set in getStudySetup().
   weightedVariations: null,
