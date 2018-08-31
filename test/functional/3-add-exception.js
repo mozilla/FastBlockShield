@@ -49,11 +49,8 @@ describe("add page exception button", function() {
       // Locate and click the add exception button.
       const addExceptionButton = await driver.wait(until.elementLocated(By.id("tracking-action-unblock")), 1000);
       addExceptionButton.click();
-      await driver.sleep(500);
-      driver.setContext(Context.CONTENT);
-      // Navigate somewhere else to send the telemetry.
-      await driver.navigate().refresh();
-      await driver.sleep(500);
+      // The page refreshes after clicking the add exception button, causing a ping to occur.
+      await driver.sleep(3000);
       studyPings = await utils.telemetry.getShieldPingsAfterTimestamp(
         driver,
         time,
