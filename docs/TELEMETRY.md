@@ -60,7 +60,11 @@ telemetry: {
       "num_SyntaxError":"2",
       "num_TypeError":"1",
       "num_URIError":"0",
-      "num_SecurityError":"0"
+      "num_SecurityError":"0",
+      "user_has_tracking_protection_exception": false,
+      "browser_contentblocking_enabled": "true",
+      "browser_fastblock_enabled": "false",
+      "privacy_trackingprotection_enabled": "true"
     }
   }
 }

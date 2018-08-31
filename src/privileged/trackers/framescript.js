@@ -77,7 +77,7 @@ addEventListener("DOMContentLoaded", function(e) {
     if (docShell.document.numTrackersFound <= 0) {
       return;
     }
-
+    telemetryData.completeLocation = content.location.href;
     telemetryData.trackersFound = docShell.document.numTrackersFound;
     telemetryData.trackersBlocked = docShell.document.numTrackersBlocked;
 

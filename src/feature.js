@@ -68,6 +68,8 @@ class Feature {
         tabInfo.reloadCount = 0;
       }
 
+      tabInfo.telemetryPayload.user_has_tracking_protection_exception =
+        data.user_has_tracking_protection_exception;
       tabInfo.telemetryPayload.page_reloaded = data.pageReloaded;
       for (const key in data.performanceEvents) {
         tabInfo.telemetryPayload[key] = data.performanceEvents[key];
@@ -207,8 +209,12 @@ class Feature {
    * Takes a flat JSON object, converts all values to strings and
    * submits it to Shield telemetry.
    */
-  sendTelemetry(payload) {
+  async sendTelemetry(payload) {
     const stringToStringMap = {};
+    // Report these prefs with each telemetry ping.
+    payload.browser_contentblocking_enabled = await browser.prefs.getBoolPref("browser.contentblocking.enabled");
+    payload.browser_fastblock_enabled = await browser.prefs.getBoolPref("browser.fastblock.enabled");
+    payload.privacy_trackingprotection_enabled = await browser.prefs.getBoolPref("privacy.trackingprotection.enabled");
 
     // Shield Telemetry deals with flat string-string mappings.
     for (const key in payload) {

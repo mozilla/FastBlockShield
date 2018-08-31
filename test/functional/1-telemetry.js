@@ -79,6 +79,18 @@ describe("telemetry", function() {
       assert.equal(parseInt(attributes.num_URIError), 1, "has URIError");
       assert.equal(parseInt(attributes.num_SecurityError), 1, "has SecurityError");
     });
+
+    it("correctly records the set preferences in the payload", async () => {
+      const ping = studyPings[0];
+      const attributes = ping.payload.data.attributes;
+      const browser_contentblocking_enabled = await utils.getPreference(driver, "browser.contentblocking.enabled");
+      const browser_fastblock_enabled = await utils.getPreference(driver, "browser.fastblock.enabled");
+      const privacy_trackingprotection_enabled = await utils.getPreference(driver, "privacy.trackingprotection.enabled");
+
+      assert.equal(attributes.browser_contentblocking_enabled, browser_contentblocking_enabled.toString(), "browser_contentblocking_enabled is recorded, and equals the pref");
+      assert.equal(attributes.browser_fastblock_enabled, browser_fastblock_enabled.toString(), "browser_fastblock_enabled is recorded, and equals the pref");
+      assert.equal(attributes.privacy_trackingprotection_enabled, privacy_trackingprotection_enabled.toString(), "privacy_trackingprotection_enabled is recorded, and equals the pref");
+    });
   }
 
   async function throwErrors() {
@@ -204,6 +216,34 @@ describe("telemetry", function() {
 
     it("does not record telemetry", () => {
       assert.isEmpty(studyPings, "no study pings present");
+    });
+  });
+
+  describe("records the correct value if a user has set an exception", function() {
+    before(async () => {
+      const time = Date.now();
+      driver.setContext(Context.CONTENT);
+      await driver.get("https://itisatrap.org/firefox/its-a-tracker.html");
+      await driver.sleep(500);
+      await driver.navigate().refresh();
+      await driver.sleep(500);
+      studyPings = await utils.telemetry.getShieldPingsAfterTimestamp(
+        driver,
+        time,
+      );
+      studyPings = studyPings.filter(ping => ping.type === "shield-study-addon");
+    });
+
+    it("correctly records if the user has set a tracking protection exception on the page", async () => {
+      it.skip("This depends on platform support, this will currently only record false");
+      const ping = studyPings[0];
+      const attributes = ping.payload.data.attributes;
+      const value = await driver.executeScript(`
+        let uri = Services.io.newURI("https://itisatrap.org/firefox/its-a-tracker.html");
+        return Services.perms.testExactPermission(uri, "trackingprotection") === Services.perms.ALLOW_ACTION;
+      `);
+
+      assert.equal(attributes.user_has_tracking_protection_exception, value.toString(), "user_has_tracking_protection_exception is recorded, and equals the actual setting");
     });
   });
 });
