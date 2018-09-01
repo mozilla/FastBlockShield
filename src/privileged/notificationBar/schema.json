@@ -1,0 +1,34 @@
+[
+  {
+    "namespace": "notificationBar",
+    "description":
+      "A part of the study add-on that needs to be chrome-privileged",
+    "functions": [
+      {
+        "name": "show",
+        "type": "function",
+        "description": "Show the notification bar to the user.",
+        "async": true,
+        "parameters": []
+      }
+    ],
+    "events": [
+      {
+        "name": "onReportPageBroken",
+        "type": "function",
+        "description": "The user clicked 'yes', this page was broken.",
+        "parameters": [
+          {"type": "integer", "name": "tabId", "minimum": 0}
+        ]
+      },
+      {
+        "name": "onReportPageNotBroken",
+        "type": "function",
+        "description": "The user clicked 'no', this page was not broken.",
+        "parameters": [
+          {"type": "integer", "name": "tabId", "minimum": 0}
+        ]
+      }
+    ]
+  }
+]

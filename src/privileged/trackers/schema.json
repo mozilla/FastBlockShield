@@ -1,0 +1,68 @@
+[
+  {
+    "namespace": "trackers",
+    "description": "checking for trackers",
+    "functions": [
+      {
+        "name": "init",
+        "type": "function",
+        "description": "init listener to listen for changes in trackers",
+        "async": true,
+        "parameters": []
+      }
+    ],
+    "events": [
+      {
+        "name": "onPageBeforeUnload",
+        "type": "function",
+        "description": "Before the page unloads, we send information about trackers and performance measures.",
+        "parameters": [
+          {"type": "integer", "name": "tabId", "minimum": 0},
+          {"type": "object", "name": "data"}
+        ]
+      },
+      {
+        "name": "onPageUnload",
+        "type": "function",
+        "description": "When the page unloads.",
+        "parameters": [
+          {"type": "integer", "name": "tabId", "minimum": 0}
+        ]
+      },
+      {
+        "name": "onReportBreakage",
+        "type": "function",
+        "description": "User reported breakage through the control center",
+        "parameters": [
+          {"type": "integer", "name": "tabId", "minimum": 0}
+        ]
+      },
+      {
+        "name": "onReloadWithTrackers",
+        "type": "function",
+        "description": "This is called when we find a page that was reloaded and has at least one tracker.",
+        "parameters": [
+          {"type": "integer", "name": "tabId", "minimum": 0},
+          {"type": "string", "name": "etld"}
+        ]
+      },
+      {
+        "name": "onErrorDetected",
+        "type": "function",
+        "description": "There is a page error",
+        "parameters": [
+          {"type": "string", "name": "error"},
+          {"type": "integer", "name": "tabId", "minimum": 0}
+        ]
+      },
+      {
+        "name": "onAddException",
+        "type": "function",
+        "description": "The user added this page to the tracking protection exception.",
+        "parameters": [
+          {"type": "integer", "name": "tabId", "minimum": 0}
+        ]
+      }
+    ]
+  }
+]

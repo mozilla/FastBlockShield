@@ -1,0 +1,61 @@
+{
+  "name": "Mozilla FastBlock User Study",
+  "description": "A Mozilla study created to learn what type of tracking blocking is most effective.",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "applications": {
+    "gecko": {
+      "id": "fastblock@shield.mozilla.org",
+      "strict_min_version": "62.0"
+    }
+  },
+  "experiment_apis": {
+    "notificationBar": {
+      "schema": "./privileged/notificationBar/schema.json",
+      "parent": {
+        "scopes": ["addon_parent"],
+        "script": "./privileged/notificationBar/api.js",
+        "paths": [["notificationBar"]]
+      }
+    },
+    "study": {
+      "schema": "./privileged/study/schema.json",
+      "parent": {
+        "scopes": ["addon_parent"],
+        "script": "./privileged/study/api.js",
+        "paths": [["study"]]
+      }
+    },
+    "testingOverrides": {
+      "schema": "./privileged/testingOverrides/schema.json",
+      "parent": {
+        "scopes": ["addon_parent"],
+        "script": "./privileged/testingOverrides/api.js",
+        "paths": [["testingOverrides"]]
+      }
+    },
+    "prefs": {
+      "schema": "./privileged/prefs/schema.json",
+      "parent": {
+        "scopes": ["addon_parent"],
+        "script": "./privileged/prefs/api.js",
+        "paths": [["prefs"]]
+      }
+    },
+    "trackers": {
+      "schema": "./privileged/trackers/schema.json",
+      "parent": {
+        "scopes": ["addon_parent"],
+        "script": "./privileged/trackers/api.js",
+        "paths": [["trackers"]]
+      }
+    }
+  },
+  "web_accessible_resources": [
+    "privileged/trackers/framescript.js"
+  ],
+  "permissions": ["management", "storage", "alarms", "webNavigation"],
+  "background": {
+    "scripts": ["variations.js", "studySetup.js", "feature.js", "background.js", "tabs.js"]
+  }
+}
