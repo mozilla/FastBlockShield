@@ -10,12 +10,12 @@
     }
   },
   "experiment_apis": {
-    "notificationBar": {
-      "schema": "./privileged/notificationBar/schema.json",
+    "popupNotification": {
+      "schema": "./privileged/popupNotification/schema.json",
       "parent": {
         "scopes": ["addon_parent"],
-        "script": "./privileged/notificationBar/api.js",
-        "paths": [["notificationBar"]]
+        "script": "./privileged/popupNotification/api.js",
+        "paths": [["popupNotification"]]
       }
     },
     "study": {

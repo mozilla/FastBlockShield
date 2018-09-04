@@ -55,7 +55,7 @@ describe("setup and teardown", function() {
   });
 
   describe("sets up the correct prefs, depending on the variation", function() {
-    const SETUP_DELAY = 500;
+    const SETUP_DELAY = 1000;
     let addonId;
 
     describe("sets the correct prefs for variation TP", () => {
