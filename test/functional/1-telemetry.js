@@ -13,6 +13,8 @@ describe("telemetry", function() {
   // This gives Firefox time to start, and us a bit longer during some of the tests.
   this.timeout(15000);
 
+  const DELAY = 1000;
+
   let driver;
   let studyPings;
 
@@ -134,10 +136,10 @@ describe("telemetry", function() {
       const time = Date.now();
       driver.setContext(Context.CONTENT);
       await driver.get("https://itisatrap.org/firefox/its-a-tracker.html");
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       await throwErrors();
       await driver.navigate().refresh();
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       studyPings = await utils.telemetry.getShieldPingsAfterTimestamp(
         driver,
         time,
@@ -149,7 +151,7 @@ describe("telemetry", function() {
       driver.setContext(Context.CONTENT);
       // Navigate to a benign site to avoid sending telemetry in the next test.
       await driver.get("https://example.org");
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
     });
 
     checkTelemetryPayload();
@@ -160,10 +162,10 @@ describe("telemetry", function() {
       const time = Date.now();
       driver.setContext(Context.CONTENT);
       await driver.get("https://itisatrap.org/firefox/its-a-tracker.html");
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       await throwErrors();
       await driver.get("https://example.com");
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       studyPings = await utils.telemetry.getShieldPingsAfterTimestamp(
         driver,
         time,
@@ -178,16 +180,16 @@ describe("telemetry", function() {
     before(async () => {
       const time = Date.now();
       utils.openNewTab(driver);
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       const tabs = await driver.getAllWindowHandles();
       await driver.switchTo().window(tabs[1]);
       driver.setContext(Context.CONTENT);
       await driver.get("https://itisatrap.org/firefox/its-a-tracker.html");
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       await throwErrors();
       await utils.removeCurrentTab(driver);
       await driver.switchTo().window(tabs[0]);
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       studyPings = await utils.telemetry.getShieldPingsAfterTimestamp(
         driver,
         time,
@@ -203,10 +205,10 @@ describe("telemetry", function() {
       const time = Date.now();
       driver.setContext(Context.CONTENT);
       await driver.get("https://example.org");
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       await throwErrors();
       await driver.get("https://example.com");
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       studyPings = await utils.telemetry.getShieldPingsAfterTimestamp(
         driver,
         time,
@@ -224,9 +226,9 @@ describe("telemetry", function() {
       const time = Date.now();
       driver.setContext(Context.CONTENT);
       await driver.get("https://itisatrap.org/firefox/its-a-tracker.html");
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       await driver.navigate().refresh();
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       studyPings = await utils.telemetry.getShieldPingsAfterTimestamp(
         driver,
         time,
