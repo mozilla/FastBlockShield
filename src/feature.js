@@ -136,7 +136,7 @@ class Feature {
 
     // Watch for the user pressing the "Yes this page is broken"
     // button and record the answer.
-    browser.notificationBar.onReportPageBroken.addListener(
+    browser.popupNotification.onReportPageBroken.addListener(
       tabId => {
         const tabInfo = TabRecords.getOrInsertTabInfo(tabId);
         tabInfo.telemetryPayload.page_reloaded_survey = SURVEY_PAGE_BROKEN;
@@ -146,7 +146,7 @@ class Feature {
 
     // Watch for the user pressing the "No this page is not broken"
     // button and record the answer.
-    browser.notificationBar.onReportPageNotBroken.addListener(
+    browser.popupNotification.onReportPageNotBroken.addListener(
       tabId => {
         const tabInfo = TabRecords.getOrInsertTabInfo(tabId);
         tabInfo.telemetryPayload.page_reloaded_survey = SURVEY_PAGE_NOT_BROKEN;
@@ -217,7 +217,7 @@ class Feature {
     if (num <= (3 + tabInfo.reloadCount)) {
       tabInfo.telemetryPayload.page_reloaded_survey = SURVEY_SHOWN;
       tabInfo.surveyShown = true;
-      browser.notificationBar.show();
+      browser.popupNotification.show();
     }
   }
 

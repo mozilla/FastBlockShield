@@ -30,24 +30,7 @@ function getMostRecentBrowserWindow() {
   });
 }
 
-/** Display instrumented 'notification bar' explaining the feature to the user
- *
- *   Telemetry Probes:
- *
- *   - {event: survey-shown}
- *
- *   - {event: page-broken}
- *
- *   - {event: page-not-broken}
- *
- *    Note:  Bar WILL NOT SHOW if the only window open is a private window.
- *
- *    Note:  Handling of 'x' is not implemented.  For more complete implementation:
- *
- *      https://github.com/gregglind/57-perception-shield-study/blob/680124a/addon/lib/Feature.jsm#L148-L152
- *
- */
-class NotificationBarEventEmitter extends EventEmitter {
+class PopupNotificationEventEmitter extends EventEmitter {
   emitShow(variationName) {
     const self = this;
     const recentWindow = getMostRecentBrowserWindow();
@@ -88,7 +71,7 @@ class NotificationBarEventEmitter extends EventEmitter {
   }
 }
 
-this.notificationBar = class extends ExtensionAPI {
+this.popupNotification = class extends ExtensionAPI {
   /**
    * Extension Shutdown
    * Goes through each tab for each window and removes the notification, if it exists.
@@ -105,25 +88,25 @@ this.notificationBar = class extends ExtensionAPI {
   }
 
   getAPI(context) {
-    const notificationBarEventEmitter = new NotificationBarEventEmitter();
+    const popupNotificationEventEmitter = new PopupNotificationEventEmitter();
     return {
-      notificationBar: {
+      popupNotification: {
         show() {
-          notificationBarEventEmitter.emitShow();
+          popupNotificationEventEmitter.emitShow();
         },
         onReportPageBroken: new EventManager(
           context,
-          "notificationBar.onReportPageBroken",
+          "popupNotification.onReportPageBroken",
           fire => {
             const listener = (value, tabId) => {
               fire.async(tabId);
             };
-            notificationBarEventEmitter.on(
+            popupNotificationEventEmitter.on(
               "page-broken",
               listener,
             );
             return () => {
-              notificationBarEventEmitter.off(
+              popupNotificationEventEmitter.off(
                 "page-broken",
                 listener,
               );
@@ -132,17 +115,17 @@ this.notificationBar = class extends ExtensionAPI {
         ).api(),
         onReportPageNotBroken: new EventManager(
           context,
-          "notificationBar.onReportPageNotBroken",
+          "popupNotification.onReportPageNotBroken",
           fire => {
             const listener = (value, tabId) => {
               fire.async(tabId);
             };
-            notificationBarEventEmitter.on(
+            popupNotificationEventEmitter.on(
               "page-not-broken",
               listener,
             );
             return () => {
-              notificationBarEventEmitter.off(
+              popupNotificationEventEmitter.off(
                 "page-not-broken",
                 listener,
               );
