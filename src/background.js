@@ -104,9 +104,6 @@ class StudyLifeCycleHandler {
    */
   async handleStudyEnding(ending) {
     console.log(`Study wants to end:`, ending);
-    for (const url of ending.urls) {
-      await browser.tabs.create({ url });
-    }
     switch (ending.endingName) {
       // could have different actions depending on positive / ending names
       default:

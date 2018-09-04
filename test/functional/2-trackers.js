@@ -13,6 +13,8 @@ describe("trackers", function() {
   // This gives Firefox time to start, and us a bit longer during some of the tests.
   this.timeout(15000);
 
+  const DELAY = 1000;
+
   let driver;
 
   // runs ONCE
@@ -31,19 +33,19 @@ describe("trackers", function() {
     let studyPings;
 
     before(async () => {
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       await utils.setPreference(driver, "browser.fastblock.enabled", false);
       await utils.setPreference(driver, "privacy.trackingprotection.enabled", false);
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
 
       const time = Date.now();
       driver.setContext(Context.CONTENT);
       await driver.get("https://example.com");
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       await driver.get("https://itisatrap.org/firefox/its-a-tracker.html");
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       await driver.get("https://example.com");
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       studyPings = await utils.telemetry.getShieldPingsAfterTimestamp(
         driver,
         time,
@@ -73,20 +75,20 @@ describe("trackers", function() {
     let studyPings;
 
     before(async () => {
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       await utils.setPreference(driver, "browser.fastblock.enabled", true);
       await utils.setPreference(driver, "browser.fastblock.timeout", 10000);
       await utils.setPreference(driver, "privacy.trackingprotection.enabled", false);
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
 
       const time = Date.now();
       driver.setContext(Context.CONTENT);
       await driver.get("https://example.com");
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       await driver.get("https://itisatrap.org/firefox/its-a-tracker.html");
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       await driver.get("https://example.com");
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       studyPings = await utils.telemetry.getShieldPingsAfterTimestamp(
         driver,
         time,
@@ -116,18 +118,18 @@ describe("trackers", function() {
     let studyPings;
 
     before(async () => {
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       await utils.setPreference(driver, "browser.fastblock.enabled", true);
       await utils.setPreference(driver, "browser.fastblock.timeout", 0);
       await utils.setPreference(driver, "privacy.trackingprotection.enabled", false);
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
 
       const time = Date.now();
       driver.setContext(Context.CONTENT);
       await driver.get("https://itisatrap.org/firefox/its-a-tracker.html");
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       await driver.get("https://example.com");
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       studyPings = await utils.telemetry.getShieldPingsAfterTimestamp(
         driver,
         time,
@@ -157,17 +159,17 @@ describe("trackers", function() {
     let studyPings;
 
     before(async () => {
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       await utils.setPreference(driver, "browser.fastblock.enabled", false);
       await utils.setPreference(driver, "privacy.trackingprotection.enabled", true);
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
 
       const time = Date.now();
       driver.setContext(Context.CONTENT);
       await driver.get("https://mozilla.github.io/tracking-test/disconnect.html");
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       await driver.get("https://example.com");
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       studyPings = await utils.telemetry.getShieldPingsAfterTimestamp(
         driver,
         time,

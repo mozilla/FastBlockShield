@@ -47,39 +47,6 @@ const baseStudySetup = {
 };
 
 /**
- * Determine, based on common and study-specific criteria, if enroll (first run)
- * should proceed.
- *
- * False values imply that *during first run only*, we should endStudy(`ineligible`)
- *
- * Add your own enrollment criteria as you see fit.
- *
- * (Guards against Normandy or other deployment mistakes or inadequacies).
- *
- * This implementation caches in local storage to speed up second run.
- *
- * @returns {Promise<boolean>} answer An boolean answer about whether the user should be
- *       allowed to enroll in the study
- */
-async function cachingFirstRunShouldAllowEnroll() {
-  // Cached answer.  Used on 2nd run
-  let allowed = await browser.storage.local.get("allowEnroll");
-  if (allowed) return true;
-
-  /*
-  First run, we must calculate the answer.
-  If false, the study will endStudy with 'ineligible' during `setup`
-  */
-
-  // could have other reasons to be eligible, such add-ons, prefs
-  allowed = true;
-
-  // cache the answer
-  await browser.storage.local.set({ allowEnroll: allowed });
-  return allowed;
-}
-
-/**
  * Augment declarative studySetup with any necessary async values
  *
  * @return {object} studySetup A complete study setup object
@@ -92,7 +59,7 @@ async function getStudySetup() {
     return {name: variation, weight: VARIATIONS[variation].weight};
   });
 
-  studySetup.allowEnroll = await cachingFirstRunShouldAllowEnroll();
+  studySetup.allowEnroll = true;
 
   const testingPreferences = await browser.testingOverrides.listPreferences();
   console.log(
