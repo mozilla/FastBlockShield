@@ -1,13 +1,12 @@
 [
   {
-    "namespace": "notificationBar",
-    "description":
-      "A part of the study add-on that needs to be chrome-privileged",
+    "namespace": "popupNotification",
+    "description": "Can be used to show a notification to users",
     "functions": [
       {
         "name": "show",
         "type": "function",
-        "description": "Show the notification bar to the user.",
+        "description": "Show the notification to the user.",
         "async": true,
         "parameters": []
       }
