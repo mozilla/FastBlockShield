@@ -10,10 +10,11 @@ const firefox = require("selenium-webdriver/firefox");
 const Context = firefox.Context;
 const webdriver = require("selenium-webdriver");
 const By = webdriver.By;
+const DELAY = process.env.DELAY ? parseInt(process.env.DELAY) : 500;
 
 describe("reload survey doorhanger", function() {
   // This gives Firefox time to start, and us a bit longer during some of the tests.
-  this.timeout(15000);
+  this.timeout(DELAY * 15);
 
   let driver;
 
@@ -23,7 +24,7 @@ describe("reload survey doorhanger", function() {
       utils.FIREFOX_PREFERENCES,
     );
     await utils.setupWebdriver.installAddon(driver);
-    await driver.sleep(1000);
+    await driver.sleep(DELAY);
   });
 
   after(() => {
@@ -42,17 +43,17 @@ describe("reload survey doorhanger", function() {
 
     before(async () => {
       await utils.setPreference(driver, "privacy.trackingprotection.enabled", true);
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
 
       const time = Date.now();
       driver.setContext(Context.CONTENT);
       await driver.get("https://itisatrap.org/firefox/its-a-tracker.html");
-      await driver.sleep(1500);
+      await driver.sleep(DELAY);
       while (tries++ < 6) {
         const hasSeenDoorhanger = await checkDoorhangerPresent();
         driver.setContext(Context.CONTENT);
         await driver.navigate().refresh();
-        await driver.sleep(1500);
+        await driver.sleep(DELAY);
         if (hasSeenDoorhanger) {
           break;
         }
