@@ -8,12 +8,11 @@ const {assert} = require("chai");
 const utils = require("./utils");
 const firefox = require("selenium-webdriver/firefox");
 const Context = firefox.Context;
+const DELAY = process.env.DELAY ? parseInt(process.env.DELAY) : 500;
 
 describe("trackers", function() {
   // This gives Firefox time to start, and us a bit longer during some of the tests.
-  this.timeout(15000);
-
-  const DELAY = 1000;
+  this.timeout(DELAY * 15);
 
   let driver;
 
