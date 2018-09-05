@@ -105,19 +105,13 @@ this.trackers = class extends ExtensionAPI {
           const tabId = tabTracker.getBrowserTabId(e.target);
           trackersEventEmitter.emitPageUnload(tabId);
         },
-        onReportBreakageButtonCommand() {
-          const win = BrowserWindowTracker.getTopWindow({
-            private: false,
-            allowPopups: false,
-          });
+        onReportBreakageButtonCommand(e) {
+          const win = e.target.ownerGlobal;
           const tabId = tabTracker.getBrowserTabId(win.gBrowser.selectedBrowser);
           trackersEventEmitter.emitReportBreakage(tabId);
         },
-        async onAddExceptionButtonCommand() {
-          const win = BrowserWindowTracker.getTopWindow({
-            private: false,
-            allowPopups: false,
-          });
+        async onAddExceptionButtonCommand(e) {
+          const win = e.target.ownerGlobal;
           const tabId = tabTracker.getBrowserTabId(win.gBrowser.selectedBrowser);
           trackersEventEmitter.emitAddException(tabId);
         },

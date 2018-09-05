@@ -33,7 +33,7 @@ describe("telemetry", function() {
 
   function checkTelemetryPayload() {
     it("has recorded one ping", async () => {
-      assert(studyPings.length === 1, "one shield telemetry ping");
+      assert.equal(studyPings.length, 1, "one shield telemetry ping");
     });
 
     it("correctly records etld as a hash", async () => {
