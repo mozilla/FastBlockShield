@@ -60,7 +60,7 @@ describe("add page exception button", function() {
     });
 
     it("has recorded one ping", async () => {
-      assert(studyPings.length === 1, "one shield telemetry ping");
+      assert.equal(studyPings.length, 1, "one shield telemetry ping");
     });
 
     it("correctly records that the user added an exception for this page", async () => {
