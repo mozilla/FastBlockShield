@@ -11,10 +11,11 @@ const Context = firefox.Context;
 const webdriver = require("selenium-webdriver");
 const By = webdriver.By;
 const until = webdriver.until;
+const DELAY = process.env.DELAY ? parseInt(process.env.DELAY) : 500;
 
 describe("add page exception button", function() {
   // This gives Firefox time to start, and us a bit longer during some of the tests.
-  this.timeout(15000);
+  this.timeout(DELAY * 15);
 
   let driver;
 
@@ -24,9 +25,9 @@ describe("add page exception button", function() {
       utils.FIREFOX_PREFERENCES,
     );
     await utils.setPreference(driver, "extensions.fastblock-shield_mozilla_org.test.variationName", "TP");
-    await driver.sleep(500);
+    await driver.sleep(DELAY);
     await utils.setupWebdriver.installAddon(driver);
-    await driver.sleep(500);
+    await driver.sleep(DELAY);
   });
 
   after(() => {
@@ -41,17 +42,17 @@ describe("add page exception button", function() {
       const time = Date.now();
       driver.setContext(Context.CONTENT);
       await driver.get("https://itisatrap.org/firefox/its-a-tracker.html");
-      await driver.sleep(1000);
+      await driver.sleep(DELAY);
       driver.setContext(Context.CHROME);
       // Open the control center.
       const identityBox = await driver.wait(until.elementLocated(By.id("identity-box")), 1000);
       identityBox.click();
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       // Locate and click the add exception button.
       const addExceptionButton = await driver.wait(until.elementLocated(By.id("tracking-action-unblock")), 1000);
       addExceptionButton.click();
       // The page refreshes after clicking the add exception button, causing a ping to occur.
-      await driver.sleep(3000);
+      await driver.sleep(DELAY);
       studyPings = await utils.telemetry.getShieldPingsAfterTimestamp(
         driver,
         time,
@@ -60,7 +61,7 @@ describe("add page exception button", function() {
     });
 
     it("has recorded one ping", async () => {
-      assert(studyPings.length === 1, "one shield telemetry ping");
+      assert.equal(studyPings.length, 1, "one shield telemetry ping");
     });
 
     it("correctly records that the user added an exception for this page", async () => {

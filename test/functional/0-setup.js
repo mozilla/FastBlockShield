@@ -5,6 +5,7 @@ process.on("unhandledRejection", r => console.error(r)); // eslint-disable-line 
 
 const {assert} = require("chai");
 const utils = require("./utils");
+const SETUP_DELAY = process.env.DELAY ? parseInt(process.env.DELAY) : 500;
 
 const allPrefs = [
   "browser.contentblocking.enabled",
@@ -39,7 +40,7 @@ async function checkPrefs(driver, prefs) {
 
 describe("setup and teardown", function() {
   // This gives Firefox time to start, and us a bit longer during some of the tests.
-  this.timeout(15000);
+  this.timeout(SETUP_DELAY * 15);
 
   let driver;
 
@@ -55,7 +56,6 @@ describe("setup and teardown", function() {
   });
 
   describe("sets up the correct prefs, depending on the variation", function() {
-    const SETUP_DELAY = 1000;
     let addonId;
 
     describe("sets the correct prefs for variation TP", () => {

@@ -11,10 +11,11 @@ const Context = firefox.Context;
 const webdriver = require("selenium-webdriver");
 const By = webdriver.By;
 const until = webdriver.until;
+const DELAY = process.env.DELAY ? parseInt(process.env.DELAY) : 500;
 
 describe("report breakage button", function() {
   // This gives Firefox time to start, and us a bit longer during some of the tests.
-  this.timeout(15000);
+  this.timeout(DELAY * 15);
 
   let driver;
 
@@ -26,7 +27,7 @@ describe("report breakage button", function() {
     // IMPORTANT: avoid submitting real breakage data.
     await utils.setPreference(driver, "browser.contentblocking.reportBreakage.url", "");
     await utils.setupWebdriver.installAddon(driver);
-    await driver.sleep(500);
+    await driver.sleep(DELAY);
   });
 
   after(() => {
@@ -38,29 +39,29 @@ describe("report breakage button", function() {
 
     before(async () => {
       await utils.setPreference(driver, "privacy.trackingprotection.enabled", true);
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
 
       const time = Date.now();
       driver.setContext(Context.CONTENT);
       await driver.get("https://itisatrap.org/firefox/its-a-tracker.html");
-      await driver.sleep(1000);
+      await driver.sleep(DELAY);
       driver.setContext(Context.CHROME);
       // Open the control center.
-      const identityBox = await driver.wait(until.elementLocated(By.id("identity-box")), 1000);
+      const identityBox = await driver.wait(until.elementLocated(By.id("identity-box")), DELAY);
       identityBox.click();
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       // Open the "report breakage" dialog.
-      const reportDialogButton = await driver.wait(until.elementLocated(By.id("identity-popup-content-blocking-report-breakage")), 1000);
+      const reportDialogButton = await driver.wait(until.elementLocated(By.id("identity-popup-content-blocking-report-breakage")), DELAY);
       reportDialogButton.click();
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       // Submit the report.
-      const reportBreakageButton = await driver.wait(until.elementLocated(By.id("identity-popup-breakageReportView-submit")), 1000);
+      const reportBreakageButton = await driver.wait(until.elementLocated(By.id("identity-popup-breakageReportView-submit")), DELAY);
       reportBreakageButton.click();
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       driver.setContext(Context.CONTENT);
       // Navigate somewhere else to send the telemetry.
       await driver.get("https://example.com");
-      await driver.sleep(500);
+      await driver.sleep(DELAY);
       studyPings = await utils.telemetry.getShieldPingsAfterTimestamp(
         driver,
         time,
@@ -69,7 +70,7 @@ describe("report breakage button", function() {
     });
 
     it("has recorded one ping", async () => {
-      assert(studyPings.length === 1, "one shield telemetry ping");
+      assert.equal(studyPings.length, 1, "one shield telemetry ping");
     });
 
     it("correctly records that the user submit a breakage report", async () => {
