@@ -1,8 +1,9 @@
 "use strict";
 
-/* global ExtensionAPI, ExtensionCommon, ExtensionUtils, XPCOMUtils, Services */
+/* global AddonManager, ExtensionAPI, ExtensionCommon, ExtensionUtils, XPCOMUtils, Services */
 ChromeUtils.import("resource://gre/modules/Services.jsm");
 ChromeUtils.import("resource://gre/modules/XPCOMUtils.jsm");
+ChromeUtils.defineModuleGetter(this, "AddonManager", "resource://gre/modules/AddonManager.jsm");
 
 /* eslint-disable-next-line no-var */
 var {EventManager, EventEmitter} = ExtensionCommon;
@@ -136,6 +137,28 @@ this.trackers = class extends ExtensionAPI {
 
         async init() {
           EveryWindow.registerCallback("set-content-listeners", this.setListeners.bind(this), this.unmount.bind(this));
+
+          // Listen for addon disabling or uninstall.
+          AddonManager.addAddonListener(this);
+        },
+
+        onUninstalling(addon) {
+          this.handleDisableOrUninstall(addon);
+        },
+
+        onDisabled(addon) {
+          this.handleDisableOrUninstall(addon);
+        },
+
+        handleDisableOrUninstall(addon) {
+          if (addon.id !== context.extension.id) {
+            return;
+          }
+
+          AddonManager.removeAddonListener(this);
+          // This is needed even for onUninstalling, because it nukes the addon
+          // from UI. If we don't do this, the user has a chance to "undo".
+          addon.uninstall();
         },
 
         onPageUnload: new EventManager(
