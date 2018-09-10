@@ -80,7 +80,7 @@ describe("setup and teardown", function() {
           "urlclassifier.trackingTable": "test-track-simple,base-track-digest256",
           "browser.contentblocking.fastblock.ui.enabled": false,
           "browser.contentblocking.fastblock.control-center.ui.enabled": false,
-          // "browser.safebrowsing.provider.mozilla.nextupdatetime": 1,
+          // "browser.safebrowsing.provider.mozilla.nextupdatetime": "1",
         });
       });
 
@@ -115,7 +115,7 @@ describe("setup and teardown", function() {
           "urlclassifier.trackingAnnotationWhitelistTable": "test-trackwhite-simple,mozstd-trackwhite-digest256",
           "browser.contentblocking.trackingprotection.ui.enabled": false,
           "browser.contentblocking.trackingprotection.control-center.ui.enabled": false,
-          // "browser.safebrowsing.provider.mozilla.nextupdatetime": 1,
+          // "browser.safebrowsing.provider.mozilla.nextupdatetime": "1",
         });
       });
 
@@ -151,7 +151,7 @@ describe("setup and teardown", function() {
           "browser.contentblocking.trackingprotection.ui.enabled": false,
           "browser.contentblocking.trackingprotection.control-center.ui.enabled": false,
           "browser.safebrowsing.provider.mozilla.lists": "base-track-digest256,mozstd-trackwhite-digest256,content-track-digest256,mozplugin-block-digest256,mozplugin2-block-digest256,block-flash-digest256,except-flash-digest256,allow-flashallow-digest256,except-flashallow-digest256,block-flashsubdoc-digest256,except-flashsubdoc-digest256,except-flashinfobar-digest256,ads-track-digest256,social-track-digest256,analytics-track-digest256,fastblock1-track-digest256,fastblock1-trackwhite-digest256",
-          // "browser.safebrowsing.provider.mozilla.nextupdatetime": 1,
+          // "browser.safebrowsing.provider.mozilla.nextupdatetime": "1",
         });
       });
 
@@ -187,7 +187,7 @@ describe("setup and teardown", function() {
           "browser.contentblocking.trackingprotection.ui.enabled": false,
           "browser.contentblocking.trackingprotection.control-center.ui.enabled": false,
           "browser.safebrowsing.provider.mozilla.lists": "base-track-digest256,mozstd-trackwhite-digest256,content-track-digest256,mozplugin-block-digest256,mozplugin2-block-digest256,block-flash-digest256,except-flash-digest256,allow-flashallow-digest256,except-flashallow-digest256,block-flashsubdoc-digest256,except-flashsubdoc-digest256,except-flashinfobar-digest256,ads-track-digest256,social-track-digest256,analytics-track-digest256,fastblock2-track-digest256,fastblock2-trackwhite-digest256",
-          // "browser.safebrowsing.provider.mozilla.nextupdatetime": 1,
+          // "browser.safebrowsing.provider.mozilla.nextupdatetime": "1",
         });
       });
 
@@ -223,7 +223,7 @@ describe("setup and teardown", function() {
           "browser.contentblocking.trackingprotection.ui.enabled": false,
           "browser.contentblocking.trackingprotection.control-center.ui.enabled": false,
           "browser.safebrowsing.provider.mozilla.lists": "base-track-digest256,mozstd-trackwhite-digest256,content-track-digest256,mozplugin-block-digest256,mozplugin2-block-digest256,block-flash-digest256,except-flash-digest256,allow-flashallow-digest256,except-flashallow-digest256,block-flashsubdoc-digest256,except-flashsubdoc-digest256,except-flashinfobar-digest256,ads-track-digest256,social-track-digest256,analytics-track-digest256,fastblock3-track-digest256",
-          // "browser.safebrowsing.provider.mozilla.nextupdatetime": 1,
+          // "browser.safebrowsing.provider.mozilla.nextupdatetime": "1",
         });
       });
 
@@ -258,7 +258,7 @@ describe("setup and teardown", function() {
           "urlclassifier.trackingAnnotationWhitelistTable": "test-trackwhite-simple,mozstd-trackwhite-digest256",
           "browser.contentblocking.trackingprotection.ui.enabled": false,
           "browser.contentblocking.trackingprotection.control-center.ui.enabled": false,
-          // "browser.safebrowsing.provider.mozilla.nextupdatetime": 1,
+          // "browser.safebrowsing.provider.mozilla.nextupdatetime": "1",
         });
       });
 
@@ -294,7 +294,7 @@ describe("setup and teardown", function() {
           "browser.contentblocking.trackingprotection.ui.enabled": false,
           "browser.contentblocking.trackingprotection.control-center.ui.enabled": false,
           "browser.safebrowsing.provider.mozilla.lists": "base-track-digest256,mozstd-trackwhite-digest256,content-track-digest256,mozplugin-block-digest256,mozplugin2-block-digest256,block-flash-digest256,except-flash-digest256,allow-flashallow-digest256,except-flashallow-digest256,block-flashsubdoc-digest256,except-flashsubdoc-digest256,except-flashinfobar-digest256,ads-track-digest256,social-track-digest256,analytics-track-digest256,fastblock1-track-digest256,fastblock1-trackwhite-digest256",
-          // "browser.safebrowsing.provider.mozilla.nextupdatetime": 1,
+          // "browser.safebrowsing.provider.mozilla.nextupdatetime": "1",
         });
       });
 
@@ -330,7 +330,7 @@ describe("setup and teardown", function() {
           "browser.contentblocking.trackingprotection.ui.enabled": false,
           "browser.contentblocking.trackingprotection.control-center.ui.enabled": false,
           "browser.safebrowsing.provider.mozilla.lists": "base-track-digest256,mozstd-trackwhite-digest256,content-track-digest256,mozplugin-block-digest256,mozplugin2-block-digest256,block-flash-digest256,except-flash-digest256,allow-flashallow-digest256,except-flashallow-digest256,block-flashsubdoc-digest256,except-flashsubdoc-digest256,except-flashinfobar-digest256,ads-track-digest256,social-track-digest256,analytics-track-digest256,fastblock2-track-digest256,fastblock2-trackwhite-digest256",
-          // "browser.safebrowsing.provider.mozilla.nextupdatetime": 1,
+          // "browser.safebrowsing.provider.mozilla.nextupdatetime": "1",
         });
       });
 
@@ -366,7 +366,7 @@ describe("setup and teardown", function() {
           "browser.contentblocking.trackingprotection.ui.enabled": false,
           "browser.contentblocking.trackingprotection.control-center.ui.enabled": false,
           "browser.safebrowsing.provider.mozilla.lists": "base-track-digest256,mozstd-trackwhite-digest256,content-track-digest256,mozplugin-block-digest256,mozplugin2-block-digest256,block-flash-digest256,except-flash-digest256,allow-flashallow-digest256,except-flashallow-digest256,block-flashsubdoc-digest256,except-flashsubdoc-digest256,except-flashinfobar-digest256,ads-track-digest256,social-track-digest256,analytics-track-digest256,fastblock3-track-digest256",
-          // "browser.safebrowsing.provider.mozilla.nextupdatetime": 1,
+          // "browser.safebrowsing.provider.mozilla.nextupdatetime": "1",
         });
       });
 
@@ -402,7 +402,7 @@ describe("setup and teardown", function() {
           "browser.contentblocking.fastblock.control-center.ui.enabled": false,
           "browser.contentblocking.trackingprotection.ui.enabled": false,
           "browser.contentblocking.trackingprotection.control-center.ui.enabled": false,
-          // "browser.safebrowsing.provider.mozilla.nextupdatetime": 1,
+          // "browser.safebrowsing.provider.mozilla.nextupdatetime": "1",
         });
       });
 
@@ -439,7 +439,7 @@ describe("setup and teardown", function() {
           "browser.contentblocking.trackingprotection.ui.enabled": false,
           "browser.contentblocking.trackingprotection.control-center.ui.enabled": false,
           "browser.safebrowsing.provider.mozilla.lists": "base-track-digest256,mozstd-trackwhite-digest256,content-track-digest256,mozplugin-block-digest256,mozplugin2-block-digest256,block-flash-digest256,except-flash-digest256,allow-flashallow-digest256,except-flashallow-digest256,block-flashsubdoc-digest256,except-flashsubdoc-digest256,except-flashinfobar-digest256,ads-track-digest256,social-track-digest256,analytics-track-digest256,fastblock1-track-digest256,fastblock1-trackwhite-digest256",
-          // "browser.safebrowsing.provider.mozilla.nextupdatetime": 1,
+          // "browser.safebrowsing.provider.mozilla.nextupdatetime": "1",
         });
       });
 
@@ -476,7 +476,7 @@ describe("setup and teardown", function() {
           "browser.contentblocking.trackingprotection.ui.enabled": false,
           "browser.contentblocking.trackingprotection.control-center.ui.enabled": false,
           "browser.safebrowsing.provider.mozilla.lists": "base-track-digest256,mozstd-trackwhite-digest256,content-track-digest256,mozplugin-block-digest256,mozplugin2-block-digest256,block-flash-digest256,except-flash-digest256,allow-flashallow-digest256,except-flashallow-digest256,block-flashsubdoc-digest256,except-flashsubdoc-digest256,except-flashinfobar-digest256,ads-track-digest256,social-track-digest256,analytics-track-digest256,fastblock2-track-digest256,fastblock2-trackwhite-digest256",
-          // "browser.safebrowsing.provider.mozilla.nextupdatetime": 1,
+          // "browser.safebrowsing.provider.mozilla.nextupdatetime": "1",
         });
       });
 
@@ -513,7 +513,7 @@ describe("setup and teardown", function() {
           "browser.contentblocking.trackingprotection.ui.enabled": false,
           "browser.contentblocking.trackingprotection.control-center.ui.enabled": false,
           "browser.safebrowsing.provider.mozilla.lists": "base-track-digest256,mozstd-trackwhite-digest256,content-track-digest256,mozplugin-block-digest256,mozplugin2-block-digest256,block-flash-digest256,except-flash-digest256,allow-flashallow-digest256,except-flashallow-digest256,block-flashsubdoc-digest256,except-flashsubdoc-digest256,except-flashinfobar-digest256,ads-track-digest256,social-track-digest256,analytics-track-digest256,fastblock3-track-digest256",
-          // "browser.safebrowsing.provider.mozilla.nextupdatetime": 1,
+          // "browser.safebrowsing.provider.mozilla.nextupdatetime": "1",
         });
       });
 
