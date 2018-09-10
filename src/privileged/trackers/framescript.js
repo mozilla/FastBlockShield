@@ -49,7 +49,7 @@ addEventListener("DOMContentLoaded", function(e) {
   content.window.addEventListener("load", () => {
     // We call setTimeout because otherwise our loadEventEnd entry (which is
     // filled after the "load" event handler runs) would be empty.
-    setTimeout(function() {
+    content.window.setTimeout(function() {
       // there *should* be only one entry - I haven't see anything to the alternative yet
       const entry = content.performance.getEntriesByType("navigation")[0];
       telemetryData.performanceEvents = {
