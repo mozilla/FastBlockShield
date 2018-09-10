@@ -43,11 +43,11 @@ command with `--pref`.
 There are a number of variations to study features and heuristics:
 
   * `Control`
-    * 4 control branches - denoted by `[0-3]`
+    * 4 control branches - denoted by `[0-4]`
   * Tracking Protection - denoted by `TP`
   * Fastblock - denoted by `FB`
     * 2 timeouts - denoted by `[2|5]`
-    * 4 separate block-lists - denoted by `L[0-3]`
+    * 4 separate block-lists - denoted by `L[0-4]`
 
 All the variations are listed in
 [`variations.js`](https://github.com/mozilla/FastBlockShield/blob/master/src/variations.js).
