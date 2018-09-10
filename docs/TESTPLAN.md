@@ -101,8 +101,6 @@ npm start -- --pref=extensions.fastblock_shield_mozilla_org.test.variationName=C
 
  In a Tracking Protection [variation](#variations):
 
-   * The user should see the "How Tracking Protection works" onboarding experience
-     when they first visit a site with trackers detected.
    * The "Content Blocking" panel should show "Trackers: Blocked",
      "Slow-loading Trackers: Add blocking...", and "Disable Blocking for This
      Site"
@@ -115,7 +113,6 @@ npm start -- --pref=extensions.fastblock_shield_mozilla_org.test.variationName=C
 
  In a Fastblock [variation](#variations):
 
-   * The user will not receive any Fastblock onboarding
    * The "Content Blocking" panel should show "Slow-loading Trackers: Blocked",
      "Trackers: Add blocking...", and "Disable Blocking for This Site"
 
