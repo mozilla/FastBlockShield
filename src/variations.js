@@ -171,36 +171,36 @@ window.VARIATIONS = {
     },
   },
 
-    "FB2L4": {
-      weight: 1,
-      prefs: {
-        // Always turn on Content Blocking.
-        "browser.contentblocking.enabled": true,
-        "browser.contentblocking.ui.enabled": true,
+  "FB2L4": {
+    weight: 1,
+    prefs: {
+      // Always turn on Content Blocking.
+      "browser.contentblocking.enabled": true,
+      "browser.contentblocking.ui.enabled": true,
 
-        // Make sure we're not affected by the Symantec distrust.
-        "security.pki.distrust_ca_policy": 1,
+      // Make sure we're not affected by the Symantec distrust.
+      "security.pki.distrust_ca_policy": 1,
 
-        // Show the "Report Breakage" dialog in the control center
-        "browser.contentblocking.reportBreakage.enabled": true,
+      // Show the "Report Breakage" dialog in the control center
+      "browser.contentblocking.reportBreakage.enabled": true,
 
-        "browser.fastblock.enabled": true,
-        "browser.fastblock.timeout": 2000,
-        "privacy.trackingprotection.enabled": false,
+      "browser.fastblock.enabled": true,
+      "browser.fastblock.timeout": 2000,
+      "privacy.trackingprotection.enabled": false,
 
-        // Make sure to enable tailing.
-        "network.http.tailing.enabled": true,
+      // Make sure to enable tailing.
+      "network.http.tailing.enabled": true,
 
-        "urlclassifier.trackingAnnotationTable": "test-track-simple,ads-track-digest256,social-track-digest256",
+      "urlclassifier.trackingAnnotationTable": "test-track-simple,ads-track-digest256,social-track-digest256",
 
-        // Disable TP UI.
-        "browser.contentblocking.trackingprotection.ui.enabled": false,
-        "browser.contentblocking.trackingprotection.control-center.ui.enabled": false,
+      // Disable TP UI.
+      "browser.contentblocking.trackingprotection.ui.enabled": false,
+      "browser.contentblocking.trackingprotection.control-center.ui.enabled": false,
 
-        // Ensure we download the lists faster.
-        "browser.safebrowsing.provider.mozilla.nextupdatetime": "1",
-      },
+      // Ensure we download the lists faster.
+      "browser.safebrowsing.provider.mozilla.nextupdatetime": "1",
     },
+  },
 
   "FB5L0": {
     weight: 1,
