@@ -237,6 +237,40 @@ describe("setup and teardown", function() {
       });
     });
 
+    describe("sets the correct prefs for variation FB2L4", () => {
+      before(async () => {
+        await utils.setPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName", "FB2L4");
+        addonId = await utils.setupWebdriver.installAddon(driver);
+        await driver.sleep(SETUP_DELAY);
+      });
+
+      it("has the correct prefs after install", async () => {
+        await checkPrefs(driver, {
+          "browser.contentblocking.enabled": true,
+          "browser.contentblocking.ui.enabled": true,
+          "security.pki.distrust_ca_policy": 1,
+          "browser.contentblocking.reportBreakage.enabled": true,
+          "browser.fastblock.enabled": true,
+          "browser.fastblock.timeout": 2000,
+          "privacy.trackingprotection.enabled": false,
+          "network.http.tailing.enabled": true,
+          "urlclassifier.trackingAnnotationTable": "test-track-simple,ads-track-digest256,social-track-digest256",
+          "browser.contentblocking.trackingprotection.ui.enabled": false,
+          "browser.contentblocking.trackingprotection.control-center.ui.enabled": false,
+          "urlclassifier.disallow_completion": "test-malware-simple,test-harmful-simple,test-phish-simple,test-unwanted-simple,test-track-simple,test-trackwhite-simple,test-block-simple,goog-downloadwhite-digest256,base-track-digest256,mozstd-trackwhite-digest256,content-track-digest256,mozplugin-block-digest256,mozplugin2-block-digest256,block-flash-digest256,except-flash-digest256,allow-flashallow-digest256,except-flashallow-digest256,block-flashsubdoc-digest256,except-flashsubdoc-digest256,except-flashinfobar-digest256,goog-passwordwhite-proto,ads-track-digest256,social-track-digest256,analytics-track-digest256,ads-track-digest256,social-track-digest256",
+          // "browser.safebrowsing.provider.mozilla.nextupdatetime": "1",
+        });
+      });
+      it("has the correct prefs after uninstall", async () => {
+        await utils.setupWebdriver.uninstallAddon(driver, addonId);
+        await checkPrefs(driver, {});
+      });
+
+      after(async () => {
+        await utils.clearPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName");
+      });
+    });
+
     describe("sets the correct prefs for variation FB5L0", () => {
       before(async () => {
         await utils.setPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName", "FB5L0");
@@ -366,6 +400,41 @@ describe("setup and teardown", function() {
           "browser.contentblocking.trackingprotection.ui.enabled": false,
           "browser.contentblocking.trackingprotection.control-center.ui.enabled": false,
           "browser.safebrowsing.provider.mozilla.lists": "base-track-digest256,mozstd-trackwhite-digest256,content-track-digest256,mozplugin-block-digest256,mozplugin2-block-digest256,block-flash-digest256,except-flash-digest256,allow-flashallow-digest256,except-flashallow-digest256,block-flashsubdoc-digest256,except-flashsubdoc-digest256,except-flashinfobar-digest256,ads-track-digest256,social-track-digest256,analytics-track-digest256,fastblock3-track-digest256",
+          // "browser.safebrowsing.provider.mozilla.nextupdatetime": "1",
+        });
+      });
+
+      it("has the correct prefs after uninstall", async () => {
+        await utils.setupWebdriver.uninstallAddon(driver, addonId);
+        await checkPrefs(driver, {});
+      });
+
+      after(async () => {
+        await utils.clearPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName");
+      });
+    });
+
+    describe("sets the correct prefs for variation FB5L4", () => {
+      before(async () => {
+        await utils.setPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName", "FB5L4");
+        addonId = await utils.setupWebdriver.installAddon(driver);
+        await driver.sleep(SETUP_DELAY);
+      });
+
+      it("has the correct prefs after install", async () => {
+        await checkPrefs(driver, {
+          "browser.contentblocking.enabled": true,
+          "browser.contentblocking.ui.enabled": true,
+          "security.pki.distrust_ca_policy": 1,
+          "browser.contentblocking.reportBreakage.enabled": true,
+          "browser.fastblock.enabled": true,
+          "browser.fastblock.timeout": 5000,
+          "privacy.trackingprotection.enabled": false,
+          "network.http.tailing.enabled": true,
+          "urlclassifier.trackingAnnotationTable": "test-track-simple,ads-track-digest256,social-track-digest256",
+          "browser.contentblocking.trackingprotection.ui.enabled": false,
+          "browser.contentblocking.trackingprotection.control-center.ui.enabled": false,
+          "urlclassifier.disallow_completion": "test-malware-simple,test-harmful-simple,test-phish-simple,test-unwanted-simple,test-track-simple,test-trackwhite-simple,test-block-simple,goog-downloadwhite-digest256,base-track-digest256,mozstd-trackwhite-digest256,content-track-digest256,mozplugin-block-digest256,mozplugin2-block-digest256,block-flash-digest256,except-flash-digest256,allow-flashallow-digest256,except-flashallow-digest256,block-flashsubdoc-digest256,except-flashsubdoc-digest256,except-flashinfobar-digest256,goog-passwordwhite-proto,ads-track-digest256,social-track-digest256,analytics-track-digest256,ads-track-digest256,social-track-digest256",
           // "browser.safebrowsing.provider.mozilla.nextupdatetime": "1",
         });
       });
@@ -513,6 +582,42 @@ describe("setup and teardown", function() {
           "browser.contentblocking.trackingprotection.ui.enabled": false,
           "browser.contentblocking.trackingprotection.control-center.ui.enabled": false,
           "browser.safebrowsing.provider.mozilla.lists": "base-track-digest256,mozstd-trackwhite-digest256,content-track-digest256,mozplugin-block-digest256,mozplugin2-block-digest256,block-flash-digest256,except-flash-digest256,allow-flashallow-digest256,except-flashallow-digest256,block-flashsubdoc-digest256,except-flashsubdoc-digest256,except-flashinfobar-digest256,ads-track-digest256,social-track-digest256,analytics-track-digest256,fastblock3-track-digest256",
+          // "browser.safebrowsing.provider.mozilla.nextupdatetime": "1",
+        });
+      });
+
+      it("has the correct prefs after uninstall", async () => {
+        await utils.setupWebdriver.uninstallAddon(driver, addonId);
+        await checkPrefs(driver, {});
+      });
+
+      after(async () => {
+        await utils.clearPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName");
+      });
+    });
+
+    describe("sets the correct prefs for variation ControlL4", () => {
+      before(async () => {
+        await utils.setPreference(driver, "extensions.fastblock_shield_mozilla_org.test.variationName", "ControlL4");
+        addonId = await utils.setupWebdriver.installAddon(driver);
+        await driver.sleep(SETUP_DELAY);
+      });
+
+      it("has the correct prefs after install", async () => {
+        await checkPrefs(driver, {
+          "browser.contentblocking.enabled": true,
+          "browser.contentblocking.ui.enabled": true,
+          "security.pki.distrust_ca_policy": 1,
+          "browser.contentblocking.reportBreakage.enabled": true,
+          "browser.fastblock.enabled": false,
+          "privacy.trackingprotection.enabled": false,
+          "network.http.tailing.enabled": true,
+          "urlclassifier.trackingAnnotationTable": "test-track-simple,ads-track-digest256,social-track-digest256",
+          "browser.contentblocking.fastblock.ui.enabled": false,
+          "browser.contentblocking.fastblock.control-center.ui.enabled": false,
+          "browser.contentblocking.trackingprotection.ui.enabled": false,
+          "browser.contentblocking.trackingprotection.control-center.ui.enabled": false,
+          "urlclassifier.disallow_completion": "test-malware-simple,test-harmful-simple,test-phish-simple,test-unwanted-simple,test-track-simple,test-trackwhite-simple,test-block-simple,goog-downloadwhite-digest256,base-track-digest256,mozstd-trackwhite-digest256,content-track-digest256,mozplugin-block-digest256,mozplugin2-block-digest256,block-flash-digest256,except-flash-digest256,allow-flashallow-digest256,except-flashallow-digest256,block-flashsubdoc-digest256,except-flashsubdoc-digest256,except-flashinfobar-digest256,goog-passwordwhite-proto,ads-track-digest256,social-track-digest256,analytics-track-digest256,ads-track-digest256,social-track-digest256",
           // "browser.safebrowsing.provider.mozilla.nextupdatetime": "1",
         });
       });
