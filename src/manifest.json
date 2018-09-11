@@ -9,6 +9,9 @@
       "strict_min_version": "62.0"
     }
   },
+  "icons": {
+    "48": "icons/moz-fav-bw-rgb.png"
+  },
   "experiment_apis": {
     "popupNotification": {
       "schema": "./privileged/popupNotification/schema.json",
