@@ -20,20 +20,20 @@ class TrackersEventEmitter extends EventEmitter {
   emitReportBreakage(tabId) {
     this.emit("report-breakage", tabId);
   }
-  emitReloadWithTrackers(tabId, etld) {
-    this.emit("reload-with-trackers", tabId, etld);
-  }
   emitPageBeforeUnload(tabId, data) {
     this.emit("page-before-unload", tabId, data);
   }
-  emitPageUnload(tabId) {
-    this.emit("page-unload", tabId);
+  emitPageUnload(tabId, data) {
+    this.emit("page-unload", tabId, data);
   }
   emitErrorDetected(error, tabId) {
     this.emit("page-error-detected", error, tabId);
   }
   emitAddException(tabId) {
     this.emit("exception-added", tabId);
+  }
+  emitPageDOMContentLoaded(tabId) {
+    this.emit("page-DOMContentLoaded", tabId);
   }
 }
 
@@ -63,8 +63,8 @@ this.trackers = class extends ExtensionAPI {
       trackers: {
         async unmount(win) {
           const mm = win.ownerGlobal.getGroupMessageManager("browsers");
-          mm.removeMessageListener("reload-with-trackers", this.trackerCallback);
           mm.removeMessageListener("pageError", this.pageErrorCallback);
+          mm.removeMessageListener("FastBlock:DOMContentLoaded", this.pageDOMContentLoaded);
           mm.removeMessageListener("unload", this.pageUnloadCallback);
           mm.removeMessageListener("beforeunload", this.pageBeforeUnloadCallback);
 
@@ -73,58 +73,70 @@ this.trackers = class extends ExtensionAPI {
           const addExceptionButton = win.document.getElementById("tracking-action-unblock");
           addExceptionButton.removeEventListener("command", this.onAddExceptionButtonCommand);
         },
-        async trackerCallback(e) {
-          const tabId = tabTracker.getBrowserTabId(e.target);
-          let etld;
-          try {
-            etld = Services.eTLD.getBaseDomainFromHost(e.data.hostname);
-          } catch (error) {
-            return;
-          }
-          trackersEventEmitter.emitReloadWithTrackers(tabId, etld);
-        },
+
         async pageErrorCallback(e) {
           const tabId = tabTracker.getBrowserTabId(e.target);
           trackersEventEmitter.emitErrorDetected(e.data, tabId);
         },
+
         async pageBeforeUnloadCallback(e) {
           const tabId = tabTracker.getBrowserTabId(e.target);
           let uri;
           try {
             uri = Services.io.newURI(e.data.telemetryData.completeLocation);
-            // Browser is never private, so type can always be "trackingprotection"
             e.data.telemetryData.etld =
               Services.eTLD.getBaseDomainFromHost(e.data.telemetryData.hostname);
           } catch (error) {
             return;
           }
+          // Browser is never private, so type can always be "trackingprotection"
           e.data.telemetryData.user_has_tracking_protection_exception =
             Services.perms.testExactPermission(uri, "trackingprotection") === Services.perms.ALLOW_ACTION;
           trackersEventEmitter.emitPageBeforeUnload(tabId, e.data.telemetryData);
         },
+
         async pageUnloadCallback(e) {
           const tabId = tabTracker.getBrowserTabId(e.target);
-          trackersEventEmitter.emitPageUnload(tabId);
+          let uri;
+          try {
+            uri = Services.io.newURI(e.data.telemetryData.completeLocation);
+            e.data.telemetryData.etld =
+              Services.eTLD.getBaseDomainFromHost(e.data.telemetryData.hostname);
+          } catch (error) {
+            return;
+          }
+          // Browser is never private, so type can always be "trackingprotection"
+          e.data.telemetryData.user_has_tracking_protection_exception =
+            Services.perms.testExactPermission(uri, "trackingprotection") === Services.perms.ALLOW_ACTION;
+          trackersEventEmitter.emitPageUnload(tabId, e.data.telemetryData);
         },
+
+        async pageDOMContentLoadedCallback(e) {
+          const tabId = tabTracker.getBrowserTabId(e.target);
+          trackersEventEmitter.emitPageDOMContentLoaded(tabId);
+        },
+
         onReportBreakageButtonCommand(e) {
           const win = e.target.ownerGlobal;
           const tabId = tabTracker.getBrowserTabId(win.gBrowser.selectedBrowser);
           trackersEventEmitter.emitReportBreakage(tabId);
         },
+
         async onAddExceptionButtonCommand(e) {
           const win = e.target.ownerGlobal;
           const tabId = tabTracker.getBrowserTabId(win.gBrowser.selectedBrowser);
           trackersEventEmitter.emitAddException(tabId);
         },
+
         async setListeners(win) {
           const mm = win.getGroupMessageManager("browsers");
           // Web Progress Listener has detected a change.
-          mm.addMessageListener("reload-with-trackers", this.trackerCallback);
           mm.addMessageListener("pageError", this.pageErrorCallback);
+          mm.addMessageListener("FastBlock:DOMContentLoaded", this.pageDOMContentLoadedCallback);
           // We pass "true" as the third argument to signify that we want to listen
           // to messages even when the framescript is unloading, to catch tabs closing.
-          mm.addMessageListener("beforeunload", this.pageBeforeUnloadCallback, true);
-          mm.addMessageListener("unload", this.pageUnloadCallback, true);
+          mm.addMessageListener("FastBlock:beforeunload", this.pageBeforeUnloadCallback, true);
+          mm.addMessageListener("FastBlock:unload", this.pageUnloadCallback, true);
 
           mm.loadFrameScript(context.extension.getURL("privileged/trackers/framescript.js"), true);
 
@@ -165,8 +177,8 @@ this.trackers = class extends ExtensionAPI {
           context,
           "trackers.onPageUnload",
           fire => {
-            const listener = (value, tabId) => {
-              fire.async(tabId);
+            const listener = (value, tabId, data) => {
+              fire.async(tabId, data);
             };
             trackersEventEmitter.on(
               "page-unload",
@@ -175,6 +187,26 @@ this.trackers = class extends ExtensionAPI {
             return () => {
               trackersEventEmitter.off(
                 "page-unload",
+                listener,
+              );
+            };
+          },
+        ).api(),
+
+        onPageDOMContentLoaded: new EventManager(
+          context,
+          "trackers.onPageDOMContentLoaded",
+          fire => {
+            const listener = (value, tabId) => {
+              fire.async(tabId);
+            };
+            trackersEventEmitter.on(
+              "page-DOMContentLoaded",
+              listener,
+            );
+            return () => {
+              trackersEventEmitter.off(
+                "page-DOMContentLoaded",
                 listener,
               );
             };
@@ -215,26 +247,6 @@ this.trackers = class extends ExtensionAPI {
             return () => {
               trackersEventEmitter.off(
                 "report-breakage",
-                listener,
-              );
-            };
-          },
-        ).api(),
-
-        onReloadWithTrackers: new EventManager(
-          context,
-          "trackers.onReloadWithTrackers",
-          fire => {
-            const listener = (value, tabId, etld) => {
-              fire.async(tabId, etld);
-            };
-            trackersEventEmitter.on(
-              "reload-with-trackers",
-              listener,
-            );
-            return () => {
-              trackersEventEmitter.off(
-                "reload-with-trackers",
                 listener,
               );
             };

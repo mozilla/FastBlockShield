@@ -53,6 +53,7 @@ window.TabRecords = {
     }
 
     tabInfo = {
+      payloadWaitingForSurvey: null,
       surveyShown: false,
       reloadCount: 0,
     };
