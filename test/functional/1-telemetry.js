@@ -139,6 +139,8 @@ describe("telemetry", function() {
       await throwErrors();
       await driver.navigate().refresh();
       await driver.sleep(DELAY);
+      await driver.get("https://example.org");
+      await driver.sleep(DELAY);
       studyPings = await utils.telemetry.getShieldPingsAfterTimestamp(
         driver,
         time,
@@ -146,11 +148,34 @@ describe("telemetry", function() {
       studyPings = studyPings.filter(ping => ping.type === "shield-study-addon");
     });
 
-    after(async () => {
-      driver.setContext(Context.CONTENT);
-      // Navigate to a benign site to avoid sending telemetry in the next test.
-      await driver.get("https://example.org");
-      await driver.sleep(DELAY);
+    // We receive two pings, one from the refresh, one from the navigation, because
+    // after refresh we might receive a survey doorhanger. We first assert the
+    // navigation ping and then the refresh ping.
+    it("has recorded two pings", async () => {
+      assert.equal(studyPings.length, 2, "two shield telemetry pings");
+    });
+
+    it("correctly records etld as a hash", async () => {
+      const ping = studyPings[0];
+      const ping1 = studyPings[1];
+      const attributes = ping.payload.data.attributes;
+      const attributes1 = ping1.payload.data.attributes;
+      assert.exists(attributes.etld, "etld exists");
+      assert.notInclude(attributes.etld, "itisatrap", "etld does not contain the domain");
+      assert.equal(attributes.etld.length * 4, 256, "etld is a 256 bit hex string");
+
+      assert.equal(attributes.etld, attributes1.etld, "same etlds have the same hash");
+    });
+
+    it("correctly records whether the page was reloaded", async () => {
+      const ping = studyPings[0];
+      const attributes = ping.payload.data.attributes;
+      assert.equal(attributes.page_reloaded, "false", "page reloaded is false");
+      assert.equal(parseInt(attributes.page_reloaded_survey), 0, "page reloaded survey not shown");
+    });
+
+    it("assert the first ping", async () => {
+      studyPings = [studyPings[1]];
     });
 
     checkTelemetryPayload();
@@ -220,13 +245,20 @@ describe("telemetry", function() {
     });
   });
 
-  describe("records the correct value if a user has set an exception", function() {
+  describe.skip("records the correct value if a user has set an exception", function() {
     before(async () => {
+      driver.setContext(Context.CHROME);
+      await driver.executeScript(`
+        let uri = Services.io.newURI("https://itisatrap.org/firefox/its-a-tracker.html");
+        Services.perms.add(uri, "trackingprotection", Services.perms.ALLOW_ACTION);
+      `);
+      await driver.sleep(DELAY);
+
       const time = Date.now();
       driver.setContext(Context.CONTENT);
       await driver.get("https://itisatrap.org/firefox/its-a-tracker.html");
       await driver.sleep(DELAY);
-      await driver.navigate().refresh();
+      await driver.get("https://example.com");
       await driver.sleep(DELAY);
       studyPings = await utils.telemetry.getShieldPingsAfterTimestamp(
         driver,
@@ -235,16 +267,14 @@ describe("telemetry", function() {
       studyPings = studyPings.filter(ping => ping.type === "shield-study-addon");
     });
 
+    it("has recorded one ping", async () => {
+      assert.equal(studyPings.length, 1, "one shield telemetry ping");
+    });
+
     it("correctly records if the user has set a tracking protection exception on the page", async () => {
-      it.skip("This depends on platform support, this will currently only record false");
       const ping = studyPings[0];
       const attributes = ping.payload.data.attributes;
-      const value = await driver.executeScript(`
-        let uri = Services.io.newURI("https://itisatrap.org/firefox/its-a-tracker.html");
-        return Services.perms.testExactPermission(uri, "trackingprotection") === Services.perms.ALLOW_ACTION;
-      `);
-
-      assert.equal(attributes.user_has_tracking_protection_exception, value.toString(), "user_has_tracking_protection_exception is recorded, and equals the actual setting");
+      assert.equal(attributes.user_has_tracking_protection_exception, "true", "user_has_tracking_protection_exception is recorded, and equals the actual setting");
     });
   });
 });
