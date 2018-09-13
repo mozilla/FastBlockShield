@@ -63,10 +63,10 @@ this.trackers = class extends ExtensionAPI {
       trackers: {
         async unmount(win) {
           const mm = win.ownerGlobal.getGroupMessageManager("browsers");
-          mm.removeMessageListener("pageError", this.pageErrorCallback);
-          mm.removeMessageListener("FastBlock:DOMContentLoaded", this.pageDOMContentLoaded);
-          mm.removeMessageListener("unload", this.pageUnloadCallback);
-          mm.removeMessageListener("beforeunload", this.pageBeforeUnloadCallback);
+          mm.removeMessageListener("FastBlock:pageError", this.pageErrorCallback);
+          mm.removeMessageListener("FastBlock:DOMContentLoaded", this.pageDOMContentLoadedCallback);
+          mm.removeMessageListener("FastBlock:beforeunload", this.pageBeforeUnloadCallback);
+          mm.removeMessageListener("FastBlock:unload", this.pageUnloadCallback);
 
           const reportBreakageButton = win.document.getElementById("identity-popup-breakageReportView-submit");
           reportBreakageButton.removeEventListener("command", this.onReportBreakageButtonCommand);
@@ -131,7 +131,7 @@ this.trackers = class extends ExtensionAPI {
         async setListeners(win) {
           const mm = win.getGroupMessageManager("browsers");
           // Web Progress Listener has detected a change.
-          mm.addMessageListener("pageError", this.pageErrorCallback);
+          mm.addMessageListener("FastBlock:pageError", this.pageErrorCallback);
           mm.addMessageListener("FastBlock:DOMContentLoaded", this.pageDOMContentLoadedCallback);
           // We pass "true" as the third argument to signify that we want to listen
           // to messages even when the framescript is unloading, to catch tabs closing.

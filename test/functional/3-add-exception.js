@@ -61,7 +61,7 @@ describe("add page exception button", function() {
       await driver.sleep(DELAY);
 
       // Interact with the doorhanger if it's showing.
-      const doorhangerPresent = checkDoorhangerPresent();
+      const doorhangerPresent = await checkDoorhangerPresent();
       if (doorhangerPresent) {
         await driver.executeScript(`document.getElementById("fast-block-notification").button.click()`);
         await driver.sleep(DELAY);
@@ -82,11 +82,6 @@ describe("add page exception button", function() {
       const ping = studyPings[0];
       const attributes = ping.payload.data.attributes;
       assert.equal(attributes.user_added_exception, "true", "user added exception is included in the ping");
-    });
-
-    after(async () => {
-      await utils.clearPreference(driver, "browser.fastblock.enabled");
-      await utils.clearPreference(driver, "privacy.trackingprotection.enabled");
     });
   });
 
