@@ -263,6 +263,9 @@ class Feature {
       payload.page_reloaded_survey = SURVEY_SHOWN;
       tabInfo.surveyShown = true;
       browser.popupNotification.show();
+    } else {
+      // We're not showing a survey for this document, so send its telemetry...
+      this.submitPayloadWaitingForSurvey(tabInfo);
     }
   }
 

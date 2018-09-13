@@ -98,5 +98,5 @@ addEventListener("error", function(e) {
     return;
   }
 
-  sendAsyncMessage("pageError", e.error.name);
+  sendAsyncMessage("FastBlock:pageError", e.error.name);
 });
