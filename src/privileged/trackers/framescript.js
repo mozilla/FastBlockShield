@@ -65,28 +65,35 @@ addEventListener("DOMContentLoaded", function(e) {
   // the tabId that is associated with this data. As a compromise we
   // use the "beforeunload" event (which is a little earlier) for recording
   // and use the "unload" event (or a tab close) for submitting the data.
-  content.window.addEventListener("beforeunload", () => {
+  content.window.addEventListener("beforeunload", (event) => {
+    const doc = event.target.ownerDocument || event.target;
     // Don't bother if we have no trackers.
-    if (docShell.document.numTrackersFound <= 0) {
+    if (doc.numTrackersFound <= 0) {
       return;
     }
     telemetryData.completeLocation = content.location.href;
-    telemetryData.trackersFound = docShell.document.numTrackersFound;
-    telemetryData.trackersBlocked = docShell.document.numTrackersBlocked;
+    telemetryData.trackersFound = doc.numTrackersFound;
+    telemetryData.trackersBlocked = doc.numTrackersBlocked;
 
     sendAsyncMessage("FastBlock:beforeunload", {telemetryData});
   }, {once: true});
 
-  content.window.addEventListener("unload", () => {
-    // Don't bother if we have no trackers.
-    if (docShell.document.numTrackersFound <= 0) {
-      return;
+  content.window.addEventListener("unload", (event) => {
+    try {
+      const doc = event.target.ownerDocument || event.target;
+      telemetryData.completeLocation = content.location.href;
+      telemetryData.trackersFound = doc.numTrackersFound;
+      telemetryData.trackersBlocked = doc.numTrackersBlocked;
+    } catch (error) {
+      // We've seen the document being destroyed at this point
+      // in the past, let's not risk that preventing us from
+      // submitting the ping.
     }
-    telemetryData.completeLocation = content.location.href;
-    telemetryData.trackersFound = docShell.document.numTrackersFound;
-    telemetryData.trackersBlocked = docShell.document.numTrackersBlocked;
 
-    sendAsyncMessage("FastBlock:unload", {telemetryData});
+    if (telemetryData.trackersFound > 0) {
+      sendAsyncMessage("FastBlock:unload", {telemetryData});
+    }
+
     telemetryData = {};
   }, {once: true});
 });
