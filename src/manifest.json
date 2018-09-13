@@ -1,7 +1,7 @@
 {
   "name": "Mozilla FastBlock User Study",
   "description": "A Mozilla study created to learn what type of tracking blocking is most effective.",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "manifest_version": 2,
   "applications": {
     "gecko": {
