@@ -8,6 +8,8 @@ window.VARIATIONS = {
 
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
+      // Disable the default fastblock upper limit in branches to test the upper bound of performance and breakage.
+      "browser.fastblock.limit": 0,
 
       // Show the "Report Breakage" dialog in the control center
       "browser.contentblocking.reportBreakage.enabled": true,
@@ -39,6 +41,8 @@ window.VARIATIONS = {
 
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
+      // Disable the default fastblock upper limit in branches to test the upper bound of performance and breakage.
+      "browser.fastblock.limit": 0,
 
       // Show the "Report Breakage" dialog in the control center
       "browser.contentblocking.reportBreakage.enabled": true,
@@ -72,6 +76,8 @@ window.VARIATIONS = {
 
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
+      // Disable the default fastblock upper limit in branches to test the upper bound of performance and breakage.
+      "browser.fastblock.limit": 0,
 
       // Show the "Report Breakage" dialog in the control center
       "browser.contentblocking.reportBreakage.enabled": true,
@@ -108,6 +114,8 @@ window.VARIATIONS = {
 
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
+      // Disable the default fastblock upper limit in branches to test the upper bound of performance and breakage.
+      "browser.fastblock.limit": 0,
 
       // Show the "Report Breakage" dialog in the control center
       "browser.contentblocking.reportBreakage.enabled": true,
@@ -144,6 +152,8 @@ window.VARIATIONS = {
 
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
+      // Disable the default fastblock upper limit in branches to test the upper bound of performance and breakage.
+      "browser.fastblock.limit": 0,
 
       // Show the "Report Breakage" dialog in the control center
       "browser.contentblocking.reportBreakage.enabled": true,
@@ -180,6 +190,8 @@ window.VARIATIONS = {
 
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
+      // Disable the default fastblock upper limit in branches to test the upper bound of performance and breakage.
+      "browser.fastblock.limit": 0,
 
       // Show the "Report Breakage" dialog in the control center
       "browser.contentblocking.reportBreakage.enabled": true,
@@ -211,6 +223,8 @@ window.VARIATIONS = {
 
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
+      // Disable the default fastblock upper limit in branches to test the upper bound of performance and breakage.
+      "browser.fastblock.limit": 0,
 
       // Show the "Report Breakage" dialog in the control center
       "browser.contentblocking.reportBreakage.enabled": true,
@@ -244,6 +258,8 @@ window.VARIATIONS = {
 
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
+      // Disable the default fastblock upper limit in branches to test the upper bound of performance and breakage.
+      "browser.fastblock.limit": 0,
 
       // Show the "Report Breakage" dialog in the control center
       "browser.contentblocking.reportBreakage.enabled": true,
@@ -280,6 +296,8 @@ window.VARIATIONS = {
 
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
+      // Disable the default fastblock upper limit in branches to test the upper bound of performance and breakage.
+      "browser.fastblock.limit": 0,
 
       // Show the "Report Breakage" dialog in the control center
       "browser.contentblocking.reportBreakage.enabled": true,
@@ -316,6 +334,8 @@ window.VARIATIONS = {
 
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
+      // Disable the default fastblock upper limit in branches to test the upper bound of performance and breakage.
+      "browser.fastblock.limit": 0,
 
       // Show the "Report Breakage" dialog in the control center
       "browser.contentblocking.reportBreakage.enabled": true,
@@ -352,6 +372,8 @@ window.VARIATIONS = {
 
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
+      // Disable the default fastblock upper limit in branches to test the upper bound of performance and breakage.
+      "browser.fastblock.limit": 0,
 
       // Show the "Report Breakage" dialog in the control center
       "browser.contentblocking.reportBreakage.enabled": true,
@@ -383,6 +405,8 @@ window.VARIATIONS = {
 
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
+      // Disable the default fastblock upper limit in branches to test the upper bound of performance and breakage.
+      "browser.fastblock.limit": 0,
 
       // Show the "Report Breakage" dialog in the control center
       "browser.contentblocking.reportBreakage.enabled": true,
@@ -416,6 +440,8 @@ window.VARIATIONS = {
 
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
+      // Disable the default fastblock upper limit in branches to test the upper bound of performance and breakage.
+      "browser.fastblock.limit": 0,
 
       // Show the "Report Breakage" dialog in the control center
       "browser.contentblocking.reportBreakage.enabled": true,
@@ -453,6 +479,8 @@ window.VARIATIONS = {
 
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
+      // Disable the default fastblock upper limit in branches to test the upper bound of performance and breakage.
+      "browser.fastblock.limit": 0,
 
       // Show the "Report Breakage" dialog in the control center
       "browser.contentblocking.reportBreakage.enabled": true,
@@ -490,6 +518,8 @@ window.VARIATIONS = {
 
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
+      // Disable the default fastblock upper limit in branches to test the upper bound of performance and breakage.
+      "browser.fastblock.limit": 0,
 
       // Show the "Report Breakage" dialog in the control center
       "browser.contentblocking.reportBreakage.enabled": true,
@@ -526,6 +556,8 @@ window.VARIATIONS = {
 
       // Make sure we're not affected by the Symantec distrust.
       "security.pki.distrust_ca_policy": 1,
+      // Disable the default fastblock upper limit in branches to test the upper bound of performance and breakage.
+      "browser.fastblock.limit": 0,
 
       // Show the "Report Breakage" dialog in the control center
       "browser.contentblocking.reportBreakage.enabled": true,
