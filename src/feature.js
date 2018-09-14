@@ -118,8 +118,9 @@ class Feature {
       } else {
         this.sendTelemetry(tabInfo.telemetryPayload);
 
-        // Reset survey count when no longer refreshing
+        // Reset survey count and allow survey to show again when no longer refreshing
         tabInfo.reloadCount = 0;
+        tabInfo.surveyShown = false;
       }
 
       TabRecords.resetPayload(tabId);
