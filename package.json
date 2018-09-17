@@ -1,7 +1,7 @@
 {
   "name": "fastblock-shield",
   "description": "Shield Study for testing FastBlock",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "author": "Mozilla",
   "bugs": {
     "url": "https://github.com/mozilla/FastBlockShield/issues"
@@ -72,7 +72,7 @@
     "prewatch": "npm run bundle-utils",
     "sign": "echo 'TBD, see: https://bugzilla.mozilla.org/show_bug.cgi?id=1407757'",
     "start": "web-ext run --no-reload",
-    "test": "FIREFOX_BINARY=${FIREFOX_BINARY:-nightly} ADDON_ZIP=./dist/mozilla_fastblock_user_study-1.0.4.zip mocha test/functional/",
+    "test": "FIREFOX_BINARY=${FIREFOX_BINARY:-nightly} ADDON_ZIP=./dist/mozilla_fastblock_user_study-1.0.6.zip mocha test/functional/",
     "watch": "web-ext run"
   }
 }
