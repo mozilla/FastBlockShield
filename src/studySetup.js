@@ -31,7 +31,7 @@ const baseStudySetup = {
     // default false. Actually send pings.
     send: true,
     // Marks pings with testing=true.  Set flag to `true` before final release
-    removeTestingFlag: false,
+    removeTestingFlag: true,
   },
 
   // We don't do surveys at the end of the study.

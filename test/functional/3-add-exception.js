@@ -37,6 +37,11 @@ describe("add page exception button", function() {
   describe("records a user clicking the 'disable protection for this site' button", function() {
     let studyPings;
 
+    async function checkDoorhangerPresent() {
+      const result = await driver.findElements(By.id("fast-block-notification"));
+      return !!result.length;
+    }
+
     before(async () => {
 
       const time = Date.now();
@@ -51,8 +56,17 @@ describe("add page exception button", function() {
       // Locate and click the add exception button.
       const addExceptionButton = await driver.wait(until.elementLocated(By.id("tracking-action-unblock")), 1000);
       addExceptionButton.click();
-      // The page refreshes after clicking the add exception button, causing a ping to occur.
+      // The page refreshes after clicking the add exception button, causing a ping to occur or the
+      // survey doorhanger to be shown.
       await driver.sleep(DELAY);
+
+      // Interact with the doorhanger if it's showing.
+      const doorhangerPresent = await checkDoorhangerPresent();
+      if (doorhangerPresent) {
+        await driver.executeScript(`document.getElementById("fast-block-notification").button.click()`);
+        await driver.sleep(DELAY);
+      }
+
       studyPings = await utils.telemetry.getShieldPingsAfterTimestamp(
         driver,
         time,
@@ -68,11 +82,6 @@ describe("add page exception button", function() {
       const ping = studyPings[0];
       const attributes = ping.payload.data.attributes;
       assert.equal(attributes.user_added_exception, "true", "user added exception is included in the ping");
-    });
-
-    after(async () => {
-      await utils.clearPreference(driver, "browser.fastblock.enabled");
-      await utils.clearPreference(driver, "privacy.trackingprotection.enabled");
     });
   });
 

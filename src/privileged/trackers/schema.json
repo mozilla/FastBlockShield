@@ -22,11 +22,20 @@
         ]
       },
       {
+        "name": "onPageDOMContentLoaded",
+        "type": "function",
+        "description": "When the page has loaded the DOM.",
+        "parameters": [
+          {"type": "integer", "name": "tabId", "minimum": 0}
+        ]
+      },
+      {
         "name": "onPageUnload",
         "type": "function",
         "description": "When the page unloads.",
         "parameters": [
-          {"type": "integer", "name": "tabId", "minimum": 0}
+          {"type": "integer", "name": "tabId", "minimum": 0},
+          {"type": "object", "name": "data"}
         ]
       },
       {
@@ -35,15 +44,6 @@
         "description": "User reported breakage through the control center",
         "parameters": [
           {"type": "integer", "name": "tabId", "minimum": 0}
-        ]
-      },
-      {
-        "name": "onReloadWithTrackers",
-        "type": "function",
-        "description": "This is called when we find a page that was reloaded and has at least one tracker.",
-        "parameters": [
-          {"type": "integer", "name": "tabId", "minimum": 0},
-          {"type": "string", "name": "etld"}
         ]
       },
       {

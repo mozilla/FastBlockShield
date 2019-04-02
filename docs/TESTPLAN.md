@@ -50,11 +50,11 @@ See https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Getti
 There are a number of variations to study features and heuristics:
 
   * `Control`
-    * 4 control branches - denoted by `[0-3]`
+    * 4 control branches - denoted by `[0-4]`
   * Tracking Protection - denoted by `TP`
   * Fastblock - denoted by `FB`
     * 2 timeouts - denoted by `[2|5]`
-    * 4 separate block-lists - denoted by `L[0-3]`
+    * 4 separate block-lists - denoted by `L[0-4]`
 
 All the variations are listed in
 [`variations.js`](https://github.com/mozilla/FastBlockShield/blob/master/src/variations.js).
@@ -101,8 +101,6 @@ npm start -- --pref=extensions.fastblock_shield_mozilla_org.test.variationName=C
 
  In a Tracking Protection [variation](#variations):
 
-   * The user should see the "How Tracking Protection works" onboarding experience
-     when they first visit a site with trackers detected.
    * The "Content Blocking" panel should show "Trackers: Blocked",
      "Slow-loading Trackers: Add blocking...", and "Disable Blocking for This
      Site"
@@ -115,7 +113,6 @@ npm start -- --pref=extensions.fastblock_shield_mozilla_org.test.variationName=C
 
  In a Fastblock [variation](#variations):
 
-   * The user will not receive any Fastblock onboarding
    * The "Content Blocking" panel should show "Slow-loading Trackers: Blocked",
      "Trackers: Add blocking...", and "Disable Blocking for This Site"
 
